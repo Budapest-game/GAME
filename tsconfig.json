@@ -10,6 +10,7 @@
         "noUnusedParameters": true,
         "alwaysStrict": true,
         "strict": true,
+        "noImplicitThis": true,
         "outDir": "static/js/",
         "lib": ["es2016","DOM"],
         "jsx": "react",

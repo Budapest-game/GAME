@@ -6,16 +6,21 @@ module.exports = {
     './src/index.tsx',
   ],
   module: {
-    rules: [{
-      test: /\.tsx?$/,
-      use: {
-        loader: 'ts-loader',
-        options: {
-          configFile: path.resolve(__dirname, 'tsconfig.json'),
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: path.resolve(__dirname, 'tsconfig.json'),
+          },
         },
+        include: path.resolve(__dirname, 'src/'),
       },
-      include: path.resolve(__dirname, 'src/'),
-    },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
     ],
   },
   resolve: {

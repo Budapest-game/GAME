@@ -1,13 +1,6 @@
-module.exports = (api) => {
-  // Cache configuration is a required option
-  api.cache(false);
-
-  const presets = [
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
     '@babel/preset-typescript',
-    '@babel/preset-env',
-  ];
-  const plugins = [
-    '@babel/plugin-proposal-class-properties',
-  ];
-  return { presets, plugins };
+  ],
 };
