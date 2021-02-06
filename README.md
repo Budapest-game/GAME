@@ -12,9 +12,9 @@ https://www.figma.com/file/Q4k80uj2TfDdDGHBdo5paa/Game?node-id=0%3A1
 
 Результат пользователя это количество "уничтоженных" элементов за время игры или N ходов.
 
-## Полезное
-npm run lint - линтинг *.ts  в ./src/
-npm run lint-fix - фикс *.ts  в ./src/
-npm run webpack - сборка *.ts в ./static/js/main.bundle.js;
-npm run devserver - запуск девсервера на 3000 порту с раздачей из /static/
-npm run test - тесты из ./tests
+## Полезное  
+npm run lint - линтинг *.ts  в ./src/  
+npm run lint-fix - фикс *.ts  в ./src/  
+npm run webpack - сборка *.ts в ./static/js/main.bundle.js    
+npm run start - запуск dev сервера    
+npm run test - тесты из ./tests  

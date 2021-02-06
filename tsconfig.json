@@ -10,10 +10,15 @@
         "noUnusedParameters": true,
         "alwaysStrict": true,
         "strict": true,
+        "noImplicitThis": true,
         "outDir": "static/js/",
-        "lib": ["es2016","DOM"]
+        "lib": ["es2016","DOM"],
+        "jsx": "react",
+        "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"],
+        "allowSyntheticDefaultImports": true,
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "./node_modules/@types"
     ]
 }

@@ -2,10 +2,19 @@
     "env": {
         "browser": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
+    },
+    "settings": {
+        "import/resolver": {
+          "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx", ".css"]
+         }
+       }
     },
     "extends": [
         "eslint:recommended",
+        "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended", 
         "airbnb-base"
     ],
@@ -15,7 +24,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jest"
     ],
     "rules": {
         "import/prefer-default-export": "off",
@@ -26,7 +36,14 @@
         "@typescript-eslint/no-unused-vars": ["error"],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": "error",
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error"
     },
     "overrides": [
         {
