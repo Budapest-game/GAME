@@ -1,24 +1,23 @@
-//"module": "commonjs" или ES6 import?
 {
-    "compilerOptions": {
-        "target": "es2016",
-        "declaration": false,
-        "strictNullChecks": true,
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "alwaysStrict": true,
-        "strict": true,
-        "noImplicitThis": true,
-        "outDir": "static/js/",
-        "lib": ["es2016","DOM"],
-        "jsx": "react",
-        "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"],
-        "allowSyntheticDefaultImports": true,
-    },
-    "include": [
-        "src/**/*",
-        "./node_modules/@types"
-    ]
+  "compilerOptions": {
+    "target": "es2016",
+    "declaration": false,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "alwaysStrict": true,
+    "strict": true,
+    "noImplicitThis": true,
+    "outDir": "static/js/",
+    "lib": ["es2016","DOM"],
+    "jsx": "react",
+    "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"],
+    "allowSyntheticDefaultImports": true,
+  },
+  "include": [
+    "src/**/*",
+    "./node_modules/@types"
+  ]
 }
