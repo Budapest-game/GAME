@@ -3,14 +3,14 @@
 import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import './app.css';
-import { Autorization } from './autorization';
-import { Registration } from './registration';
-import { Game } from './game';
-import { Leaderboard } from './leaderboard';
-import { Forum } from './forum';
-import { Profile } from './profile';
-import { Page404 } from './page404';
-import { Page500 } from './page500';
+import { Autorization } from '../pages/autorization';
+import { Registration } from '../pages/registration';
+import { Game } from '../pages/game';
+import { Leaderboard } from '../pages/leaderboard';
+import { Forum } from '../pages/forum';
+import { Profile } from '../pages/profile';
+import { Page404 } from '../pages/page404';
+import { Page500 } from '../pages/page500';
 
 export default class App extends PureComponent {
   render() {

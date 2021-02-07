@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import './app.css';
 
-export class Page500 extends PureComponent {
+export class Forum extends PureComponent {
   render() {
     return (
             <div>
-                <h1>Ошибка 500</h1>
+                <h1>Форум</h1>
             </div>
     );
   }
