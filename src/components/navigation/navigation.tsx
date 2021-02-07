@@ -1,18 +1,20 @@
-/* eslint object-curly-newline: 'off' */
-
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import './app.css';
-import { Autorization } from '../pages/autorization';
-import { Registration } from '../pages/registration';
-import { Game } from '../pages/game';
-import { Leaderboard } from '../pages/leaderboard';
-import { Forum } from '../pages/forum';
-import { Profile } from '../pages/profile';
-import { Page404 } from '../pages/page404';
-import { Page500 } from '../pages/page500';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+} from 'react-router-dom';
+import { Authorization } from '../../pages/authorization/authorization';
+import { Registration } from '../../pages/registration/registration';
+import { Game } from '../../pages/game/game';
+import { Leaderboard } from '../../pages/leaderboard/leaderboard';
+import { Forum } from '../../pages/forum/forum';
+import { Profile } from '../../pages/profile/profile';
+import { Page404 } from '../../pages/page404/page404';
+import { Page500 } from '../../pages/page500/page500';
 
-export default class App extends PureComponent {
+export class Navigation extends PureComponent {
   render() {
     return (
       <div className="app">
@@ -21,7 +23,7 @@ export default class App extends PureComponent {
             <nav>
               <ul>
                 <li>
-                  <Link to="/autorization">Авторизация</Link>
+                  <Link to="/authorization">Авторизация</Link>
                 </li>
                 <li>
                   <Link to="/registration">Регистрация</Link>
@@ -49,8 +51,8 @@ export default class App extends PureComponent {
 
             <div>
               <Switch>
-              <Route path="/autorization">
-                  <Autorization />
+              <Route path="/authorization">
+                  <Authorization />
                 </Route>
                 <Route path="/registration">
                   <Registration />

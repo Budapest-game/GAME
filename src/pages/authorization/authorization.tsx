@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-export class Autorization extends PureComponent {
+export class Authorization extends PureComponent {
   render() {
     return (
             <div>
