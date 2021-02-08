@@ -29,6 +29,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'static/js/'),
     filename: 'main.bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
