@@ -5,6 +5,9 @@
         "node": true,
         "jest/globals": true
     },
+    "globals":{
+        "RequestInit":true //eslint не хочет видеть types из dom библиотеки
+    },
     "settings": {
         "import/resolver": {
           "node": {
