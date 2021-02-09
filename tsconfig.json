@@ -13,7 +13,7 @@
     "outDir": "static/js/",
     "lib": ["es2016","DOM"],
     "jsx": "react",
-    "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"],
+    "typeRoots": ["typings/**/*.d.ts", "node_modules/@types", "src/types.d.ts"],
     "allowSyntheticDefaultImports": true,
   },
   "include": [
