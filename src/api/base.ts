@@ -23,7 +23,7 @@ const JSON_HEADERS = {
 };
 
 class ApiBase {
-  post(url:string, data:Record<string, string>) {
+  public post(url:string, data:RegData) {
     const settings: RequestInit = {
       method: METHODS.POST,
       ...JSON_HEADERS,
