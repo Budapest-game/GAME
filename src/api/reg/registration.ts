@@ -1,7 +1,8 @@
 import ApiBase from '../base';
+import { RegistrationData } from '../types';
 
 class Registration {
-  public async create(data: RegData) {
+  public async create(data: RegistrationData) {
     const resp = await ApiBase.post('/auth/signup', data);
     let body;
     try {

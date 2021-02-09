@@ -1,4 +1,4 @@
-interface RegData{
+export interface RegistrationData{
   'first_name': string,
   'second_name': string,
   'login': string,

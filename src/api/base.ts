@@ -1,4 +1,5 @@
 import { BASE_API_URL } from './constants';
+import { RegistrationData } from './types';
 
 enum METHODS {
   GET = 'GET',
@@ -23,7 +24,7 @@ const JSON_HEADERS = {
 };
 
 class ApiBase {
-  public post(url:string, data:RegData) {
+  public post(url:string, data:RegistrationData) {
     const settings: RequestInit = {
       method: METHODS.POST,
       ...JSON_HEADERS,
