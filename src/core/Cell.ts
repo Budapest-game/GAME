@@ -1,58 +1,56 @@
-type InnerElementType = {
-  path:string,
-  dWidth:number,
-  dHeight:number,
-}
-
-type PaddingType = {
-  top: number,
-  right: number,
-  bottom: number,
-  left: number,
-}
+import {
+  CoordinatesType, PaddingType, InnerElementType, StyleTypes, ResultType,
+} from './CoreTypes';
 
 export default class Cell {
-  public width:number;
+  public width: number;
 
-  public height:number;
+  public height: number;
 
-  protected coordinates: Record<string, number> | undefined;
+  protected coordinates: CoordinatesType | undefined;
 
-  protected padding: PaddingType;
+  protected padding: PaddingType = {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
 
-  protected borderWidth:number|undefined;
+  protected borderWidth: number|undefined;
 
-  protected borderColor:string|undefined;
+  protected borderColor: string|undefined;
 
-  protected background:string|undefined;
+  public background: string|undefined;
 
-  protected paddingBackground:string|undefined;
+  protected paddingBackground: string|undefined;
 
-  protected innerElement:InnerElementType | undefined;
+  protected innerElement: InnerElementType | null;
 
-  protected ctx:CanvasRenderingContext2D;
+  protected ctx: CanvasRenderingContext2D;
 
-  public constructor(width:number, height:number, ctx:CanvasRenderingContext2D) {
-    this.width = width;
-    this.height = height;
+  public constructor(styles:StyleTypes, ctx:CanvasRenderingContext2D) {
+    this.width = styles.width;
+    this.height = styles.height;
+    if (styles.padding) {
+      this.setPadding(styles.padding);
+    }
+    this.borderWidth = styles.borderWidth;
+    this.borderColor = styles.borderColor;
+    this.background = styles.background;
+    this.paddingBackground = styles.paddingBackground;
     this.ctx = ctx;
-    this.padding = {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    };
+    this.innerElement = null;
   }
 
   public getFullSize():Record<string, number> {
     return {
-      width: this.width
-        + this.padding.left
-        + this.padding.right
+      sellWidth: this.width
+        + (this.padding.left ? this.padding.left : 0)
+        + (this.padding.right ? this.padding.right : 0)
         + (this.borderWidth ? (this.borderWidth * 2) : 0),
-      height: this.height
+      cellHeight: this.height
         + this.padding.top
-        + this.padding.bottom
+        + (this.padding.bottom ? this.padding.bottom : 0)
         + (this.borderWidth ? (this.borderWidth * 2) : 0),
     };
   }
@@ -64,30 +62,30 @@ export default class Cell {
     };
   }
 
-  public setInnerElement(path:string, width:number, height:number):void {
-    this.innerElement = {
-      path,
-      dWidth: width,
-      dHeight: height,
-    };
+  public setInnerElement(element:InnerElementType):void {
+    this.innerElement = element;
   }
 
-  public setPadding(...args:number[]):void {
-    this.padding.top = args[0];
-    if (args.length === 1) {
-      this.padding.right = args[0];
-      this.padding.bottom = args[0];
-      this.padding.left = args[0];
-    } else if (args.length === 2) {
-      this.padding.right = args[1];
-      this.padding.bottom = args[0];
-      this.padding.left = args[1];
-    } else if (args.length === 3) {
+  public setPadding(padding: PaddingType):void {
+    const {
+      top, right, bottom, left,
+    } = padding;
+    this.padding.top = top;
+    const { length } = Object.keys(padding);
+    if (length === 1) {
+      this.padding.right = top;
+      this.padding.bottom = top;
+      this.padding.left = top;
+    } else if (length === 2) {
+      this.padding.right = right;
+      this.padding.bottom = top;
+      this.padding.left = right;
+    } else if (length === 3) {
       throw new Error('expected 1 or 2 or 4 arguments, but get 3');
     } else {
-      this.padding.right = args[1];
-      this.padding.bottom = args[2];
-      this.padding.left = args[3];
+      this.padding.right = right;
+      this.padding.bottom = bottom;
+      this.padding.left = left;
     }
   }
 
@@ -107,19 +105,19 @@ export default class Cell {
     this.paddingBackground = color;
   }
 
-  public drawCell():void {
+  public drawCell():ResultType {
     if (!this.coordinates) {
       throw new Error('coordinates is empty');
     }
     // Описываем внешний квадрат, учитывая отступы
-    this.ctx.strokeStyle = this.paddingBackground ? this.paddingBackground : '#FFFFFF';
+    // this.ctx.strokeStyle = this.paddingBackground ? this.paddingBackground : '#FFFFFF';
     this.ctx.fillStyle = this.paddingBackground ? this.paddingBackground : '#FFFFFF';
-    const { width, height } = this.getFullSize();
+    const { sellWidth, cellHeight } = this.getFullSize();
     const { x, y } = this.coordinates;
-    this.ctx.fillRect(x, y, width, height);
+    this.ctx.fillRect(x, y, sellWidth, cellHeight);
 
     // Для удобства записываем координаты следующего слоя, без отступов, если они есть
-    const borderX = x + this.padding.left;
+    const borderX = x + (this.padding.left ? this.padding.left : 0);
     const borderY = y + this.padding.top;
     if (this.borderWidth) {
       // Очищаем и снова заливаем следующий слой, относящийся к рамке
@@ -171,5 +169,12 @@ export default class Cell {
         this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
       };
     }
+    return {
+      innerElement: this.innerElement,
+      innerCoordinates: {
+        x: innerX,
+        y: innerY,
+      },
+    };
   }
 }
