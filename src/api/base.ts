@@ -1,6 +1,7 @@
 import { BASE_API_URL } from './constants';
 import { RegistrationData } from './types';
 
+
 enum METHODS {
   GET = 'GET',
   PUT = 'PUT',
