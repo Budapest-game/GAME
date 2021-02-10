@@ -1,0 +1,19 @@
+input {
+  width: 100%;
+  height: 30px;
+  display: block;
+  margin-bottom: 15px;
+  border: none;
+  border-bottom: 1px solid var(--blue);
+  outline: none;
+}
+
+.form-input--error-text {
+  background: pink;
+  padding: 10px;
+  margin: -15px 0 15px;
+  transition: all 200ms ease;
+  border-top: none;
+  font-size: 14px;
+  color: var(--dark);
+}
