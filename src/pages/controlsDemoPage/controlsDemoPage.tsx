@@ -15,6 +15,7 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
       controlledInputValue: 'change me',
       controlledValidationInputValue: '111',
       error: undefined,
+      disabled: false,
     };
   }
 
@@ -24,7 +25,7 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
         <Input type="text" placeholder="name" />
         <Input type="password" placeholder="password" />
         <Input type="text" placeholder="name" error="error message" />
-        <Input type="text" placeholder="name" className="" value="you can't change me" />
+        <Input type="text" placeholder="name" className="" value="you can't change me" disabled={true}/>
         <Input
           type="text"
           placeholder="controlled input"

@@ -9,6 +9,7 @@ interface InputProps
   onChange?: (event: any) => void;
   onFocus?: (event: any) => void;
   error?: string;
+  disabled?: boolean;
 }
 
 export class Input extends PureComponent<InputProps> {
@@ -27,6 +28,7 @@ export class Input extends PureComponent<InputProps> {
             placeholder={this.props.placeholder}
             onChange={this.props.onChange}
             onFocus={this.props.onFocus}
+            disabled={this.props.disabled}
           />
         </label>
         { this.props.error ? <div className="form-input--error-text">{this.props.error}</div> : '' }
