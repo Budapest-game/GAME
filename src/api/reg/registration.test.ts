@@ -1,34 +1,38 @@
-import fetch from 'node-fetch';
 import Registration from './registration';
 
-global.fetch = fetch;
-test('Регистрация  - Bad Request', async () => {
-  const res = await Registration.create({});
-  expect(res.status).toBe(400);
-  expect(res.text).toBe('Bad Request');
-});
-test('Регистрация  - X already exists', async () => {
-  const res = await Registration.create({
-    first_name: 'budapestTestUser',
-    second_name: 'budapestTestUser',
-    login: 'budapestTestUser',
-    email: '1@1.com',
-    password: 'string',
-    phone: '123456789',
+function mockFetch(data) {
+  return jest.fn().mockImplementation(() => {
+    return Promise.resolve({
+      status: data.status,
+      statusText: data.statusText,
+      json: () => { return Promise.resolve(JSON.parse(data.body)); },
+    });
   });
-  expect(res.status).toBe(409);
-  expect(res.text).toBe('Conflict');
+}
+afterEach(() => {
+  jest.clearAllMocks();
 });
-test('Регистрация  - OK', async () => {
-  const randomStr = Math.random().toString(12);
-  const res = await Registration.create({
-    first_name: randomStr,
-    second_name: randomStr,
-    login: randomStr,
-    email: `${randomStr}@m.com`,
-    password: 'string',
-    phone: '123456789',
-  });
+
+test('Регистрация', async () => {
+  const data = { login: '', password: '' };
+  global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
+  const res = await Registration.create(data);
+  expect(res.status).toBe(401);
+  expect(res.text).toBe('Unauthorized');
+});
+test('Регистрация -  в body валидный JSON', async () => {
+  const data = { login: '', password: '' };
+  global.fetch = mockFetch({ body: '{ "message": "string"}', status: 200, statusText: 'OK' });
+  const res = await Registration.create(data);
   expect(res.status).toBe(200);
   expect(res.text).toBe('OK');
+  expect(res.body).toStrictEqual({ message: 'string' });
+});
+test('Регистрация -  в body кривой JSON', async () => {
+  const data = { login: '', password: '' };
+  global.fetch = mockFetch({ body: '{ "messag', status: 200, statusText: 'OK' });
+  const res = await Registration.create(data);
+  expect(res.status).toBe(200);
+  expect(res.text).toBe('OK');
+  expect(res.body).toBe('');
 });
