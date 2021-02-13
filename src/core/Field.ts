@@ -1,5 +1,7 @@
-import Cell from './Cell';
-import { InnerElementType, StyleTypes, ResultType } from './CoreTypes';
+import Cell from './Cell.js';
+import { InnerElementType, StyleTypes, DrawResultType } from './CoreTypes.js';
+import { randomArrayElement } from "../utils/randomArrayElement.js";
+import { findElementIndexByType } from "../utils/findElementIndexByType.js";
 
 export default class Field {
   protected width: number;
@@ -22,13 +24,14 @@ export default class Field {
 
   protected fieldHeight: number;
 
-  protected gameMap: ResultType[][]|undefined;
+  protected gameMap: DrawResultType[][]|undefined;
 
-  public activeElement: ResultType|null;
+  public activeElement: DrawResultType|null;
 
   protected cell: Cell;
 
   constructor(
+    canvas:HTMLCanvasElement,
     width:number,
     height:number,
     elements:InnerElementType[],
@@ -40,7 +43,7 @@ export default class Field {
     this.elements = elements;
     this.fieldStyle = style;
 
-    this.canvas = document.createElement('canvas');
+    this.canvas = canvas;
     this.canvas.width = 1000;
     this.canvas.height = 1000;
     block.append(this.canvas);
@@ -60,12 +63,12 @@ export default class Field {
   /**
    * Метод по отрисовке игрового поля
    */
-  public drawField():Promise<ResultType[][]> {
+  public drawField():DrawResultType[][] {
     if (!this.cell) {
       throw new Error('no cell init');
     }
     // результирующий массив игрового поля
-    const gameMap:ResultType[][] = [];
+    const gameMap:DrawResultType[][] = [];
     let coordX = 0;
     let coordY = 0;
     for (let heightIndex = 0; heightIndex < this.height; heightIndex++) {
@@ -77,7 +80,7 @@ export default class Field {
       for (let widthIndex = 0; widthIndex < this.width; widthIndex++) {
         // алгоритм не позволяющий трем элементам вставать в ряд
         // при изначальной генерации игрового поля
-        const element = this.checkElementPosition(gameMap, heightIndex, widthIndex);
+        const element = this.checkElementNeighbors(gameMap, heightIndex, widthIndex);
         // Присваиваем ячейке ее внутренний элемент
         this.cell.setInnerElement(element);
         // Высчитываем координату по Х на основании ширины ячейки и индекса колонки
@@ -92,31 +95,37 @@ export default class Field {
         const cellParams = this.cell.drawCell();
         // Записываем результат в результирующий массив по индексу
         gameMap[heightIndex].push(cellParams);
+        this.fillNeighbors(gameMap, heightIndex, widthIndex);
       }
     }
     // В случае длительной генерации поля возвращаем Промис
-    return Promise.resolve(gameMap);
+    return gameMap;
   }
 
-  /**
-   * Метод возвращает случайный элемент массива
-   * @param array
-   * @protected
-   */
-  protected randomArrayElement(array:InnerElementType[]):InnerElementType {
-    return array[Math.floor(Math.random() * array.length)];
+  protected fillNeighbors(
+    gameMap:DrawResultType[][],
+    heightIndex:number,
+    widthIndex:number,
+  ):void {
+    const element = gameMap[heightIndex][widthIndex];
+    if (heightIndex - 1 >= 0) {
+      const elementTop = gameMap[heightIndex - 1][widthIndex];
+      element.neighbors.top = elementTop;
+      elementTop.neighbors.bottom = element;
+    }
+    if (widthIndex - 1 >= 0) {
+      const elementLeft = gameMap[heightIndex][widthIndex - 1];
+      element.neighbors.left = elementLeft;
+      elementLeft.neighbors.right = element;
+    }
   }
 
   /**
    * Алгоритм проверки содержатся ли аналогичные элементы в количестве
    * двух штук справа или сверху от целевой ячейки
-   * @param gameMap
-   * @param heightIndex
-   * @param widthIndex
-   * @protected
    */
-  protected checkElementPosition(
-    gameMap:ResultType[][],
+  protected checkElementNeighbors(
+    gameMap:DrawResultType[][],
     heightIndex:number,
     widthIndex:number,
   ):InnerElementType {
@@ -129,7 +138,7 @@ export default class Field {
         && element2.innerElement
         && element1.innerElement.type === element2.innerElement.type
       ) {
-        elements.splice(this.findElementIndexByType(element1.innerElement.type, elements), 1);
+        elements.splice(findElementIndexByType(element1.innerElement.type, elements), 1);
       }
     }
     if (widthIndex > 1) {
@@ -140,35 +149,18 @@ export default class Field {
         && element2.innerElement
         && element1.innerElement.type === element2.innerElement.type
       ) {
-        elements.splice(this.findElementIndexByType(element1.innerElement.type, elements), 1);
+        elements.splice(findElementIndexByType(element1.innerElement.type, elements), 1);
       }
     }
-    return this.randomArrayElement(elements);
-  }
-
-  /**
-   * Метод возвращает индекс массива внутренний игровых элементов
-   * @param type
-   * @param elements
-   * @protected
-   */
-  protected findElementIndexByType(type:string, elements:InnerElementType[]):number {
-    let index = 0;
-    elements.forEach((element, key) => {
-      if (element.type === type) {
-        index = key;
-      }
-    });
-    return index;
+    return randomArrayElement(elements);
   }
 
   /**
    * Инициализация событий
    * Тут же условия для срабатывания перестановки элементов
    * Надо придумать как не допускать перестановки элементов по диагонали
-   * @param gameMap
    */
-  public initEvent(gameMap:ResultType[][]):void {
+  public initEvent(gameMap:DrawResultType[][]):void {
     this.gameMap = gameMap;
     this.canvas.addEventListener('click', (event:MouseEvent) => {
       if (!this.cellWidth || !this.cellHeight) {
@@ -186,16 +178,41 @@ export default class Field {
           const activeWidthIndex = Math.floor(x / this.cellWidth);
           const activeHeightIndex = Math.floor(y / this.cellHeight);
           if (
-            widthIndex - 1 === activeWidthIndex
-            || widthIndex + 1 === activeWidthIndex
-            || heightIndex - 1 === activeHeightIndex
-            || heightIndex + 1 === activeHeightIndex
+            (
+              (widthIndex - 1 === activeWidthIndex || widthIndex + 1 === activeWidthIndex)
+            && (heightIndex === activeHeightIndex || heightIndex === activeHeightIndex)
+            )
+            || (
+              (heightIndex - 1 === activeHeightIndex || heightIndex + 1 === activeHeightIndex)
+            && (widthIndex === activeWidthIndex || widthIndex === activeWidthIndex)
+            )
           ) {
-            this.switchElements(this.activeElement, this.gameMap[heightIndex][widthIndex]);
-            const element = Object.assign({}, this.activeElement.innerElement);
+            this.switchElementDraws(
+              this.gameMap[activeHeightIndex][activeWidthIndex],
+              this.gameMap[heightIndex][widthIndex],
+            );
+            const temp1 = JSON.parse(
+              JSON.stringify(this.gameMap[activeHeightIndex][activeWidthIndex].innerElement),
+            );
+            // eslint-disable-next-line max-len
             this.gameMap[activeHeightIndex][activeWidthIndex].innerElement = this.gameMap[heightIndex][widthIndex].innerElement;
-            this.gameMap[heightIndex][widthIndex].innerElement = element;
-            this.activeElement = null;
+            this.gameMap[heightIndex][widthIndex].innerElement = temp1;
+            setTimeout(() => {
+              if (!this.watcher() && this.activeElement && this.gameMap) {
+                this.switchElementDraws(
+                  this.gameMap[heightIndex][widthIndex],
+                  this.gameMap[activeHeightIndex][activeWidthIndex],
+                );
+                const temp2 = JSON.parse(
+                  JSON.stringify(this.gameMap[activeHeightIndex][activeWidthIndex].innerElement),
+                );
+                // eslint-disable-next-line max-len
+                this.gameMap[activeHeightIndex][activeWidthIndex].innerElement = this.gameMap[heightIndex][widthIndex].innerElement;
+                this.gameMap[heightIndex][widthIndex].innerElement = temp2;
+              }
+              this.activeElement = null;
+              this.fallElements();
+            }, 300);
           } else {
             this.deactivateElement(this.gameMap[activeHeightIndex][activeWidthIndex]);
             this.activateElement(this.gameMap[heightIndex][widthIndex]);
@@ -209,13 +226,16 @@ export default class Field {
     });
   }
 
+  protected switchElementObjects(element1:InnerElementType|null, element2:InnerElementType) {
+    const temp = JSON.parse(JSON.stringify(element1));
+    element1 = element2;
+    element2 = temp;
+  }
+
   /**
    * Алгоритм перестановки элементов
-   * @param activeElement
-   * @param clickElement
-   * @protected
    */
-  protected switchElements(activeElement:ResultType, clickElement:ResultType):void {
+  protected switchElementDraws(activeElement:DrawResultType, clickElement:DrawResultType):void {
     if (!activeElement.innerElement) {
       return;
     }
@@ -241,12 +261,156 @@ export default class Field {
     );
   }
 
+  protected watcher():boolean {
+    let buffer:DrawResultType[];
+    if (!this.gameMap) {
+      return false;
+    }
+    let isCombine = false;
+    for (let h = 0; h < this.height; h++) {
+      const startElement = this.gameMap[h][0];
+      buffer = [];
+      buffer.push(startElement);
+      if (this.rightMove(buffer, this.gameMap[h][1], false)) {
+        isCombine = true;
+      }
+    }
+    for (let w = 0; w < this.width; w++) {
+      const startElement = this.gameMap[0][w];
+      buffer = [];
+      buffer.push(startElement);
+      if (this.bottomMove(buffer, this.gameMap[1][w], false)) {
+        isCombine = true;
+      }
+    }
+    return isCombine;
+  }
+
+  protected rightMove(buffer:DrawResultType[], element:DrawResultType, combine = false):boolean {
+    const leftNeighbor = element.neighbors.left;
+    let tempBuffer = buffer;
+    let isCombine = combine;
+    if (leftNeighbor) {
+      if (element.innerElement?.type !== leftNeighbor.innerElement?.type) {
+        if (tempBuffer.length > 2) {
+          this.clearCombination(tempBuffer);
+          isCombine = true;
+        }
+        tempBuffer = [];
+      }
+      tempBuffer.push(element);
+      if (element.neighbors.right) {
+        return this.rightMove(tempBuffer, element.neighbors.right, isCombine);
+      }
+      if (!element.neighbors.right && tempBuffer.length > 2) {
+        this.clearCombination(tempBuffer);
+        isCombine = true;
+      }
+    }
+    return isCombine;
+  }
+
+  protected bottomMove(buffer:DrawResultType[], element:DrawResultType, combine = false):boolean {
+    const topNeighbor = element.neighbors.top;
+    let tempBuffer = buffer;
+    let isCombine = combine;
+    if (topNeighbor) {
+      if (element.innerElement?.type !== topNeighbor.innerElement?.type) {
+        if (tempBuffer.length > 2) {
+          this.clearCombination(tempBuffer);
+          isCombine = true;
+        }
+        tempBuffer = [];
+      }
+      tempBuffer.push(element);
+      if (element.neighbors.bottom) {
+        return this.bottomMove(tempBuffer, element.neighbors.bottom, isCombine);
+      }
+      if (!element.neighbors.bottom && tempBuffer.length > 2) {
+        this.clearCombination(tempBuffer);
+        isCombine = true;
+      }
+    }
+    return isCombine;
+  }
+
+  protected fallElements():void {
+    if (!this.gameMap) {
+      return;
+    }
+    for (let w = 0; w < this.width; w++) {
+      const startElement = this.gameMap[0][w];
+      if (startElement.innerElement === null) {
+        startElement.innerElement = randomArrayElement(this.elements);
+        this.reDrawImage(
+          startElement.innerElement.path,
+          startElement.innerCoordinates.x,
+          startElement.innerCoordinates.y,
+          startElement.innerElement.dWidth,
+          startElement.innerElement.dHeight,
+        );
+      }
+      const fallBottom = (element:DrawResultType, isEmpty = false) => {
+        const activeElement = element;
+        let emptyCell = isEmpty;
+        const bottomNeighbor = activeElement.neighbors.bottom;
+        if (bottomNeighbor && !bottomNeighbor.innerElement && activeElement.innerElement) {
+          this.clearRect(activeElement.innerCoordinates.x, activeElement.innerCoordinates.y);
+          const temp = JSON.parse(JSON.stringify(bottomNeighbor.innerElement));
+          bottomNeighbor.innerElement = element.innerElement;
+          activeElement.innerElement = temp;
+          if (bottomNeighbor.innerElement) {
+            this.reDrawImage(
+              bottomNeighbor.innerElement.path,
+              bottomNeighbor.innerCoordinates.x,
+              bottomNeighbor.innerCoordinates.y,
+              bottomNeighbor.innerElement.dWidth,
+              bottomNeighbor.innerElement.dHeight,
+            );
+          }
+          emptyCell = false;
+        }
+        if (
+          bottomNeighbor
+          // && bottomNeighbor.neighbors.bottom
+          // && !bottomNeighbor.neighbors.bottom.innerElement
+        ) {
+          console.log(11)
+          setTimeout(() => {
+            emptyCell = true;
+            fallBottom(bottomNeighbor, emptyCell);
+          }, 80);
+        }
+        setTimeout(() => {
+          if (emptyCell) {
+            this.fallElements();
+          }
+        }, 100);
+      };
+      setTimeout(() => {
+        fallBottom(startElement);
+      }, 80);
+    }
+    this.watcher();
+  }
+
+  protected clearCombination(buffer:DrawResultType[]):void {
+    buffer.forEach((element) => {
+      if (!this.gameMap) {
+        return;
+      }
+      const { x, y } = element.innerCoordinates;
+      this.clearRect(x, y);
+      const widthIndex = Math.floor(x / this.cellWidth);
+      const heightIndex = Math.floor(y / this.cellHeight);
+      this.gameMap[heightIndex][widthIndex].innerElement = null;
+    });
+  }
+
   /**
    * Деактивация ячейки (убираем бэкграунд)
-   * @param element
-   * @protected
    */
-  protected deactivateElement(element:ResultType):void {
+  protected deactivateElement(element:DrawResultType):void {
     if (element.innerElement) {
       if (!this.ctx) {
         throw new Error('no context init');
@@ -263,10 +427,8 @@ export default class Field {
 
   /**
    * Активация ячейки (добавляем бэкграунд под картинку)
-   * @param element
-   * @protected
    */
-  protected activateElement(element:ResultType):void {
+  protected activateElement(element:DrawResultType):void {
     if (!this.ctx) {
       throw new Error('no context init');
     }
@@ -283,9 +445,6 @@ export default class Field {
 
   /**
    * Очищаем квадрат по заданным параметрам
-   * @param x
-   * @param y
-   * @protected
    */
   protected clearRect(x:number, y:number):void {
     if (!this.ctx) {
@@ -301,9 +460,6 @@ export default class Field {
 
   /**
    * Заполняем цветом квадрат заданных параметров
-   * @param x
-   * @param y
-   * @protected
    */
   protected fillRect(x:number, y:number):void {
     if (!this.ctx) {
@@ -319,12 +475,6 @@ export default class Field {
 
   /**
    * Переотрисовка изображения в ячейке
-   * @param path
-   * @param x
-   * @param y
-   * @param dWidth
-   * @param dHeight
-   * @protected
    */
   protected reDrawImage(path:string, x:number, y:number, dWidth:number, dHeight:number):void {
     const dx = x + (this.cell.width - dWidth) / 2;

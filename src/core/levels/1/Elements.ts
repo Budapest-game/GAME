@@ -1,4 +1,4 @@
-import { InnerElementType } from "../../CoreTypes";
+import { InnerElementType } from "../../CoreTypes.js";
 
 export const Elements:InnerElementType[] = [
   {

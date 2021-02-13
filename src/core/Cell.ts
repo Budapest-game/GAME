@@ -1,6 +1,6 @@
 import {
-  CoordinatesType, PaddingType, InnerElementType, StyleTypes, ResultType,
-} from './CoreTypes';
+  CoordinatesType, PaddingType, InnerElementType, StyleTypes, DrawResultType,
+} from './CoreTypes.js';
 
 export default class Cell {
   public width: number;
@@ -105,12 +105,11 @@ export default class Cell {
     this.paddingBackground = color;
   }
 
-  public drawCell():ResultType {
+  public drawCell():DrawResultType {
     if (!this.coordinates) {
       throw new Error('coordinates is empty');
     }
     // Описываем внешний квадрат, учитывая отступы
-    // this.ctx.strokeStyle = this.paddingBackground ? this.paddingBackground : '#FFFFFF';
     this.ctx.fillStyle = this.paddingBackground ? this.paddingBackground : '#FFFFFF';
     const { sellWidth, cellHeight } = this.getFullSize();
     const { x, y } = this.coordinates;
@@ -174,6 +173,12 @@ export default class Cell {
       innerCoordinates: {
         x: innerX,
         y: innerY,
+      },
+      neighbors: {
+        top: null,
+        right: null,
+        bottom: null,
+        left: null,
       },
     };
   }

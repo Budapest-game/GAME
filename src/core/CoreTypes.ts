@@ -24,7 +24,13 @@ export type StyleTypes = {
   background?: string,
   paddingBackground?: string,
 }
-export type ResultType = {
+export type DrawResultType = {
   innerElement: InnerElementType|null,
   innerCoordinates: CoordinatesType,
+  neighbors: {
+    top: DrawResultType|null,
+    right: DrawResultType|null,
+    bottom: DrawResultType|null,
+    left: DrawResultType|null,
+  }
 }
