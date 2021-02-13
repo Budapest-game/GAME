@@ -1,4 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
+
 import './input.css';
 
 interface InputProps
@@ -14,24 +17,17 @@ interface InputProps
 
 export class Input extends PureComponent<InputProps> {
   render() {
-    let classNames = 'form-input';
-    if (this.props.className) {
-      classNames = `${classNames} ${this.props.className}`;
-    }
+    const className = cn('input');
+    const classNames = className(this.props.className);
+
+    const { error, ...props } = this.props;
 
     return (
       <div className={ classNames }>
         <label>
-          <input
-            value={this.props.value}
-            type={this.props.type}
-            placeholder={this.props.placeholder}
-            onChange={this.props.onChange}
-            onFocus={this.props.onFocus}
-            disabled={this.props.disabled}
-          />
+          <input { ...props }/>
         </label>
-        { this.props.error ? <div className="form-input--error-text">{this.props.error}</div> : '' }
+        { error ? <div className="input--error-text">{error}</div> : null }
       </div>
     );
   }
