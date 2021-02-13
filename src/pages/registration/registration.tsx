@@ -1,18 +1,34 @@
 import React, { PureComponent } from 'react';
+import { RouteComponentProps, withRouter} from 'react-router-dom';
 import { Form } from '../../components/form/form';
+import Reg from '../../api/reg/registration';
+import { RegistrationData } from '../../api/types';
 import './registration.css';
 
-interface RegistrationState{
+interface RegistrationState extends RouteComponentProps {
   error?: null | string;
 }
-export class Registration extends PureComponent<RegistrationState> {
+class Registration extends PureComponent<RegistrationState> {
   state = {
     error: null,
   }
 
+  redirectToGame = () => {
+    const { history } = this.props;
+    if (history) history.push('/game');
+  }
+
   regRequest = (data: Record<string, string>):void => {
     if (data.password === data.second_password) {
-      console.log(data);
+      Reg.create(data as unknown as RegistrationData).then((resp) => {
+        if (resp.status === 200) {
+          this.redirectToGame();
+        } else if (resp.body && resp.body.reason) {
+          this.setState({ error: resp.body.reason });
+        } else {
+          this.setState({ error: resp.text });
+        }
+      });
     } else {
       this.setState({ error: 'Пароли не совпадают' });
     }
@@ -53,3 +69,4 @@ export class Registration extends PureComponent<RegistrationState> {
       </div>;
   }
 }
+export default withRouter(Registration);
