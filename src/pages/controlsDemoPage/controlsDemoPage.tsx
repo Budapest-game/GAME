@@ -6,7 +6,6 @@ interface ControlsDemoPageState {
   controlledInputValue?: string,
   controlledValidationInputValue?: string,
   error?: string,
-  disabled: false,
 }
 
 export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageState> {
