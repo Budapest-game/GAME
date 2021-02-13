@@ -10,6 +10,9 @@ interface Props {
     text: string,
     href: string
   }
+  baseClass: string,
+  submit: (data: Record<string, string>) => void,
+  error: null | string,
 }
 interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -39,7 +42,7 @@ export class Form extends PureComponent<Props> {
     return initValues;
   }
 
-  submit = (e: React.FormEvent):Record<string, string> |false => {
+  submit = (e: React.FormEvent): false | undefined => {
     e.preventDefault();
     const inputs = this.props.inputsInfo.map((x) => { return x.name; });
     const formData: Record<string, string> = {};
@@ -48,7 +51,7 @@ export class Form extends PureComponent<Props> {
       if (!this.state[`${name}Validation`]) return false;
       formData[name] = this.state[name];
     }
-    return formData;
+    this.props.submit(formData);
   }
 
   change = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -64,7 +67,6 @@ export class Form extends PureComponent<Props> {
     const { value, name } = target;
     const prop = this.props.inputsInfo.find((x) => { return x.name === name; });
     if (prop && prop.validate) {
-      console.log(inputValidation(value, prop.validate));
       this.setState({
         [`${name}Validation`]: inputValidation(value, prop.validate),
       });
@@ -77,16 +79,21 @@ export class Form extends PureComponent<Props> {
                     value={this.state[input.name]} onBlur={this.blur} key={i}></input>;
     });
     return (
-      <form onSubmit={this.submit}>
+      <div className={['form', this.props.baseClass].join(' ')}>
         <h1>{this.props.formHeader}</h1>
-        {inputs}
-        <div>
-          <button type="submit">{this.props.submitText}</button>
-        </div>
-        <p>
-          <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>
-       </p>
-      </form>
+        <form onSubmit={this.submit}>
+          {inputs}
+          <div>
+           {this.props.error ? <span>{this.props.error}</span> : ''}
+          </div>
+          <div>
+            <button type="submit">{this.props.submitText}</button>
+          </div>
+          <p>
+            <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>
+        </p>
+        </form>
+      </div>
     );
   }
 }

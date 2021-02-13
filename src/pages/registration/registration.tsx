@@ -1,9 +1,26 @@
 import React, { PureComponent } from 'react';
 import { Form } from '../../components/form/form';
+import './registration.css';
 
-export class Registration extends PureComponent {
+interface RegistrationState{
+  error?: null | string;
+}
+export class Registration extends PureComponent<RegistrationState> {
+  state = {
+    error: null,
+  }
+
+  regRequest = (data: Record<string, string>):void => {
+    if (data.password === data.second_password) {
+      console.log(data);
+    } else {
+      this.setState({ error: 'Пароли не совпадают' });
+    }
+  }
+
   render():JSX.Element {
     const formSettings = {
+      baseClass: 'registrationForm',
       formHeader: 'Регистрация',
       inputsInfo: [{
         name: 'email', value: '', placeholder: 'Почта', type: 'text', validate: ['required', 'email'],
@@ -31,6 +48,8 @@ export class Registration extends PureComponent {
         href: '/login',
       },
     };
-    return <Form {...formSettings}></Form>;
+    return <div className="registrationPage">
+      <Form {...formSettings} submit={this.regRequest} error={this.state.error}></Form>
+      </div>;
   }
 }

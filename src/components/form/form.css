@@ -1,5 +1,5 @@
-form{
-  width: 50%;
+.form{
+  width: 400px;
   text-align: center;
   position: relative;
   left: 50%;
@@ -8,4 +8,11 @@ form{
   background-color: white;
   box-shadow: 0 0 20px 2px rgb(0 0 0 / 40%);
 }
-
+.form form{
+  width: 75%;
+  margin: 0 auto;
+}
+.form form input{
+  margin-bottom: 20px;
+  width: 100%;
+}
