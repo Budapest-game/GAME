@@ -8,7 +8,7 @@ input {
   outline: none;
 }
 
-.input--error-text {
+.input-errorText {
   background: pink;
   padding: 10px;
   margin: -15px 0 15px;

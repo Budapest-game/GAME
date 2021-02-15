@@ -17,8 +17,8 @@ interface InputProps
 
 export class Input extends PureComponent<InputProps> {
   render() {
-    const className = cn('input');
-    const classNames = className(this.props.className);
+    const Cls = cn('input');
+    const classNames = Cls(null, [this.props.className]);input-ErrorText
 
     const { error, ...props } = this.props;
 
@@ -27,7 +27,7 @@ export class Input extends PureComponent<InputProps> {
         <label>
           <input { ...props }/>
         </label>
-        { error ? <div className="input--error-text">{error}</div> : null }
+        { error ? <div className={Cls('errorText')}>{error}</div> : null }
       </div>
     );
   }
