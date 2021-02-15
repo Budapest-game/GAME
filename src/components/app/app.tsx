@@ -10,6 +10,7 @@ import { Forum } from '../../pages/forum/forum';
 import { Profile } from '../../pages/profile/profile';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
+import { ControlsDemoPage } from '../../pages/controlsDemoPage/controlsDemoPage';
 
 export default class App extends PureComponent {
   render() {
@@ -43,6 +44,9 @@ export default class App extends PureComponent {
                 </Route>
                 <Route path="/page500">
                   <Page500 />
+                </Route>
+                <Route path="/controlsDemoPage">
+                  <ControlsDemoPage />
                 </Route>
               </Switch>
             </div>
