@@ -1,3 +1,30 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --white: #fff;
+  --bg: #f8f8f8;
+  --light: #e6e6e6;
+  --dark: #1a1a1a;
+  --grey: #999;
+  --blue: #3369f3;
+  --red: #f00;
+}
+
+body {
+  font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 h1 {
   color: #27aedb;
   text-align: center;
