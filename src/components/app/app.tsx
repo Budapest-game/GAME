@@ -11,10 +11,12 @@ import { Profile } from '../../pages/profile/profile';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemoPage } from '../../pages/controlsDemoPage/controlsDemoPage';
+import { ErrorBoundary } from '../errorBoundary/errorBoundary';
 
 export default class App extends PureComponent {
   render() {
     return (
+      <ErrorBoundary>
       <div className="app">
         <Router>
           <div>
@@ -53,6 +55,7 @@ export default class App extends PureComponent {
           </div>
         </Router>
       </div>
+      </ErrorBoundary>
     );
   }
 }
