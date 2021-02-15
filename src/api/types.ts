@@ -6,3 +6,7 @@ export interface RegistrationData{
   'password': string,
   'phone': string
 }
+export interface AuthorizationData{
+  'login': string,
+  'password': string
+}
