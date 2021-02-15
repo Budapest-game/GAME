@@ -18,7 +18,7 @@ interface InputProps
 export class Input extends PureComponent<InputProps> {
   render() {
     const Cls = cn('input');
-    const classNames = Cls(null, [this.props.className]);input-ErrorText
+    const classNames = Cls(null, [this.props.className]);
 
     const { error, ...props } = this.props;
 
