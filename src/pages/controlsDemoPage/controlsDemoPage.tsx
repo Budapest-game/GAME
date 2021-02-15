@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Input } from '../../components/input/input';
+import { Button } from '../../components/button/button';
 
-interface ControlsDemoPageState
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-    controlledInputValue?: string,
-    controlledValidationInputValue?: string,
-    error?: string,
+interface ControlsDemoPageState {
+  controlledInputValue?: string,
+  controlledValidationInputValue?: string,
+  error?: string,
 }
 
 export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageState> {
@@ -15,7 +15,6 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
       controlledInputValue: 'change me',
       controlledValidationInputValue: '111',
       error: undefined,
-      disabled: false,
     };
   }
 
@@ -55,6 +54,32 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
           }}
           error={this.state.error}
         />
+        <Button
+          type='submit'
+          onClick={() => { console.log('clicked'); }}
+          text='Submit'
+        >
+        </ Button>
+        <Button
+          type='submit'
+          text='Disabled'
+          onClick={() => { console.log('clicked'); }}
+          disabled={true}
+        >
+        </ Button>
+        <Button
+          type='reset'
+          text='Reset'
+          onClick={() => { console.log('clicked'); }}
+        >
+        </ Button>
+        <Button
+          type='reset'
+          text='Reset'
+          className = 'button-error'
+          onClick={() => { console.log('clicked'); }}
+        >
+        </ Button>
       </div>
     );
   }
