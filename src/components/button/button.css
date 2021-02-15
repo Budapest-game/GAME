@@ -15,6 +15,6 @@ button[disabled] {
   cursor: auto;
 }
 
-.button--alert {
+.button-error {
   background-color: var(--red);
 }

@@ -15,7 +15,6 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
       controlledInputValue: 'change me',
       controlledValidationInputValue: '111',
       error: undefined,
-      disabled: false,
     };
   }
 
@@ -77,7 +76,7 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
         <Button
           type='reset'
           text='Reset'
-          className = 'button--alert'
+          className = 'button-error'
           onClick={() => { console.log('clicked'); }}
         >
         </ Button>

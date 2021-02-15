@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import './button.css';
 
 interface ButtonProps
@@ -11,18 +12,16 @@ interface ButtonProps
 
 export class Button extends PureComponent<ButtonProps> {
   render() {
-    let classNames = 'form-btn';
-    if (this.props.className) {
-      classNames = `${classNames} ${this.props.className}`;
-    }
+    const Cls = cn('btn');
+    const classNames = Cls(null, [this.props.className]);
+    const { text, ...props } = this.props;
+
     return (
       <button
-        className={classNames}
-        type={this.props.type}
-        disabled={this.props.disabled}
-        onClick={this.props.onClick}
+        className={ classNames }
+        { ...props }
       >
-        {this.props.text}
+        {text}
       </ button>
     );
   }
