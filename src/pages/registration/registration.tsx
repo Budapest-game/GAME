@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { RouteComponentProps, withRouter} from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import Reg from '../../api/reg/registration';
 import { RegistrationData } from '../../api/types';
