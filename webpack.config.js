@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { env } = require('process');
 
 module.exports = {
   entry: [
@@ -27,7 +28,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'static/js/'),
+    path: path.resolve(__dirname, 'static/'),
     filename: 'main.bundle.js',
     publicPath: '/',
   },
