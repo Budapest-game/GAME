@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { inputValidation } from '../../utils/validation';
+import { Input } from '../../components/input/input';
+import { Button } from '../../components/button/button';
 import './form.css';
 
 interface Props {
@@ -67,6 +69,7 @@ export class Form extends PureComponent<Props> {
     const { value, name } = target;
     const prop = this.props.inputsInfo.find((x) => { return x.name === name; });
     if (prop && prop.validate) {
+      console.log(inputValidation(value, prop.validate));
       this.setState({
         [`${name}Validation`]: inputValidation(value, prop.validate),
       });
@@ -75,8 +78,8 @@ export class Form extends PureComponent<Props> {
 
   render():JSX.Element {
     const inputs = this.props.inputsInfo.map((input, i) => {
-      return <input {...input} onChange={this.change}
-                    value={this.state[input.name]} onBlur={this.blur} key={i}></input>;
+      return <Input {...input} onChange={this.change}
+                    value={this.state[input.name]} onBlur={this.blur} error={this.state[`${input.name}Validation`]}key={i}></Input>;
     });
     return (
       <div className={['form', this.props.baseClass].join(' ')}>
@@ -87,7 +90,7 @@ export class Form extends PureComponent<Props> {
            {this.props.error ? <span>{this.props.error}</span> : ''}
           </div>
           <div>
-            <button type="submit">{this.props.submitText}</button>
+            <Button type="submit" text={this.props.submitText}></Button>
           </div>
           <p>
             <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>
