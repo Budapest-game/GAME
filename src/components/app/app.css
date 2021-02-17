@@ -26,7 +26,7 @@ body {
 }
 
 h1 {
-  color: #27aedb;
+  color: var(--blue);
   text-align: center;
 }
 .app{
