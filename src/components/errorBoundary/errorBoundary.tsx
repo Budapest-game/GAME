@@ -1,22 +1,8 @@
-/* eslint-disable no-unused-vars, no-undef, react/display-name */
-/* eslint max-classes-per-file: 'off' */
+import React, { Component, Fragment, ComponentType } from 'react';
+import DefaultFallback from './defaultFallback';
 
-import React from 'react';
-
-class DefaultFallback extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>
-          Something went wrong!
-        </h1>
-      </div>
-    );
-  }
-}
-
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: any) {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = {
       hasError: false,
@@ -31,11 +17,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(): StateFromError {
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, errorInfo: any) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
       hasError: true,
       error,
@@ -52,12 +38,13 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           componentStack={errorInfo.componentStack}
           errorMessage={error.message}
           stack={error.stack} />
-      : <React.Fragment>{this.props.children}</React.Fragment>;
+      : <Fragment>{this.props.children}</Fragment>;
   }
 }
 
-// eslint-disable-next-line max-len
-export type WithFallback = <P = Record<string, never>>(Component: React.ComponentType<P>, FallbackComponent?: React.ComponentType<any>) => React.ComponentType<P>;
+export type StateFromError = {
+  hasError: boolean;
+}
 
 export type ErrorBoundaryFallbackProps = {
   errorMessage: string;
@@ -67,11 +54,21 @@ export type ErrorBoundaryFallbackProps = {
 };
 
 export type ErrorBoundaryProps = {
-  FallbackComponent?: React.ComponentType<ErrorBoundaryFallbackProps>;
+  FallbackComponent?: ComponentType<ErrorBoundaryFallbackProps>;
 };
+
+export type Error = {
+  message: string,
+  stack: string,
+  name: string;
+}
+
+export type ErrorInfo = {
+  componentStack: string;
+}
 
 export type ErrorBoundaryState = {
   hasError: boolean;
-  error: {message: string, stack: string, name: string};
-  errorInfo: {componentStack: string};
+  error: Error;
+  errorInfo: ErrorInfo;
 };
