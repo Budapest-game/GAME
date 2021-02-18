@@ -23,16 +23,21 @@ function leader(info: LeaderInfo) {
 }
 
 export class Leaderboard extends PureComponent {
-  render() {
-    const leadersComponents = [];
+  fakeLeaders():JSX.Element[] {
+    const leaders = [];
     for (let i = 1; i < 11; i++) {
-      leadersComponents.push(leader({
+      leaders.push(leader({
         name: `Пользователь ${i}`,
         score: 1000,
         position: i,
         avatar: 'https://ih1.redbubble.net/image.223416826.7278/pp,840x830-pad,1000x1000,f8f8f8.u3.jpg',
       }));
     }
+    return leaders;
+  }
+
+  render():JSX.Element {
+    const leadersComponents = this.fakeLeaders();
     return (
              <div className="leaderboard">
                <div className="leaderboard-header">
