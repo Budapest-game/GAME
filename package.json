@@ -8,7 +8,8 @@
     "lint-fix": "eslint ./src/ --ext=.tsx --ext=.ts --fix",
     "test": "jest",
     "webpack": "webpack --config ./webpack.config.js",
-    "start": "webpack serve --mode development --open --hot"
+    "start": "webpack serve --mode development --open --hot",
+    "start-heroku": "node server.js"
   },
   "repository": {
     "type": "git",
