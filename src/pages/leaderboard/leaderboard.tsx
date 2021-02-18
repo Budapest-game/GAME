@@ -8,7 +8,7 @@ interface LeaderInfo{
   avatar: string
 }
 function leader(info: LeaderInfo) {
-  return <div className="leader">
+  return <div className="leader" key={info.position}>
       <div className="leader-position">{info.position}</div>
       <div className="leader-media">
           <img className="leader-avatar" src={info.avatar}/>
