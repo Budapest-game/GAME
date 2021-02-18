@@ -1,0 +1,51 @@
+.leaderboard{
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px 2px rgb(0 0 0 / 40%);
+  background-color: white;
+  border-radius: 8px;
+}
+.leaderboard-content{
+  display: flex;
+  flex-wrap: wrap;
+}
+.leader{
+ flex: 1 1 50%;
+ padding: 1%;
+ display: inline-flex;
+ position: relative;
+}
+.leader::after{
+  content: '';
+  display: block;
+  position: absolute;
+  top: 95%;
+  width: 70%;
+  left: 15%;
+  border-top: 1px solid #dcdcdc;
+}
+.leader>div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.leader-position{
+  flex: 1 1 10%;
+}
+.leader-media{
+  flex: 1 1 30%;
+}
+.leader-avatar{
+  height: 128px;
+  width: 128px;
+  border-radius: 50%;
+}
+.leader-nickname{
+  flex: 1 1 30%;
+}
+.leader-score{
+  flex: 1 1 30%;
+}
