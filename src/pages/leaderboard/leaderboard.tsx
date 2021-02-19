@@ -1,26 +1,7 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
+import { leader } from '../../components/leader/leader';
 import './leaderboard.css';
-
-interface LeaderInfo {
-  name: string,
-  score: number,
-  position: number,
-  avatar: string
-}
-function leader(info: LeaderInfo) {
-  return <div className="leader" key={info.position}>
-      <div className="leader-position">{info.position}</div>
-      <div className="leader-media">
-          <img className="leader-avatar" src={info.avatar}/>
-      </div>
-      <div className="leader-nickname">
-          <span>{info.name}</span>
-      </div>
-      <div className="leader-score">
-        <span>{info.score}</span>
-      </div>
-  </div>;
-}
 
 export class Leaderboard extends PureComponent {
   fakeLeaders():JSX.Element[] {
@@ -37,13 +18,14 @@ export class Leaderboard extends PureComponent {
   }
 
   render():JSX.Element {
+    const Cls = cn('leaderboard');
     const leadersComponents = this.fakeLeaders();
     return (
-             <div className="leaderboard">
-               <div className="leaderboard-header">
+             <div className={Cls()}>
+               <div className={Cls('header')}>
                  <h1>Таблица лидеров</h1>
                </div>
-               <div className="leaderboard-content">
+               <div className={Cls('content')}>
                 {leadersComponents}
               </div>
             </div>
