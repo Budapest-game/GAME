@@ -1,4 +1,4 @@
-.leaderboard{
+.leaderboard {
   width: 80%;
   height: 100%;
   margin: 0 auto;
@@ -8,17 +8,17 @@
   background-color: white;
   border-radius: 8px;
 }
-.leaderboard-content{
+.leaderboard-content {
   display: flex;
   flex-wrap: wrap;
 }
-.leader{
+.leader {
  flex: 1 1 50%;
  padding: 1%;
  display: inline-flex;
  position: relative;
 }
-.leader::after{
+.leader::after {
   content: '';
   display: block;
   position: absolute;
@@ -27,25 +27,25 @@
   left: 15%;
   border-top: 1px solid #dcdcdc;
 }
-.leader>div{
+.leader>div {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.leader-position{
+.leader-position {
   flex: 1 1 10%;
 }
-.leader-media{
+.leader-media {
   flex: 1 1 30%;
 }
-.leader-avatar{
+.leader-avatar {
   height: 128px;
   width: 128px;
   border-radius: 50%;
 }
-.leader-nickname{
+.leader-nickname {
   flex: 1 1 30%;
 }
-.leader-score{
+.leader-score {
   flex: 1 1 30%;
 }

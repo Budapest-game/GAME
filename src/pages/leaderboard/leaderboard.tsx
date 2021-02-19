@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import './leaderboard.css';
 
-interface LeaderInfo{
+interface LeaderInfo {
   name: string,
   score: number,
   position: number,
