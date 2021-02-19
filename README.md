@@ -12,6 +12,8 @@ https://www.figma.com/file/Q4k80uj2TfDdDGHBdo5paa/Game?node-id=0%3A1
 
 Результат пользователя это количество "уничтоженных" элементов за время игры или N ходов.
 
+## HEROKU
+Web URL:        https://morning-chamber-87005.herokuapp.com/
 ## Полезное  
 npm run lint - линтинг *.ts  в ./src/  
 npm run lint-fix - фикс *.ts  в ./src/  

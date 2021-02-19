@@ -15,44 +15,44 @@ import { ControlsDemoPage } from '../../pages/controlsDemoPage/controlsDemoPage'
 export default class App extends PureComponent {
   render() {
     return (
-      <div className="app">
-        <Router>
+    <div className="app">
+      <Router>
+        <div>
+          <Navigation />
           <div>
-            <Navigation />
-            <div>
-              <Switch>
-              <Route path="/authorization">
-                  <Authorization />
-                </Route>
-                <Route path="/registration">
-                  <Registration />
-                </Route>
-                <Route path="/game">
-                  <Game />
-                </Route>
-                <Route path="/leaderboard">
-                  <Leaderboard />
-                </Route>
-                <Route path="/forum">
-                  <Forum />
-                </Route>
-                <Route path="/profile">
-                  <Profile />
-                </Route>
-                <Route path="/page404">
-                  <Page404 />
-                </Route>
-                <Route path="/page500">
-                  <Page500 />
-                </Route>
-                <Route path="/controlsDemoPage">
-                  <ControlsDemoPage />
-                </Route>
-              </Switch>
-            </div>
+            <Switch>
+            <Route path="/authorization">
+                <Authorization />
+              </Route>
+              <Route path="/registration">
+                <Registration />
+              </Route>
+              <Route path="/game">
+                <Game />
+              </Route>
+              <Route path="/leaderboard">
+                <Leaderboard />
+              </Route>
+              <Route path="/forum">
+                <Forum />
+              </Route>
+              <Route path="/profile">
+                <Profile />
+              </Route>
+              <Route path="/page404">
+                <Page404 />
+              </Route>
+              <Route path="/page500">
+                <Page500 />
+              </Route>
+              <Route path="/controlsDemoPage">
+                <ControlsDemoPage />
+              </Route>
+            </Switch>
           </div>
-        </Router>
-      </div>
+        </div>
+      </Router>
+    </div>
     );
   }
 }

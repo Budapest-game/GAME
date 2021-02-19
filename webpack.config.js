@@ -27,7 +27,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'static/js/'),
+    path: path.resolve(__dirname, 'static/'),
     filename: 'main.bundle.js',
     publicPath: '/',
   },
