@@ -10,7 +10,12 @@ class Registration {
     } catch (e) {
       body = '';
     }
-    return { status: resp.status, text: resp.statusText, body };
+    if (resp.status !== 200) {
+      let errorMessage = resp.statusText;
+      if (body && body.reason) errorMessage = body.reason;
+      throw new Error(errorMessage);
+    }
+    return true;
   }
 }
 export default new Registration();

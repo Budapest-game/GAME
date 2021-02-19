@@ -16,23 +16,17 @@ afterEach(() => {
 test('Регистрация', async () => {
   const data = { login: '', password: '' };
   global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
-  const res = await Registration.create(data);
-  expect(res.status).toBe(401);
-  expect(res.text).toBe('Unauthorized');
+  await expect(Registration.create(data)).rejects.toThrow('Unauthorized');
 });
 test('Регистрация -  в body валидный JSON', async () => {
   const data = { login: '', password: '' };
   global.fetch = mockFetch({ body: '{ "message": "string"}', status: 200, statusText: 'OK' });
   const res = await Registration.create(data);
-  expect(res.status).toBe(200);
-  expect(res.text).toBe('OK');
-  expect(res.body).toStrictEqual({ message: 'string' });
+  expect(res).toBe(true);
 });
 test('Регистрация -  в body кривой JSON', async () => {
   const data = { login: '', password: '' };
   global.fetch = mockFetch({ body: '{ "messag', status: 200, statusText: 'OK' });
   const res = await Registration.create(data);
-  expect(res.status).toBe(200);
-  expect(res.text).toBe('OK');
-  expect(res.body).toBe('');
+  expect(res).toBe(true);
 });

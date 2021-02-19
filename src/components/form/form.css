@@ -1,0 +1,18 @@
+.form{
+  width: 400px;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 20%);
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 20px 2px rgb(0 0 0 / 40%);
+}
+.form form{
+  width: 75%;
+  margin: 0 auto;
+}
+.form-error{
+  background-color: pink;
+  padding: 10px;
+}
