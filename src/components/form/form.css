@@ -6,7 +6,8 @@
   transform: translate(-50%, 20%);
   padding: 20px;
   background-color: white;
-  box-shadow: 0 0 20px 2px rgb(0 0 0 / 40%);
+  box-shadow: 0 0 6px 0px rgb(0 0 0 / 15%);
+  border-radius: 12px;
 }
 .form form{
   width: 75%;

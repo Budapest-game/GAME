@@ -57,7 +57,7 @@ class Registration extends PureComponent<RegistrationState> {
     submitText: 'Зарегистрироваться',
     redirLinkInfo: {
       text: 'Войти',
-      href: '/login',
+      href: '/authorization',
     },
   };
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './app.css';
 import { Navigation } from '../navigation/navigation';
-import { Authorization } from '../../pages/authorization/authorization';
+import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration/registration';
 import { Game } from '../../pages/game/game';
 import { Leaderboard } from '../../pages/leaderboard/leaderboard';

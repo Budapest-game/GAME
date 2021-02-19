@@ -6,7 +6,7 @@ interface validationState{
 function required(value: string):validationState {
   let state = false;
   let msg = '';
-  if (value.length < 1) {
+  if (value.trim().length < 1) {
     state = false;
     msg = 'Поле необходимо заполнить';
   } else {
