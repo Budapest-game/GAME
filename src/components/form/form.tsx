@@ -64,10 +64,8 @@ export class Form extends PureComponent<Props> {
 
   onChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = target;
-    const newState = { ...this.state[name] };
-    newState.value = value;
     this.setState({
-      [name]: newState,
+      [name]: { ...this.state[name], value },
     });
   }
 
@@ -75,15 +73,15 @@ export class Form extends PureComponent<Props> {
     const { value, name } = target;
     const filed = this.props.inputsInfo.find((x) => { return x.name === name; });
     if (filed && filed.validate) {
-      const validationState = inputValidation(value, filed.validate);
+      const { state: isValid, msg: errorMessage } = inputValidation(value, filed.validate);
       this.setState({
-        [name]: { value, isValid: validationState.state, errorMessage: validationState.msg },
+        [name]: { value, isValid, errorMessage },
       });
     }
   }
 
-  renderInputs(inputsInfo:FormInput[]): JSX.Element[] {
-    return inputsInfo.map((input, i) => {
+  renderInputs(): JSX.Element[] {
+    return this.props.inputsInfo.map((input, i) => {
       return <Input {...input}
                     onChange={this.onChange}
                     value={this.state[input.name].value}
@@ -100,10 +98,10 @@ export class Form extends PureComponent<Props> {
       <div className={formClasses}>
         <h1>{this.props.formHeader}</h1>
         <form onSubmit={this.onSubmit}>
-          {this.renderInputs(this.props.inputsInfo)}
-           {this.props.error ? <div className="form-error"><span>{this.props.error}</span></div> : ''}
+          {this.renderInputs()}
+           {this.props.error ? <div className={form('error')}><span>{this.props.error}</span></div> : ''}
           <div>
-            <Button type="submit" text={this.props.submitText}></Button>
+            <Button type="submit" text={this.props.submitText}/>
           </div>
           <p>
             <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>

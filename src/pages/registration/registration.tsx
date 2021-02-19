@@ -63,7 +63,7 @@ class Registration extends PureComponent<RegistrationState> {
 
   render():JSX.Element {
     return <div className="registrationPage">
-      <Form {...this.formSettings} submit={this.regRequest} error={this.state.error}></Form>
+      <Form {...this.formSettings} submit={this.regRequest} error={this.state.error}/>
       </div>;
   }
 }
