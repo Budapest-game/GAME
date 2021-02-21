@@ -40,9 +40,7 @@ export default class Field {
 
   protected columnIndex: number|null = null;
 
-  protected tempY = 0;
-
-  protected activeImage: HTMLImageElement|null;
+  protected counter = 0;
 
   constructor(
     canvas:HTMLCanvasElement,
@@ -72,7 +70,6 @@ export default class Field {
     this.fieldWidth = sellWidth * this.width;
     this.fieldHeight = cellHeight * this.height;
     this.activeElement = null;
-    this.activeImage = null;
   }
 
   /**
@@ -351,18 +348,18 @@ export default class Field {
     const queue = this.fillQueue();
     if (queue.length > 0) {
       queue.forEach((queueElement) => {
-        this.queueElement = queueElement;
-        this.startTime = performance.now();
-        const { element } = this.queueElement;
+        // this.queueElement = queueElement;
+        const startTime = performance.now();
+        const { element } = queueElement;
         if (element) {
-          this.columnIndex = Math.floor(element.innerCoordinates.x / this.cellWidth);
-          this.tempY = element.innerCoordinates.y;
+          const columnIndex = Math.floor(element.innerCoordinates.x / this.cellWidth);
           const { innerElement } = element;
           if (innerElement) {
-            this.activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
-            this.activeImage.src = innerElement.path;
-            this.activeImage.onload = () => {
-              this.animate();
+            const tempY = element.innerCoordinates.y;
+            const activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
+            activeImage.src = innerElement.path;
+            activeImage.onload = () => {
+              this.animate(activeImage, queueElement, startTime, tempY, columnIndex);
             };
           }
         }
@@ -375,39 +372,42 @@ export default class Field {
       this.queueElement = null;
       if (this.watcher()) {
         setTimeout(() => {
-          this.updateGameField();
+          // this.updateGameField();
         }, 1000);
       }
     }
   }
 
-  protected animate():void {
-    if (this.ctx && this.queueElement) {
+  protected animate(
+    image:HTMLImageElement,
+    queueElement:QueueElementType,
+    startTime:number,
+    animateY:number,
+    columnIndex:number,
+  ):void {
+    if (this.ctx) {
       this.ctx.beginPath();
       const time = performance.now();
-      const shiftTime = time - this.startTime;
+      const shiftTime = time - startTime;
       const multiply = shiftTime / this.animationTime;
-      const { element, emptyCell } = this.queueElement;
+      const { element, emptyCell } = queueElement;
       if (!element || !emptyCell) {
         return;
       }
-      element.innerCoordinates.y += (
+      let tempY = animateY;
+      tempY += (
         emptyCell.innerCoordinates.y
         - element.innerCoordinates.y
       ) * multiply;
-      this.reDrawArea(this.queueElement.animateArea);
+      this.reDrawArea(queueElement.animateArea, image, tempY);
       this.ctx.closePath();
       if (multiply < 1) {
-        // this.clearColumn(this.columnIndex);
-        requestAnimationFrame(this.animate.bind(this));
+        requestAnimationFrame(() => {
+          this.animate(image, queueElement, startTime, animateY, columnIndex);
+        });
       } else {
-        this.activeImage = null;
-        this.cell.removeInnerElement();
-        element.innerCoordinates.y = this.tempY;
+        // this.reDrawColumn(columnIndex);
         this.switchElementObjects(element, emptyCell);
-        setTimeout(() => {
-          this.reDrawColumn();
-        }, 100);
       }
     }
   }
@@ -574,7 +574,7 @@ export default class Field {
     };
   }
 
-  protected reDrawArea(area:DrawResultType[]):void {
+  protected reDrawArea(area:DrawResultType[], image:HTMLImageElement, animateY:number):void {
     if (!this.ctx || !this.gameMap) {
       return;
     }
@@ -582,22 +582,22 @@ export default class Field {
       const { outerCoordinates } = element;
       const { x, y } = outerCoordinates;
       this.cell.setCoordinates(x, y);
-      this.cell.drawCell();
+      this.cell.drawCell(true);
     });
     const { innerCoordinates, innerElement } = area[0];
-    if (this.activeImage && innerElement) {
+    if (innerElement) {
       const dx = innerCoordinates.x + (this.cell.width - innerElement.dWidth) / 2;
-      const dy = innerCoordinates.y + (this.cell.height - innerElement.dHeight) / 2;
-      this.ctx.drawImage(this.activeImage, dx, dy);
+      // const dy = innerCoordinates.y + (this.cell.height - innerElement.dHeight) / 2;
+      this.ctx.drawImage(image, dx, animateY);
     }
   }
 
-  protected reDrawColumn():void {
-    if (!this.ctx || !this.gameMap || typeof this.columnIndex !== 'number') {
+  protected reDrawColumn(index:number):void {
+    if (!this.ctx || !this.gameMap) {
       return;
     }
     for (let i = 0; i < this.height; i++) {
-      const { innerElement, outerCoordinates } = this.gameMap[i][this.columnIndex];
+      const { innerElement, outerCoordinates } = this.gameMap[i][index];
       const { x, y } = outerCoordinates;
       if (innerElement) {
         this.cell.setInnerElement(innerElement);

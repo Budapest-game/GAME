@@ -109,7 +109,7 @@ export default class Cell {
     this.paddingBackground = color;
   }
 
-  public drawCell():DrawResultType {
+  public drawCell(isEmpty = false):DrawResultType {
     if (!this.coordinates) {
       throw new Error('coordinates is empty');
     }
@@ -159,7 +159,7 @@ export default class Cell {
     );
 
     // Если есть картинка, вставляем ее
-    if (this.innerElement) {
+    if (this.innerElement && !isEmpty) {
       const { path, dWidth, dHeight } = this.innerElement;
       if (dWidth > this.width || dHeight > this.height) {
         throw new Error('Inner image is larger than cell');
