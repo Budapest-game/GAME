@@ -13,51 +13,53 @@ interface ProfileInfo {
   phone: string,
 }
 
-function profile(info: ProfileInfo) {
+function profile(info: ProfileInfo): JSX.Element {
+  const Cls = cn('profile');
+  const Avatar = cn('avatar');
   return (
     <React.Fragment>
-      <div className="avatar">
-        <img className="avatar__img" src={info.avatar} />
-        <input className="avatar__attach" type="file" name="avatar" />
+      <div className={Avatar()}>
+        <img className={Avatar('img')} src={info.avatar} />
+        <input className={Avatar('attach')} type="file" name="avatar" />
       </div>
 
       <legend>{info.name} {info.lastName}</legend>
 
-      <ul className="profile-fields">
-        <li className="profile-fields__item">
+      <ul className={Cls()}>
+        <li className={Cls('item')}>
           <span>Имя</span>
-          <span className="profile-fields__content">{info.name}</span>
+          <span className={Cls('content')}>{info.name}</span>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <span>Фамилия</span>
-          <span className="profile-fields__content">{info.lastName}</span>
+          <span className={Cls('content')}>{info.lastName}</span>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <span>Логин</span>
-          <span className="profile-fields__content">{info.login}</span>
+          <span className={Cls('content')}>{info.login}</span>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <span>Почта</span>
-          <span className="profile-fields__content">{info.email}</span>
+          <span className={Cls('content')}>{info.email}</span>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <span>Телефон</span>
-          <span className="profile-fields__content">{info.phone}</span>
+          <span className={Cls('content')}>{info.phone}</span>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <Link to="/changedata">Изменить данные</Link>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <Link to="/changepassword">Изменить пароль</Link>
         </li>
 
-        <li className="profile-fields__item">
+        <li className={Cls('item')}>
           <Button
             type='submit'
             onClick={() => { console.log('Выход'); }}
