@@ -1,7 +1,9 @@
-import Cell from './Cell.js';
-import { InnerElementType, StyleTypes, DrawResultType } from './CoreTypes.js';
-import { randomArrayElement } from "../utils/randomArrayElement.js";
-import { findElementIndexByType } from "../utils/findElementIndexByType.js";
+import Cell from './Cell';
+import {
+  InnerElementType, StyleTypes, DrawResultType, QueueElementType,
+} from './CoreTypes';
+import { randomArrayElement } from '../utils/randomArrayElement';
+import { findElementIndexByType } from '../utils/findElementIndexByType';
 
 export default class Field {
   protected width: number;
@@ -29,6 +31,18 @@ export default class Field {
   public activeElement: DrawResultType|null;
 
   protected cell: Cell;
+
+  protected queueElement: QueueElementType|null = null;
+
+  protected startTime = 0;
+
+  protected animationTime = 1000;
+
+  protected columnIndex: number|null = null;
+
+  protected tempY = 0;
+
+  protected activeImage: HTMLImageElement|null;
 
   constructor(
     canvas:HTMLCanvasElement,
@@ -58,6 +72,7 @@ export default class Field {
     this.fieldWidth = sellWidth * this.width;
     this.fieldHeight = cellHeight * this.height;
     this.activeElement = null;
+    this.activeImage = null;
   }
 
   /**
@@ -191,27 +206,23 @@ export default class Field {
               this.gameMap[activeHeightIndex][activeWidthIndex],
               this.gameMap[heightIndex][widthIndex],
             );
-            const temp1 = JSON.parse(
-              JSON.stringify(this.gameMap[activeHeightIndex][activeWidthIndex].innerElement),
+            this.switchElementObjects(
+              this.gameMap[activeHeightIndex][activeWidthIndex],
+              this.gameMap[heightIndex][widthIndex],
             );
-            // eslint-disable-next-line max-len
-            this.gameMap[activeHeightIndex][activeWidthIndex].innerElement = this.gameMap[heightIndex][widthIndex].innerElement;
-            this.gameMap[heightIndex][widthIndex].innerElement = temp1;
             setTimeout(() => {
               if (!this.watcher() && this.activeElement && this.gameMap) {
                 this.switchElementDraws(
                   this.gameMap[heightIndex][widthIndex],
                   this.gameMap[activeHeightIndex][activeWidthIndex],
                 );
-                const temp2 = JSON.parse(
-                  JSON.stringify(this.gameMap[activeHeightIndex][activeWidthIndex].innerElement),
+                this.switchElementObjects(
+                  this.gameMap[activeHeightIndex][activeWidthIndex],
+                  this.gameMap[heightIndex][widthIndex],
                 );
-                // eslint-disable-next-line max-len
-                this.gameMap[activeHeightIndex][activeWidthIndex].innerElement = this.gameMap[heightIndex][widthIndex].innerElement;
-                this.gameMap[heightIndex][widthIndex].innerElement = temp2;
               }
+              this.updateGameField();
               this.activeElement = null;
-              this.fallElements();
             }, 300);
           } else {
             this.deactivateElement(this.gameMap[activeHeightIndex][activeWidthIndex]);
@@ -226,10 +237,12 @@ export default class Field {
     });
   }
 
-  protected switchElementObjects(element1:InnerElementType|null, element2:InnerElementType) {
-    const temp = JSON.parse(JSON.stringify(element1));
-    element1 = element2;
-    element2 = temp;
+  protected switchElementObjects(element1:DrawResultType, element2:DrawResultType):void {
+    const temp = element1.innerElement;
+    const tempElement1 = element1;
+    const tempElement2 = element2;
+    tempElement1.innerElement = element2.innerElement;
+    tempElement2.innerElement = temp;
   }
 
   /**
@@ -334,64 +347,124 @@ export default class Field {
     return isCombine;
   }
 
-  protected fallElements():void {
-    if (!this.gameMap) {
-      return;
-    }
-    for (let w = 0; w < this.width; w++) {
-      const startElement = this.gameMap[0][w];
-      if (startElement.innerElement === null) {
-        startElement.innerElement = randomArrayElement(this.elements);
-        this.reDrawImage(
-          startElement.innerElement.path,
-          startElement.innerCoordinates.x,
-          startElement.innerCoordinates.y,
-          startElement.innerElement.dWidth,
-          startElement.innerElement.dHeight,
-        );
-      }
-      const fallBottom = (element:DrawResultType, isEmpty = false) => {
-        const activeElement = element;
-        let emptyCell = isEmpty;
-        const bottomNeighbor = activeElement.neighbors.bottom;
-        if (bottomNeighbor && !bottomNeighbor.innerElement && activeElement.innerElement) {
-          this.clearRect(activeElement.innerCoordinates.x, activeElement.innerCoordinates.y);
-          const temp = JSON.parse(JSON.stringify(bottomNeighbor.innerElement));
-          bottomNeighbor.innerElement = element.innerElement;
-          activeElement.innerElement = temp;
-          if (bottomNeighbor.innerElement) {
-            this.reDrawImage(
-              bottomNeighbor.innerElement.path,
-              bottomNeighbor.innerCoordinates.x,
-              bottomNeighbor.innerCoordinates.y,
-              bottomNeighbor.innerElement.dWidth,
-              bottomNeighbor.innerElement.dHeight,
-            );
+  protected updateGameField():void {
+    const queue = this.fillQueue();
+    if (queue.length > 0) {
+      queue.forEach((queueElement) => {
+        this.queueElement = queueElement;
+        this.startTime = performance.now();
+        const { element } = this.queueElement;
+        if (element) {
+          this.columnIndex = Math.floor(element.innerCoordinates.x / this.cellWidth);
+          this.tempY = element.innerCoordinates.y;
+          const { innerElement } = element;
+          if (innerElement) {
+            this.activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
+            this.activeImage.src = innerElement.path;
+            this.activeImage.onload = () => {
+              this.animate();
+            };
           }
-          emptyCell = false;
         }
-        if (
-          bottomNeighbor
-          // && bottomNeighbor.neighbors.bottom
-          // && !bottomNeighbor.neighbors.bottom.innerElement
-        ) {
-          console.log(11)
-          setTimeout(() => {
-            emptyCell = true;
-            fallBottom(bottomNeighbor, emptyCell);
-          }, 80);
-        }
-        setTimeout(() => {
-          if (emptyCell) {
-            this.fallElements();
-          }
-        }, 100);
-      };
+      });
       setTimeout(() => {
-        fallBottom(startElement);
-      }, 80);
+        console.log(this.gameMap)
+        this.updateGameField();
+      }, 1000);
+    } else {
+      this.queueElement = null;
+      if (this.watcher()) {
+        setTimeout(() => {
+          this.updateGameField();
+        }, 1000);
+      }
     }
-    this.watcher();
+  }
+
+  protected animate():void {
+    if (this.ctx && this.queueElement) {
+      this.ctx.beginPath();
+      const time = performance.now();
+      const shiftTime = time - this.startTime;
+      const multiply = shiftTime / this.animationTime;
+      const { element, emptyCell } = this.queueElement;
+      if (!element || !emptyCell) {
+        return;
+      }
+      element.innerCoordinates.y += (
+        emptyCell.innerCoordinates.y
+        - element.innerCoordinates.y
+      ) * multiply;
+      this.reDrawArea(this.queueElement.animateArea);
+      this.ctx.closePath();
+      if (multiply < 1) {
+        // this.clearColumn(this.columnIndex);
+        requestAnimationFrame(this.animate.bind(this));
+      } else {
+        this.activeImage = null;
+        this.cell.removeInnerElement();
+        element.innerCoordinates.y = this.tempY;
+        this.switchElementObjects(element, emptyCell);
+        setTimeout(() => {
+          this.reDrawColumn();
+        }, 100);
+      }
+    }
+  }
+
+  protected fillQueue():QueueElementType[] {
+    const queue = [];
+    for (let w = 0; w < this.width; w++) {
+      const queueElement = this.checkColumn(w);
+      if (typeof queueElement !== 'boolean') {
+        queue.push(queueElement);
+      }
+    }
+    return queue;
+  }
+
+  protected checkColumn(w:number):boolean|QueueElementType {
+    if (!this.gameMap) {
+      return false;
+    }
+    let startElement:DrawResultType|null = this.gameMap[0][w];
+    const queueElement:QueueElementType = {
+      element: null,
+      emptyCell: null,
+      animateArea: [],
+    };
+    if (!startElement.innerElement) {
+      startElement.innerElement = randomArrayElement(this.elements);
+      queueElement.element = startElement;
+      this.reDrawImage(
+        startElement.innerElement.path,
+        startElement.innerCoordinates.x,
+        startElement.innerCoordinates.y,
+        startElement.innerElement.dWidth,
+        startElement.innerElement.dHeight,
+      );
+    }
+    queueElement.element = startElement;
+    queueElement.animateArea.push(startElement);
+    const checkBottomNeighbor = ():void => {
+      startElement = (startElement as DrawResultType).neighbors.bottom;
+      if (startElement) {
+        if (startElement.innerElement && !queueElement.emptyCell) {
+          queueElement.element = startElement;
+          queueElement.animateArea = [];
+          queueElement.animateArea.push(startElement);
+        } else if (!startElement.innerElement) {
+          queueElement.emptyCell = startElement;
+          queueElement.animateArea.push(startElement);
+        }
+        checkBottomNeighbor();
+      }
+    };
+    checkBottomNeighbor();
+    if (!queueElement.element || !queueElement.emptyCell) {
+      return false;
+    }
+    return queueElement;
   }
 
   protected clearCombination(buffer:DrawResultType[]):void {
@@ -473,6 +546,18 @@ export default class Field {
     );
   }
 
+  protected clearColumn(index:number):void {
+    if (!this.ctx) {
+      throw new Error('no context init');
+    }
+    this.ctx.clearRect(
+      index !== 0 ? this.cell.width * (index + 1) : 0,
+      0,
+      this.cell.width,
+      this.cell.height * this.height,
+    );
+  }
+
   /**
    * Переотрисовка изображения в ячейке
    */
@@ -487,5 +572,40 @@ export default class Field {
       }
       this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
     };
+  }
+
+  protected reDrawArea(area:DrawResultType[]):void {
+    if (!this.ctx || !this.gameMap) {
+      return;
+    }
+    area.forEach((element) => {
+      const { outerCoordinates } = element;
+      const { x, y } = outerCoordinates;
+      this.cell.setCoordinates(x, y);
+      this.cell.drawCell();
+    });
+    const { innerCoordinates, innerElement } = area[0];
+    if (this.activeImage && innerElement) {
+      const dx = innerCoordinates.x + (this.cell.width - innerElement.dWidth) / 2;
+      const dy = innerCoordinates.y + (this.cell.height - innerElement.dHeight) / 2;
+      this.ctx.drawImage(this.activeImage, dx, dy);
+    }
+  }
+
+  protected reDrawColumn():void {
+    if (!this.ctx || !this.gameMap || typeof this.columnIndex !== 'number') {
+      return;
+    }
+    for (let i = 0; i < this.height; i++) {
+      const { innerElement, outerCoordinates } = this.gameMap[i][this.columnIndex];
+      const { x, y } = outerCoordinates;
+      if (innerElement) {
+        this.cell.setInnerElement(innerElement);
+      } else {
+        this.cell.removeInnerElement();
+      }
+      this.cell.setCoordinates(x, y);
+      this.cell.drawCell();
+    }
   }
 }

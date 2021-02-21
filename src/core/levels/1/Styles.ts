@@ -1,4 +1,4 @@
-import { StyleTypes } from "../../CoreTypes.js";
+import { StyleTypes } from '../../CoreTypes';
 
 export const Styles:StyleTypes = {
   width: 40,

@@ -1,33 +1,38 @@
-import { InnerElementType } from "../../CoreTypes.js";
+import { InnerElementType } from '../../CoreTypes';
+import apple from '../assets/apple.png';
+import banana from '../assets/banana.png';
+import bow from '../assets/bow.png';
+import candy from '../assets/candy.png';
+import raspberries from '../assets/raspberries.png';
 
 export const Elements:InnerElementType[] = [
   {
     type: 'apple',
-    path: './assets/apple.png',
+    path: apple,
     dWidth: 30,
     dHeight: 30,
   },
   {
     type: 'banana',
-    path: './assets/banana.png',
+    path: banana,
     dWidth: 30,
     dHeight: 30,
   },
   {
     type: 'bow',
-    path: './assets/bow.png',
+    path: bow,
     dWidth: 30,
     dHeight: 30,
   },
   {
     type: 'candy',
-    path: './assets/candy.png',
+    path: candy,
     dWidth: 30,
     dHeight: 30,
   },
   {
     type: 'raspberries',
-    path: './assets/raspberries.png',
+    path: raspberries,
     dWidth: 30,
     dHeight: 30,
   },

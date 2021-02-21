@@ -1,6 +1,6 @@
 import {
   CoordinatesType, PaddingType, InnerElementType, StyleTypes, DrawResultType,
-} from './CoreTypes.js';
+} from './CoreTypes';
 
 export default class Cell {
   public width: number;
@@ -64,6 +64,10 @@ export default class Cell {
 
   public setInnerElement(element:InnerElementType):void {
     this.innerElement = element;
+  }
+
+  public removeInnerElement():void {
+    this.innerElement = null;
   }
 
   public setPadding(padding: PaddingType):void {
@@ -173,6 +177,10 @@ export default class Cell {
       innerCoordinates: {
         x: innerX,
         y: innerY,
+      },
+      outerCoordinates: {
+        x,
+        y,
       },
       neighbors: {
         top: null,

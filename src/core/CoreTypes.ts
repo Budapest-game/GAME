@@ -27,10 +27,16 @@ export type StyleTypes = {
 export type DrawResultType = {
   innerElement: InnerElementType|null,
   innerCoordinates: CoordinatesType,
+  outerCoordinates: CoordinatesType,
   neighbors: {
     top: DrawResultType|null,
     right: DrawResultType|null,
     bottom: DrawResultType|null,
     left: DrawResultType|null,
   }
+}
+export type QueueElementType = {
+  element: DrawResultType|null,
+  emptyCell: DrawResultType|null,
+  animateArea: DrawResultType[],
 }
