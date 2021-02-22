@@ -3,8 +3,8 @@
   height: 90px;
   display: inline-flex;
   cursor: pointer;
-  background-color: white;
-  border-bottom: 1px solid var(--bg);
+  background-color: var(--white);
+  border-bottom: 1px solid var(--light);
   align-items: center;
   &-name {
     flex: 1 1 80%;
