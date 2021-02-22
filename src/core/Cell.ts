@@ -28,6 +28,8 @@ export default class Cell {
 
   protected ctx: CanvasRenderingContext2D;
 
+  public images: Record<string, HTMLImageElement> = {};
+
   public constructor(styles:StyleTypes, ctx:CanvasRenderingContext2D) {
     this.width = styles.width;
     this.height = styles.height;
@@ -160,7 +162,9 @@ export default class Cell {
 
     // Если есть картинка, вставляем ее
     if (this.innerElement && !isEmpty) {
-      const { path, dWidth, dHeight } = this.innerElement;
+      const {
+        type, path, dWidth, dHeight,
+      } = this.innerElement;
       if (dWidth > this.width || dHeight > this.height) {
         throw new Error('Inner image is larger than cell');
       }
@@ -169,6 +173,9 @@ export default class Cell {
       const image = new Image(dWidth, dHeight);
       image.src = path;
       image.onload = () => {
+        if (!Object.keys(this.images).includes(type)) {
+          this.images[type] = image;
+        }
         this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
       };
     }

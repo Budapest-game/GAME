@@ -36,9 +36,7 @@ export default class Field {
 
   protected startTime = 0;
 
-  protected animationTime = 1000;
-
-  protected columnIndex: number|null = null;
+  protected animationTime = 100;
 
   protected counter = 0;
 
@@ -251,7 +249,7 @@ export default class Field {
     }
     this.clearRect(clickElement.innerCoordinates.x, clickElement.innerCoordinates.y);
     this.reDrawImage(
-      activeElement.innerElement.path,
+      this.cell.images[activeElement.innerElement.type],
       clickElement.innerCoordinates.x,
       clickElement.innerCoordinates.y,
       activeElement.innerElement.dWidth,
@@ -263,7 +261,7 @@ export default class Field {
     }
     this.clearRect(activeElement.innerCoordinates.x, activeElement.innerCoordinates.y);
     this.reDrawImage(
-      clickElement.innerElement.path,
+      this.cell.images[clickElement.innerElement.type],
       activeElement.innerCoordinates.x,
       activeElement.innerCoordinates.y,
       clickElement.innerElement.dWidth,
@@ -348,32 +346,30 @@ export default class Field {
     const queue = this.fillQueue();
     if (queue.length > 0) {
       queue.forEach((queueElement) => {
-        // this.queueElement = queueElement;
         const startTime = performance.now();
         const { element } = queueElement;
         if (element) {
-          const columnIndex = Math.floor(element.innerCoordinates.x / this.cellWidth);
           const { innerElement } = element;
           if (innerElement) {
             const tempY = element.innerCoordinates.y;
-            const activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
-            activeImage.src = innerElement.path;
-            activeImage.onload = () => {
-              this.animate(activeImage, queueElement, startTime, tempY, columnIndex);
-            };
+            // const activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
+            this.animate(this.cell.images[innerElement.type], queueElement, startTime, tempY);
+            // activeImage.src = innerElement.path;
+            // activeImage.onload = () => {
+            //   this.animate(activeImage, queueElement, startTime, tempY);
+            // };
           }
         }
       });
       setTimeout(() => {
-        console.log(this.gameMap)
         this.updateGameField();
-      }, 1000);
+      }, 300);
     } else {
       this.queueElement = null;
       if (this.watcher()) {
         setTimeout(() => {
-          // this.updateGameField();
-        }, 1000);
+          this.updateGameField();
+        }, 300);
       }
     }
   }
@@ -383,7 +379,6 @@ export default class Field {
     queueElement:QueueElementType,
     startTime:number,
     animateY:number,
-    columnIndex:number,
   ):void {
     if (this.ctx) {
       this.ctx.beginPath();
@@ -403,11 +398,20 @@ export default class Field {
       this.ctx.closePath();
       if (multiply < 1) {
         requestAnimationFrame(() => {
-          this.animate(image, queueElement, startTime, animateY, columnIndex);
+          this.animate(image, queueElement, startTime, animateY);
         });
       } else {
-        // this.reDrawColumn(columnIndex);
         this.switchElementObjects(element, emptyCell);
+        if (emptyCell.innerElement) {
+          this.clearRect(emptyCell.innerCoordinates.x, emptyCell.innerCoordinates.y);
+          this.reDrawImage(
+            image,
+            emptyCell.innerCoordinates.x,
+            emptyCell.innerCoordinates.y,
+            emptyCell.innerElement.dWidth,
+            emptyCell.innerElement.dHeight,
+          );
+        }
       }
     }
   }
@@ -436,8 +440,9 @@ export default class Field {
     if (!startElement.innerElement) {
       startElement.innerElement = randomArrayElement(this.elements);
       queueElement.element = startElement;
+      this.clearRect(startElement.innerCoordinates.x, startElement.innerCoordinates.y);
       this.reDrawImage(
-        startElement.innerElement.path,
+        this.cell.images[startElement.innerElement.type],
         startElement.innerCoordinates.x,
         startElement.innerCoordinates.y,
         startElement.innerElement.dWidth,
@@ -491,10 +496,8 @@ export default class Field {
       this.ctx.fillStyle = this.cell.background ? this.cell.background : '#FFFFFF';
       const { x, y } = element.innerCoordinates;
       this.fillRect(x, y);
-      const {
-        path, dWidth, dHeight,
-      } = element.innerElement;
-      this.reDrawImage(path, x, y, dWidth, dHeight);
+      const { type, dWidth, dHeight } = element.innerElement;
+      this.reDrawImage(this.cell.images[type], x, y, dWidth, dHeight);
     }
   }
 
@@ -509,10 +512,8 @@ export default class Field {
     this.ctx.fillStyle = '#cccccc';
     this.fillRect(x, y);
     if (element.innerElement) {
-      const {
-        path, dWidth, dHeight,
-      } = element.innerElement;
-      this.reDrawImage(path, x, y, dWidth, dHeight);
+      const { type, dWidth, dHeight } = element.innerElement;
+      this.reDrawImage(this.cell.images[type], x, y, dWidth, dHeight);
     }
   }
 
@@ -561,17 +562,18 @@ export default class Field {
   /**
    * Переотрисовка изображения в ячейке
    */
-  protected reDrawImage(path:string, x:number, y:number, dWidth:number, dHeight:number):void {
+  protected reDrawImage(
+    image:HTMLImageElement,
+    x:number, y:number,
+    dWidth:number,
+    dHeight:number,
+  ):void {
     const dx = x + (this.cell.width - dWidth) / 2;
     const dy = y + (this.cell.height - dHeight) / 2;
-    const image = new Image(dWidth, dHeight);
-    image.src = path;
-    image.onload = () => {
-      if (!this.ctx) {
-        throw new Error('no context init');
-      }
-      this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
-    };
+    if (!this.ctx) {
+      throw new Error('no context init');
+    }
+    this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
   }
 
   protected reDrawArea(area:DrawResultType[], image:HTMLImageElement, animateY:number):void {
@@ -587,7 +589,6 @@ export default class Field {
     const { innerCoordinates, innerElement } = area[0];
     if (innerElement) {
       const dx = innerCoordinates.x + (this.cell.width - innerElement.dWidth) / 2;
-      // const dy = innerCoordinates.y + (this.cell.height - innerElement.dHeight) / 2;
       this.ctx.drawImage(image, dx, animateY);
     }
   }
