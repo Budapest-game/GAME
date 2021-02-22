@@ -28,6 +28,7 @@ body {
 h1 {
   color: var(--blue);
   text-align: center;
+
 }
 .app{
   width: 100%;
