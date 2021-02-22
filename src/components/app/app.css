@@ -12,6 +12,8 @@
   --grey: #999;
   --blue: #3369f3;
   --red: #ff2d4e;
+
+  --boxRadius: 5px;
 }
 
 body {
