@@ -6,12 +6,12 @@
   background-color: white;
   border-bottom: 1px solid var(--bg);
   align-items: center;
-}
-.theme-name {
-  flex: 1 1 80%;
-  padding-left: 1em;
-  font-weight: bold;
-}
-.theme-postsCount {
-  flex: 1 1 20%;
+  &-name {
+    flex: 1 1 80%;
+    padding-left: 1em;
+    font-weight: bold;
+  }
+  &-postsCount {
+    flex: 1 1 20%;
+  }
 }

@@ -5,15 +5,17 @@
   border: 1px solid var(--bg);
   border-radius: var(--boxRadius);
   margin: 10px auto;
+   &-header {
+    border-bottom: 1px solid var(--bg);
+     h1 {
+      text-align: left;
+      padding-left: 1em;
+    }
+  }
+  &-themes{
+    width: 100%;
+    margin: 10px 0 10px 0px;
+  }
 }
-.forum-header {
-  border-bottom: 1px solid var(--bg);
-}
-.forum-header h1 {
-  text-align: left;
-  padding-left: 1em;
-}
-.forum-themes{
-  width: 100%;
-  margin: 10px 0 10px 0;
-}
+
+
