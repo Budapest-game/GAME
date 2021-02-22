@@ -16,7 +16,7 @@ afterEach(() => {
 test('Запрос на вход', async () => {
   const data = { login: '', password: '' };
   global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
-  const res = await Authorization.logIn(data);
+  await expect(Authorization.logIn(data)).rejects.toThrow('Unauthorized');
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/signin', {
     method: 'POST',
@@ -27,27 +27,22 @@ test('Запрос на вход', async () => {
     mode: 'cors',
     body: JSON.stringify(data),
   });
-  expect(res.status).toBe(401);
-  expect(res.text).toBe('Unauthorized');
 });
 test('Запрос на вход - JSON в body', async () => {
   global.fetch = mockFetch({ body: '{ "message": "string"}', status: 200, statusText: 'OK' });
   const res = await Authorization.logIn({ login: '', password: '' });
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(res.status).toBe(200);
-  expect(res.text).toBe('OK');
+  expect(res).toBe(true);
 });
 test('Запрос на вход - кривой JSON в body', async () => {
   global.fetch = mockFetch({ body: '{ "messag}', status: 200, statusText: 'OK' });
   const res = await Authorization.logIn({ login: '', password: '' });
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(res.status).toBe(200);
-  expect(res.text).toBe('OK');
-  expect(res.body).toBe('');
+  expect(res).toBe(true);
 });
 test('Запрос на ВЫХОД', async () => {
   global.fetch = mockFetch({ status: 200, statusText: 'OK' });
-  const res = await Authorization.logOut();
+  await Authorization.logOut();
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/logout', {
     method: 'POST',
@@ -57,6 +52,4 @@ test('Запрос на ВЫХОД', async () => {
     },
     mode: 'cors',
   });
-  expect(res.status).toBe(200);
-  expect(res.text).toBe('OK');
 });

@@ -1,0 +1,7 @@
+.authorizationPage {
+  width: 100%;
+  height: 100%;
+}
+.authorizationForm {
+  min-height: 300px;
+}
