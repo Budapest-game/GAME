@@ -1,11 +1,23 @@
+/* eslint max-classes-per-file: 'off' */
+
 import React, { PureComponent } from 'react';
 import { Input } from '../../components/input/input';
 import { Button } from '../../components/button/button';
+
+class WrongComponent extends PureComponent {
+  render() {
+    if (1 > 0) {
+      throw new Error('error');
+    }
+    return '';
+  }
+}
 
 interface ControlsDemoPageState {
   controlledInputValue?: string,
   controlledValidationInputValue?: string,
   error?: string,
+  compError?: boolean,
 }
 
 export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageState> {
@@ -15,6 +27,7 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
       controlledInputValue: 'change me',
       controlledValidationInputValue: '111',
       error: undefined,
+      compError: false,
     };
   }
 
@@ -58,28 +71,31 @@ export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageSta
           type='submit'
           onClick={() => { console.log('clicked'); }}
           text='Submit'
-        >
-        </ Button>
+        />
         <Button
           type='submit'
           text='Disabled'
           onClick={() => { console.log('clicked'); }}
           disabled={true}
-        >
-        </ Button>
+        />
         <Button
           type='reset'
           text='Reset'
           onClick={() => { console.log('clicked'); }}
-        >
-        </ Button>
+        />
         <Button
           type='reset'
           text='Reset'
           className = 'button-error'
           onClick={() => { console.log('clicked'); }}
-        >
-        </ Button>
+        />
+        <Button
+          type='reset'
+          text='Component Error'
+          className = 'button-error'
+          onClick={() => { this.setState({ compError: true }); }}
+        />
+        { this.state.compError ? <WrongComponent/> : '' }
       </div>
     );
   }
