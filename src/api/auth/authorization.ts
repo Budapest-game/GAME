@@ -10,12 +10,20 @@ class Authorization {
     } catch (e) {
       body = '';
     }
-    return { status: resp.status, text: resp.statusText, body };
+    if (resp.status !== 200) {
+      let errorMessage = resp.statusText;
+      if (body && body.reason) errorMessage = body.reason;
+      throw new Error(errorMessage);
+    }
+    return true;
   }
 
   public async logOut() {
     const resp = await ApiBase.post('/auth/logout');
-    return { status: resp.status, text: resp.statusText };
+    if (resp.status !== 200) {
+      throw new Error(resp.statusText);
+    }
+    return true;
   }
 }
 export default new Authorization();
