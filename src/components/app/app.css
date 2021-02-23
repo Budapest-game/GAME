@@ -33,3 +33,7 @@ h1 {
   font-size: 30px;
   margin-bottom: 50px;
 }
+
+li {
+  list-style-type: none;
+}

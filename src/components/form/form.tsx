@@ -99,7 +99,7 @@ export class Form extends PureComponent<Props> {
         <h1>{this.props.formHeader}</h1>
         <form onSubmit={this.onSubmit}>
           {this.renderInputs()}
-          {this.props.error ? <div className={form('error')}><span>{this.props.error}</span></div> : ''}
+          {this.props.error && <div className={form('error')}><span>{this.props.error}</span></div>}
           <div>
             <Button type="submit" text={this.props.submitText}/>
           </div>
