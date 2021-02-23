@@ -1,9 +1,15 @@
 import Cell from './Cell';
 import {
-  InnerElementType, StyleTypes, DrawResultType, QueueElementType,
+  InnerElementType, StyleTypes, DrawResultType,
 } from './CoreTypes';
+import Watcher from './Watcher';
+import Animation from './Animation';
 import { randomArrayElement } from '../utils/randomArrayElement';
 import { findElementIndexByType } from '../utils/findElementIndexByType';
+import {
+  drawImage, clearRect, fillRect,
+} from '../utils/drawImage';
+import { switchInnerElements } from '../utils/switchInnerElements';
 
 export default class Field {
   protected width: number;
@@ -32,13 +38,9 @@ export default class Field {
 
   protected cell: Cell;
 
-  protected queueElement: QueueElementType|null = null;
+  protected watcher: Watcher|undefined;
 
-  protected startTime = 0;
-
-  protected animationTime = 100;
-
-  protected counter = 0;
+  protected animateGenerator: Animation|undefined;
 
   constructor(
     canvas:HTMLCanvasElement,
@@ -74,7 +76,7 @@ export default class Field {
    * Метод по отрисовке игрового поля
    */
   public drawField():DrawResultType[][] {
-    if (!this.cell) {
+    if (!this.cell || !this.ctx) {
       throw new Error('no cell init');
     }
     // результирующий массив игрового поля
@@ -109,6 +111,14 @@ export default class Field {
       }
     }
     // В случае длительной генерации поля возвращаем Промис
+    this.watcher = new Watcher(gameMap, this.ctx, this.cell, this.width, this.height);
+    this.animateGenerator = new Animation(
+      gameMap,
+      this.ctx,
+      this.cell,
+      this.watcher,
+      this.elements,
+    );
     return gameMap;
   }
 
@@ -201,24 +211,26 @@ export default class Field {
               this.gameMap[activeHeightIndex][activeWidthIndex],
               this.gameMap[heightIndex][widthIndex],
             );
-            this.switchElementObjects(
+            switchInnerElements(
               this.gameMap[activeHeightIndex][activeWidthIndex],
               this.gameMap[heightIndex][widthIndex],
             );
             setTimeout(() => {
-              if (!this.watcher() && this.activeElement && this.gameMap) {
+              if (this.watcher && !this.watcher.check() && this.activeElement && this.gameMap) {
                 this.switchElementDraws(
                   this.gameMap[heightIndex][widthIndex],
                   this.gameMap[activeHeightIndex][activeWidthIndex],
                 );
-                this.switchElementObjects(
+                switchInnerElements(
                   this.gameMap[activeHeightIndex][activeWidthIndex],
                   this.gameMap[heightIndex][widthIndex],
                 );
               }
-              this.updateGameField();
+              if (this.animateGenerator) {
+                this.animateGenerator.updateGameField();
+              }
               this.activeElement = null;
-            }, 300);
+            }, 200);
           } else {
             this.deactivateElement(this.gameMap[activeHeightIndex][activeWidthIndex]);
             this.activateElement(this.gameMap[heightIndex][widthIndex]);
@@ -232,26 +244,24 @@ export default class Field {
     });
   }
 
-  protected switchElementObjects(element1:DrawResultType, element2:DrawResultType):void {
-    const temp = element1.innerElement;
-    const tempElement1 = element1;
-    const tempElement2 = element2;
-    tempElement1.innerElement = element2.innerElement;
-    tempElement2.innerElement = temp;
-  }
-
   /**
    * Алгоритм перестановки элементов
    */
   protected switchElementDraws(activeElement:DrawResultType, clickElement:DrawResultType):void {
-    if (!activeElement.innerElement) {
+    if (!activeElement.innerElement || !this.ctx) {
       return;
     }
-    this.clearRect(clickElement.innerCoordinates.x, clickElement.innerCoordinates.y);
-    this.reDrawImage(
-      this.cell.images[activeElement.innerElement.type],
+    clearRect(
+      this.ctx,
+      this.cell,
       clickElement.innerCoordinates.x,
       clickElement.innerCoordinates.y,
+    );
+    drawImage(
+      this.ctx,
+      this.cell.images[activeElement.innerElement.type],
+      clickElement.innerCoordinates.x + (this.cell.width - activeElement.innerElement.dWidth) / 2,
+      clickElement.innerCoordinates.y + (this.cell.height - activeElement.innerElement.dHeight) / 2,
       activeElement.innerElement.dWidth,
       activeElement.innerElement.dHeight,
     );
@@ -259,230 +269,20 @@ export default class Field {
     if (!clickElement.innerElement) {
       return;
     }
-    this.clearRect(activeElement.innerCoordinates.x, activeElement.innerCoordinates.y);
-    this.reDrawImage(
-      this.cell.images[clickElement.innerElement.type],
+    clearRect(
+      this.ctx,
+      this.cell,
       activeElement.innerCoordinates.x,
       activeElement.innerCoordinates.y,
+    );
+    drawImage(
+      this.ctx,
+      this.cell.images[clickElement.innerElement.type],
+      activeElement.innerCoordinates.x + (this.cell.width - clickElement.innerElement.dWidth) / 2,
+      activeElement.innerCoordinates.y + (this.cell.height - clickElement.innerElement.dHeight) / 2,
       clickElement.innerElement.dWidth,
       clickElement.innerElement.dHeight,
     );
-  }
-
-  protected watcher():boolean {
-    let buffer:DrawResultType[];
-    if (!this.gameMap) {
-      return false;
-    }
-    let isCombine = false;
-    for (let h = 0; h < this.height; h++) {
-      const startElement = this.gameMap[h][0];
-      buffer = [];
-      buffer.push(startElement);
-      if (this.rightMove(buffer, this.gameMap[h][1], false)) {
-        isCombine = true;
-      }
-    }
-    for (let w = 0; w < this.width; w++) {
-      const startElement = this.gameMap[0][w];
-      buffer = [];
-      buffer.push(startElement);
-      if (this.bottomMove(buffer, this.gameMap[1][w], false)) {
-        isCombine = true;
-      }
-    }
-    return isCombine;
-  }
-
-  protected rightMove(buffer:DrawResultType[], element:DrawResultType, combine = false):boolean {
-    const leftNeighbor = element.neighbors.left;
-    let tempBuffer = buffer;
-    let isCombine = combine;
-    if (leftNeighbor) {
-      if (element.innerElement?.type !== leftNeighbor.innerElement?.type) {
-        if (tempBuffer.length > 2) {
-          this.clearCombination(tempBuffer);
-          isCombine = true;
-        }
-        tempBuffer = [];
-      }
-      tempBuffer.push(element);
-      if (element.neighbors.right) {
-        return this.rightMove(tempBuffer, element.neighbors.right, isCombine);
-      }
-      if (!element.neighbors.right && tempBuffer.length > 2) {
-        this.clearCombination(tempBuffer);
-        isCombine = true;
-      }
-    }
-    return isCombine;
-  }
-
-  protected bottomMove(buffer:DrawResultType[], element:DrawResultType, combine = false):boolean {
-    const topNeighbor = element.neighbors.top;
-    let tempBuffer = buffer;
-    let isCombine = combine;
-    if (topNeighbor) {
-      if (element.innerElement?.type !== topNeighbor.innerElement?.type) {
-        if (tempBuffer.length > 2) {
-          this.clearCombination(tempBuffer);
-          isCombine = true;
-        }
-        tempBuffer = [];
-      }
-      tempBuffer.push(element);
-      if (element.neighbors.bottom) {
-        return this.bottomMove(tempBuffer, element.neighbors.bottom, isCombine);
-      }
-      if (!element.neighbors.bottom && tempBuffer.length > 2) {
-        this.clearCombination(tempBuffer);
-        isCombine = true;
-      }
-    }
-    return isCombine;
-  }
-
-  protected updateGameField():void {
-    const queue = this.fillQueue();
-    if (queue.length > 0) {
-      queue.forEach((queueElement) => {
-        const startTime = performance.now();
-        const { element } = queueElement;
-        if (element) {
-          const { innerElement } = element;
-          if (innerElement) {
-            const tempY = element.innerCoordinates.y;
-            // const activeImage = new Image(innerElement.dWidth, innerElement.dHeight);
-            this.animate(this.cell.images[innerElement.type], queueElement, startTime, tempY);
-            // activeImage.src = innerElement.path;
-            // activeImage.onload = () => {
-            //   this.animate(activeImage, queueElement, startTime, tempY);
-            // };
-          }
-        }
-      });
-      setTimeout(() => {
-        this.updateGameField();
-      }, 300);
-    } else {
-      this.queueElement = null;
-      if (this.watcher()) {
-        setTimeout(() => {
-          this.updateGameField();
-        }, 300);
-      }
-    }
-  }
-
-  protected animate(
-    image:HTMLImageElement,
-    queueElement:QueueElementType,
-    startTime:number,
-    animateY:number,
-  ):void {
-    if (this.ctx) {
-      this.ctx.beginPath();
-      const time = performance.now();
-      const shiftTime = time - startTime;
-      const multiply = shiftTime / this.animationTime;
-      const { element, emptyCell } = queueElement;
-      if (!element || !emptyCell) {
-        return;
-      }
-      let tempY = animateY;
-      tempY += (
-        emptyCell.innerCoordinates.y
-        - element.innerCoordinates.y
-      ) * multiply;
-      this.reDrawArea(queueElement.animateArea, image, tempY);
-      this.ctx.closePath();
-      if (multiply < 1) {
-        requestAnimationFrame(() => {
-          this.animate(image, queueElement, startTime, animateY);
-        });
-      } else {
-        this.switchElementObjects(element, emptyCell);
-        if (emptyCell.innerElement) {
-          this.clearRect(emptyCell.innerCoordinates.x, emptyCell.innerCoordinates.y);
-          this.reDrawImage(
-            image,
-            emptyCell.innerCoordinates.x,
-            emptyCell.innerCoordinates.y,
-            emptyCell.innerElement.dWidth,
-            emptyCell.innerElement.dHeight,
-          );
-        }
-      }
-    }
-  }
-
-  protected fillQueue():QueueElementType[] {
-    const queue = [];
-    for (let w = 0; w < this.width; w++) {
-      const queueElement = this.checkColumn(w);
-      if (typeof queueElement !== 'boolean') {
-        queue.push(queueElement);
-      }
-    }
-    return queue;
-  }
-
-  protected checkColumn(w:number):boolean|QueueElementType {
-    if (!this.gameMap) {
-      return false;
-    }
-    let startElement:DrawResultType|null = this.gameMap[0][w];
-    const queueElement:QueueElementType = {
-      element: null,
-      emptyCell: null,
-      animateArea: [],
-    };
-    if (!startElement.innerElement) {
-      startElement.innerElement = randomArrayElement(this.elements);
-      queueElement.element = startElement;
-      this.clearRect(startElement.innerCoordinates.x, startElement.innerCoordinates.y);
-      this.reDrawImage(
-        this.cell.images[startElement.innerElement.type],
-        startElement.innerCoordinates.x,
-        startElement.innerCoordinates.y,
-        startElement.innerElement.dWidth,
-        startElement.innerElement.dHeight,
-      );
-    }
-    queueElement.element = startElement;
-    queueElement.animateArea.push(startElement);
-    const checkBottomNeighbor = ():void => {
-      startElement = (startElement as DrawResultType).neighbors.bottom;
-      if (startElement) {
-        if (startElement.innerElement && !queueElement.emptyCell) {
-          queueElement.element = startElement;
-          queueElement.animateArea = [];
-          queueElement.animateArea.push(startElement);
-        } else if (!startElement.innerElement) {
-          queueElement.emptyCell = startElement;
-          queueElement.animateArea.push(startElement);
-        }
-        checkBottomNeighbor();
-      }
-    };
-    checkBottomNeighbor();
-    if (!queueElement.element || !queueElement.emptyCell) {
-      return false;
-    }
-    return queueElement;
-  }
-
-  protected clearCombination(buffer:DrawResultType[]):void {
-    buffer.forEach((element) => {
-      if (!this.gameMap) {
-        return;
-      }
-      const { x, y } = element.innerCoordinates;
-      this.clearRect(x, y);
-      const widthIndex = Math.floor(x / this.cellWidth);
-      const heightIndex = Math.floor(y / this.cellHeight);
-      this.gameMap[heightIndex][widthIndex].innerElement = null;
-    });
   }
 
   /**
@@ -495,9 +295,16 @@ export default class Field {
       }
       this.ctx.fillStyle = this.cell.background ? this.cell.background : '#FFFFFF';
       const { x, y } = element.innerCoordinates;
-      this.fillRect(x, y);
+      fillRect(this.ctx, this.cell, x, y);
       const { type, dWidth, dHeight } = element.innerElement;
-      this.reDrawImage(this.cell.images[type], x, y, dWidth, dHeight);
+      drawImage(
+        this.ctx,
+        this.cell.images[type],
+        x + (this.cell.width - dWidth) / 2,
+        y + (this.cell.height - dHeight) / 2,
+        dWidth,
+        dHeight,
+      );
     }
   }
 
@@ -510,103 +317,17 @@ export default class Field {
     }
     const { x, y } = element.innerCoordinates;
     this.ctx.fillStyle = '#cccccc';
-    this.fillRect(x, y);
+    fillRect(this.ctx, this.cell, x, y);
     if (element.innerElement) {
       const { type, dWidth, dHeight } = element.innerElement;
-      this.reDrawImage(this.cell.images[type], x, y, dWidth, dHeight);
-    }
-  }
-
-  /**
-   * Очищаем квадрат по заданным параметрам
-   */
-  protected clearRect(x:number, y:number):void {
-    if (!this.ctx) {
-      throw new Error('no context init');
-    }
-    this.ctx.clearRect(
-      x,
-      y,
-      this.cell.width,
-      this.cell.height,
-    );
-  }
-
-  /**
-   * Заполняем цветом квадрат заданных параметров
-   */
-  protected fillRect(x:number, y:number):void {
-    if (!this.ctx) {
-      throw new Error('no context init');
-    }
-    this.ctx.fillRect(
-      x,
-      y,
-      this.cell.width,
-      this.cell.height,
-    );
-  }
-
-  protected clearColumn(index:number):void {
-    if (!this.ctx) {
-      throw new Error('no context init');
-    }
-    this.ctx.clearRect(
-      index !== 0 ? this.cell.width * (index + 1) : 0,
-      0,
-      this.cell.width,
-      this.cell.height * this.height,
-    );
-  }
-
-  /**
-   * Переотрисовка изображения в ячейке
-   */
-  protected reDrawImage(
-    image:HTMLImageElement,
-    x:number, y:number,
-    dWidth:number,
-    dHeight:number,
-  ):void {
-    const dx = x + (this.cell.width - dWidth) / 2;
-    const dy = y + (this.cell.height - dHeight) / 2;
-    if (!this.ctx) {
-      throw new Error('no context init');
-    }
-    this.ctx.drawImage(image, dx, dy, dWidth, dHeight);
-  }
-
-  protected reDrawArea(area:DrawResultType[], image:HTMLImageElement, animateY:number):void {
-    if (!this.ctx || !this.gameMap) {
-      return;
-    }
-    area.forEach((element) => {
-      const { outerCoordinates } = element;
-      const { x, y } = outerCoordinates;
-      this.cell.setCoordinates(x, y);
-      this.cell.drawCell(true);
-    });
-    const { innerCoordinates, innerElement } = area[0];
-    if (innerElement) {
-      const dx = innerCoordinates.x + (this.cell.width - innerElement.dWidth) / 2;
-      this.ctx.drawImage(image, dx, animateY);
-    }
-  }
-
-  protected reDrawColumn(index:number):void {
-    if (!this.ctx || !this.gameMap) {
-      return;
-    }
-    for (let i = 0; i < this.height; i++) {
-      const { innerElement, outerCoordinates } = this.gameMap[i][index];
-      const { x, y } = outerCoordinates;
-      if (innerElement) {
-        this.cell.setInnerElement(innerElement);
-      } else {
-        this.cell.removeInnerElement();
-      }
-      this.cell.setCoordinates(x, y);
-      this.cell.drawCell();
+      drawImage(
+        this.ctx,
+        this.cell.images[type],
+        x + (this.cell.width - dWidth) / 2,
+        y + (this.cell.height - dHeight) / 2,
+        dWidth,
+        dHeight,
+      );
     }
   }
 }
