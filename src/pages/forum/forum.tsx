@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { SingleForum } from '../../components/forum/singleForum';
+import { Thread } from '../../components/thread/forum';
 import './forum.css';
 
 const forumsInfo = [
@@ -40,9 +40,9 @@ const forumsInfo = [
 ];
 export class Forum extends PureComponent {
   render(): JSX.Element {
-    const forums = forumsInfo.map((f, i) => { return <SingleForum {...f} key={i}/>; });
+    const forums = forumsInfo.map((f, i) => { return <Thread {...f} key={i}/>; });
     return <div className="forumPage">
-      {...forums}
+      {forums}
     </div>;
   }
 }

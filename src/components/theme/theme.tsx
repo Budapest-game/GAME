@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
-import numbersEnds from '../../../utils/numbersEnds';
+import numbersEnds from '../../utils/numbersEnds';
 import './theme.css';
 
 export interface ThemeInfo {
