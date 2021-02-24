@@ -6,10 +6,10 @@ import { Button } from '../button/button';
 import './form.css';
 
 interface Props {
-  formHeader:string
+  formHeader: string
   inputsInfo: FormInput[]
   submitText: string
-  redirLinkInfo:{
+  redirLinkInfo: {
     text: string,
     href: string
   }
@@ -17,11 +17,11 @@ interface Props {
   submit: (data: Record<string, string>) => void,
   error: null | string,
 }
-interface FormInput extends InputProps{
+interface FormInput extends InputProps {
   validate: string[];
   name: string;
 }
-interface InputState{
+interface InputState {
   value: string,
   isValid: boolean,
   errorMessage:string
@@ -99,13 +99,13 @@ export class Form extends PureComponent<Props> {
         <h1>{this.props.formHeader}</h1>
         <form onSubmit={this.onSubmit}>
           {this.renderInputs()}
-           {this.props.error ? <div className={form('error')}><span>{this.props.error}</span></div> : ''}
+          {this.props.error && <div className={form('error')}><span>{this.props.error}</span></div>}
           <div>
             <Button type="submit" text={this.props.submitText}/>
           </div>
           <p>
             <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>
-        </p>
+          </p>
         </form>
       </div>
     );

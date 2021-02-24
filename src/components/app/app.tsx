@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './app.css';
 import { Navigation } from '../navigation/navigation';
-import { Authorization } from '../../pages/authorization/authorization';
+import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration/registration';
 import { Game } from '../../pages/game/game';
 import { Leaderboard } from '../../pages/leaderboard/leaderboard';
 import { Forum } from '../../pages/forum/forum';
 import { Profile } from '../../pages/profile/profile';
+import ChangePassword from '../../pages/changePassword/changePassword';
+import ChangeData from '../../pages/changeData/changeData';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemoPage } from '../../pages/controlsDemoPage/controlsDemoPage';
@@ -38,6 +40,12 @@ export default class App extends PureComponent {
               </Route>
               <Route path="/profile">
                 <Profile />
+              </Route>
+              <Route path="/changePassword">
+                <ChangePassword />
+              </Route>
+              <Route path="/changeData">
+                <ChangeData />
               </Route>
               <Route path="/page404">
                 <Page404 />
