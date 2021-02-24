@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Thread } from '../../components/thread/forum';
+import { Thread } from '../../components/thread/thread';
 import './forum.css';
 
 const forumsInfo = [

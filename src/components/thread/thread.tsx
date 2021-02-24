@@ -3,12 +3,12 @@ import { cn } from '@bem-react/classname';
 import { Theme, ThemeInfo } from '../theme/theme';
 import './thread.css';
 
-interface ForumInfo {
+interface ThreadInfo {
   name : string,
   themes: ThemeInfo[]
 }
 
-export function Thread(info: ForumInfo): JSX.Element {
+export function Thread(info: ThreadInfo): JSX.Element {
   const Cls = cn('forum');
   const themes = info.themes.map((t, i) => { return <Theme {...t} key={i}/>; });
   return <div className={Cls()}>
