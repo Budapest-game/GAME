@@ -2,7 +2,7 @@ import Cell from './Cell';
 import {
   InnerElementType, StyleTypes, DrawResultType,
 } from './CoreTypes';
-import Watcher from './Watcher';
+import CombinationWatcher from './CombinationWatcher';
 import Animation from './Animation';
 import { randomArrayElement } from '../utils/randomArrayElement';
 import { findElementIndexByType } from '../utils/findElementIndexByType';
@@ -38,7 +38,7 @@ export default class Field {
 
   protected cell: Cell;
 
-  protected watcher: Watcher|undefined;
+  protected watcher: CombinationWatcher|undefined;
 
   protected animateGenerator: Animation|undefined;
 
@@ -48,7 +48,6 @@ export default class Field {
     height:number,
     elements:InnerElementType[],
     style:StyleTypes,
-    block:HTMLElement,
   ) {
     this.width = width;
     this.height = height;
@@ -56,15 +55,15 @@ export default class Field {
     this.fieldStyle = style;
 
     this.canvas = canvas;
-    this.canvas.width = 1000;
-    this.canvas.height = 1000;
-    block.append(this.canvas);
+
     this.ctx = this.canvas.getContext('2d');
     if (!this.ctx) {
       throw new Error('no context init');
     }
     this.cell = new Cell(this.fieldStyle, this.ctx);
     const { sellWidth, cellHeight } = this.cell.getFullSize();
+    this.canvas.width = sellWidth * this.width;
+    this.canvas.height = cellHeight * this.height;
     this.cellWidth = sellWidth;
     this.cellHeight = cellHeight;
     this.fieldWidth = sellWidth * this.width;
@@ -111,7 +110,7 @@ export default class Field {
       }
     }
     // В случае длительной генерации поля возвращаем Промис
-    this.watcher = new Watcher(gameMap, this.ctx, this.cell, this.width, this.height);
+    this.watcher = new CombinationWatcher(gameMap, this.ctx, this.cell, this.width, this.height);
     this.animateGenerator = new Animation(
       gameMap,
       this.ctx,
@@ -193,37 +192,44 @@ export default class Field {
         if (!this.gameMap) {
           return;
         }
+        const clickElement = this.gameMap[heightIndex][widthIndex];
         if (this.activeElement) {
           const { x, y } = this.activeElement.innerCoordinates;
           const activeWidthIndex = Math.floor(x / this.cellWidth);
           const activeHeightIndex = Math.floor(y / this.cellHeight);
+          const activeElement = this.gameMap[activeHeightIndex][activeWidthIndex];
           if (
             (
               (widthIndex - 1 === activeWidthIndex || widthIndex + 1 === activeWidthIndex)
-            && (heightIndex === activeHeightIndex || heightIndex === activeHeightIndex)
+            && heightIndex === activeHeightIndex
             )
             || (
               (heightIndex - 1 === activeHeightIndex || heightIndex + 1 === activeHeightIndex)
-            && (widthIndex === activeWidthIndex || widthIndex === activeWidthIndex)
+            && widthIndex === activeWidthIndex
             )
           ) {
             this.switchElementDraws(
-              this.gameMap[activeHeightIndex][activeWidthIndex],
-              this.gameMap[heightIndex][widthIndex],
+              activeElement,
+              clickElement,
             );
             switchInnerElements(
-              this.gameMap[activeHeightIndex][activeWidthIndex],
-              this.gameMap[heightIndex][widthIndex],
+              activeElement,
+              clickElement,
             );
             setTimeout(() => {
-              if (this.watcher && !this.watcher.check() && this.activeElement && this.gameMap) {
+              if (
+                this.watcher
+                && !this.watcher.checkCombination()
+                && this.activeElement
+                && this.gameMap
+              ) {
                 this.switchElementDraws(
-                  this.gameMap[heightIndex][widthIndex],
-                  this.gameMap[activeHeightIndex][activeWidthIndex],
+                  clickElement,
+                  activeElement,
                 );
                 switchInnerElements(
-                  this.gameMap[activeHeightIndex][activeWidthIndex],
-                  this.gameMap[heightIndex][widthIndex],
+                  activeElement,
+                  clickElement,
                 );
               }
               if (this.animateGenerator) {
@@ -232,13 +238,13 @@ export default class Field {
               this.activeElement = null;
             }, 200);
           } else {
-            this.deactivateElement(this.gameMap[activeHeightIndex][activeWidthIndex]);
-            this.activateElement(this.gameMap[heightIndex][widthIndex]);
-            this.activeElement = this.gameMap[heightIndex][widthIndex];
+            this.deactivateElement(activeElement);
+            this.activateElement(clickElement);
+            this.activeElement = clickElement;
           }
         } else {
-          this.activateElement(this.gameMap[heightIndex][widthIndex]);
-          this.activeElement = this.gameMap[heightIndex][widthIndex];
+          this.activateElement(clickElement);
+          this.activeElement = clickElement;
         }
       }
     });

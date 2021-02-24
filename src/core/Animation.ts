@@ -3,7 +3,7 @@ import Cell from './Cell';
 import { clearRect, drawImage, reDrawArea } from '../utils/drawImage';
 import { randomArrayElement } from '../utils/randomArrayElement';
 import { switchInnerElements } from '../utils/switchInnerElements';
-import Watcher from './Watcher';
+import CombinationWatcher from './CombinationWatcher';
 
 export default class Animation {
   protected gameMap: DrawResultType[][] = [];
@@ -12,7 +12,7 @@ export default class Animation {
 
   protected cell: Cell;
 
-  protected watcher: Watcher;
+  protected watcher: CombinationWatcher;
 
   protected elements: InnerElementType[];
 
@@ -24,7 +24,7 @@ export default class Animation {
     gameMap:DrawResultType[][],
     ctx: CanvasRenderingContext2D,
     cell:Cell,
-    watcher:Watcher,
+    watcher:CombinationWatcher,
     gameElements:InnerElementType[],
   ) {
     this.gameMap = gameMap;
@@ -52,7 +52,7 @@ export default class Animation {
       setTimeout(() => {
         this.updateGameField();
       }, 300);
-    } else if (this.watcher.check()) {
+    } else if (this.watcher.checkCombination()) {
       setTimeout(() => {
         this.updateGameField();
       }, 300);
@@ -81,9 +81,11 @@ export default class Animation {
     reDrawArea(this.ctx, this.cell, queueElement.animateArea, image, tempY);
     this.ctx.closePath();
     if (multiply < 1) {
-      requestAnimationFrame(() => {
-        this.animate(image, queueElement, startTime, animateY);
-      });
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          this.animate(image, queueElement, startTime, animateY);
+        });
+      }, 1000 / 60);
     } else {
       switchInnerElements(element, emptyCell);
       if (emptyCell.innerElement) {

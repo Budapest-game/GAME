@@ -2,7 +2,7 @@ import { DrawResultType } from './CoreTypes';
 import { clearRect } from '../utils/drawImage';
 import Cell from './Cell';
 
-export default class Watcher {
+export default class CombinationWatcher {
   protected gameMap: DrawResultType[][] = [];
 
   protected ctx: CanvasRenderingContext2D;
@@ -27,7 +27,7 @@ export default class Watcher {
     this.cell = cell;
   }
 
-  public check():boolean {
+  public checkCombination():boolean {
     let buffer:DrawResultType[];
     let isCombine = false;
     for (let h = 0; h < this.height; h++) {

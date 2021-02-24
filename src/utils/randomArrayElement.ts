@@ -1,4 +1,4 @@
-import { InnerElementType } from "../core/CoreTypes.js";
+import { InnerElementType } from '../core/CoreTypes';
 /**
  * Метод возвращает случайный элемент массива
  * @param array

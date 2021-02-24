@@ -1,4 +1,4 @@
-import { InnerElementType } from "../core/CoreTypes.js";
+import { InnerElementType } from '../core/CoreTypes';
 
 /**
  * Метод возвращает индекс массива внутренний игровых элементов
