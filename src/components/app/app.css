@@ -13,6 +13,8 @@
   --blue: #3369f3;
   --red: #ff2d4e;
   --pink: pink;
+
+  --boxRadius: 5px;
 }
 
 body {

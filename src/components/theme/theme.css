@@ -1,0 +1,17 @@
+.theme {
+  width: 100%;
+  height: 90px;
+  display: inline-flex;
+  cursor: pointer;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--light);
+  align-items: center;
+  &-name {
+    flex: 1 1 80%;
+    padding-left: 1em;
+    font-weight: bold;
+  }
+  &-postsCount {
+    flex: 1 1 20%;
+  }
+}
