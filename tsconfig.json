@@ -15,7 +15,7 @@
     "lib": ["es2016","DOM"],
     "jsx": "react",
     "typeRoots": ["typings/**/*.d.ts", "node_modules/@types", "src/types.d.ts"],
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*",
