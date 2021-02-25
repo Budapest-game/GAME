@@ -1,5 +1,8 @@
 import { BASE_API_URL } from './constants';
-import { RegistrationData, AuthorizationData } from './types';
+import {
+  RegistrationData, AuthorizationData,
+  UserPassUpdateData, UserInfoUpdateData,
+} from './types';
 
 enum METHODS {
   GET = 'GET',
@@ -23,6 +26,7 @@ const JSON_HEADERS = {
   },
 };
 type postData = RegistrationData | AuthorizationData;
+type putData = UserPassUpdateData | UserInfoUpdateData
 class ApiBase {
   public post(url:string, data?:postData) {
     const settings: RequestInit = {
@@ -31,6 +35,33 @@ class ApiBase {
       ...DEFAULTS,
     };
     if (data) settings.body = JSON.stringify(data);
+    return fetch(`${BASE_API_URL}${url}`, settings);
+  }
+
+  public get(url:string) {
+    const settings: RequestInit = {
+      method: METHODS.GET,
+      ...DEFAULTS,
+    };
+    return fetch(`${BASE_API_URL}${url}`, settings);
+  }
+
+  public put(url: string, data: putData) {
+    const settings: RequestInit = {
+      method: METHODS.PUT,
+      ...JSON_HEADERS,
+      ...DEFAULTS,
+      body: JSON.stringify(data),
+    };
+    return fetch(`${BASE_API_URL}${url}`, settings);
+  }
+
+  public putFile(url: string, data: FormData) {
+    const settings: RequestInit = {
+      method: METHODS.PUT,
+      ...DEFAULTS,
+      body: data,
+    };
     return fetch(`${BASE_API_URL}${url}`, settings);
   }
 }
