@@ -1,6 +1,5 @@
 import { BASE_API_URL } from './constants';
-import { RegistrationData } from './types';
-
+import { RegistrationData, AuthorizationData } from './types';
 
 enum METHODS {
   GET = 'GET',
@@ -23,15 +22,15 @@ const JSON_HEADERS = {
     'Content-Type': 'application/json',
   },
 };
-
+type postData = RegistrationData | AuthorizationData;
 class ApiBase {
-  public post(url:string, data:RegistrationData) {
+  public post(url:string, data?:postData) {
     const settings: RequestInit = {
       method: METHODS.POST,
       ...JSON_HEADERS,
       ...DEFAULTS,
-      body: JSON.stringify(data),
     };
+    if (data) settings.body = JSON.stringify(data);
     return fetch(`${BASE_API_URL}${url}`, settings);
   }
 }

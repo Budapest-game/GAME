@@ -8,7 +8,8 @@
     "lint-fix": "eslint ./src/ --ext=.tsx --ext=.ts --fix",
     "test": "jest",
     "webpack": "webpack --config ./webpack.config.js",
-    "start": "webpack serve --mode development --open --hot"
+    "start": "webpack serve --mode development --open --hot",
+    "start-heroku": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/Budapest-game/GAME#readme",
   "dependencies": {
+    "@bem-react/classname": "^1.5.9",
     "express": "^4.17.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -51,8 +53,9 @@
     "eslint-plugin-react": "^7.22.0",
     "html-webpack-plugin": "^5.0.0",
     "jest": "^26.6.3",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.6",
     "postcss-loader": "^5.0.0",
+    "postcss-nested": "^5.0.3",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.14",
