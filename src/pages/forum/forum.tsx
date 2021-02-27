@@ -16,7 +16,7 @@ export class Forum extends PureComponent<ForumProps> {
 
   render(): JSX.Element {
     if (this.props.isLoading) {
-      return <>Loading</>;
+      return <>Loading...</>;
     }
 
     const forums = this.props.forumInfo.map((f, i) => { return <ForumSection {...f} key={i}/>; });
