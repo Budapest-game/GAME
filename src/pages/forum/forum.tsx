@@ -1,46 +1,25 @@
 import React, { PureComponent } from 'react';
-import { Thread } from '../../components/thread/thread';
+import { ForumSection } from '../../components/forum-section/forum-section';
+import { ForumInfo } from '../../store/actionCreators/forum';
 import './forum.css';
 
-const forumsInfo = [
-  {
-    name: 'Фидбек',
-    themes: [
-      {
-        name: 'Тема 1',
-        postsCount: 40,
-      },
-      {
-        name: 'Тема 2',
-        postsCount: 32,
-      },
-      {
-        name: 'Тема 3',
-        postsCount: 2,
-      },
-    ],
-  },
-  {
-    name: 'Фидбек2',
-    themes: [
-      {
-        name: 'Тема 1',
-        postsCount: 0,
-      },
-      {
-        name: 'Тема 2',
-        postsCount: 32,
-      },
-      {
-        name: 'Тема 3',
-        postsCount: 1,
-      },
-    ],
-  },
-];
-export class Forum extends PureComponent {
+export interface ForumProps {
+  isLoading: boolean;
+  forumInfo: ForumInfo[];
+  fetchData: (/* url: string */) => void;
+}
+
+export class Forum extends PureComponent<ForumProps> {
+  componentDidMount() {
+    this.props.fetchData();
+  }
+
   render(): JSX.Element {
-    const forums = forumsInfo.map((f, i) => { return <Thread {...f} key={i}/>; });
+    if (this.props.isLoading) {
+      return <>Loading</>;
+    }
+
+    const forums = this.props.forumInfo.map((f, i) => { return <ForumSection {...f} key={i}/>; });
     return <div className="forumPage">
       {forums}
     </div>;

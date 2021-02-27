@@ -1,13 +1,10 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
+import { ForumThemeInfo } from '../../store/actionCreators/forum';
 import numbersEnds from '../../utils/numbersEnds';
-import './theme.css';
+import './forum-theme.css';
 
-export interface ThemeInfo {
-  name: string,
-  postsCount: number,
-}
-export function Theme(info:ThemeInfo): JSX.Element {
+export function ForumTheme(info: ForumThemeInfo): JSX.Element {
   const Cls = cn('theme');
   const endCases = ['Ответ', 'Ответа', 'Ответов'];
   return <div className={Cls()}>
