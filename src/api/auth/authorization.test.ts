@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '../constants';
 import Authorization from './authorization';
 
 function mockFetch(data) {
@@ -13,12 +14,12 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('Запрос на вход', async () => {
+test('Отказ во входе с пустым логином и паролем ', async () => {
   const data = { login: '', password: '' };
-  global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
+  global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized', body: '' });
   await expect(Authorization.logIn(data)).rejects.toThrow('Unauthorized');
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/signin', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/signin`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -28,23 +29,18 @@ test('Запрос на вход', async () => {
     body: JSON.stringify(data),
   });
 });
-test('Запрос на вход - JSON в body', async () => {
+test('Успешный вход ответ 200', async () => {
   global.fetch = mockFetch({ body: '{ "message": "string"}', status: 200, statusText: 'OK' });
   const res = await Authorization.logIn({ login: '', password: '' });
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(res).toBe(true);
 });
-test('Запрос на вход - кривой JSON в body', async () => {
-  global.fetch = mockFetch({ body: '{ "messag}', status: 200, statusText: 'OK' });
-  const res = await Authorization.logIn({ login: '', password: '' });
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(res).toBe(true);
-});
-test('Запрос на ВЫХОД', async () => {
-  global.fetch = mockFetch({ status: 200, statusText: 'OK' });
+
+test('Успешный выход', async () => {
+  global.fetch = mockFetch({ status: 200, statusText: 'OK', body: '' });
   await Authorization.logOut();
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/logout', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/logout`, {
     method: 'POST',
     credentials: 'include',
     headers: {

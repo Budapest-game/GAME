@@ -23,7 +23,7 @@ export default class App extends PureComponent {
           <Navigation />
           <div>
             <Switch>
-            <Route path="/authorization">
+              <Route path="/authorization">
                 <Authorization />
               </Route>
               <Route path="/registration">
