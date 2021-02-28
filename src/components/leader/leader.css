@@ -13,7 +13,7 @@
    left: 15%;
    border-top: 1px solid #dcdcdc;
  }
- .leader>div {
+ .leader > div {
   display: flex;
   justify-content: center;
   align-items: center;

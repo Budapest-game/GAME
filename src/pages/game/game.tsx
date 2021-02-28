@@ -33,9 +33,9 @@ export class Game extends PureComponent {
             <div id="gameField">
                 <h1>Игра</h1>
                 <div className="game-map-wrapper">
-                  <div className="game-map-wrapper__left-sidebar"></div>
+                  <div className="game-map-wrapper__left-sidebar" />
                   <canvas className="game-map-wrapper__main" ref={this.refCanvas}/>
-                  <div className="game-map-wrapper__right-sidebar"></div>
+                  <div className="game-map-wrapper__right-sidebar" />
                 </div>
             </div>
     );
