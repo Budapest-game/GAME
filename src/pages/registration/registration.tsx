@@ -16,7 +16,7 @@ class Registration extends PureComponent<RegistrationState> {
 
   redirectToGame = () => {
     const { history } = this.props;
-    if (history) history.push('/game');
+    history.push('/game');
   }
 
   regRequest = (data: Record<string, string>):void => {

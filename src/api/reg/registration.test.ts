@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '../constants';
 import Registration from './registration';
 
 function mockFetch(data) {
@@ -13,20 +14,32 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('Регистрация', async () => {
+test('Неудачная регистрация с пустыми логином и паролем', async () => {
   const data = { login: '', password: '' };
-  global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
+  global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized', body: '' });
   await expect(Registration.create(data)).rejects.toThrow('Unauthorized');
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/signup`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+    body: JSON.stringify(data),
+  });
 });
-test('Регистрация -  в body валидный JSON', async () => {
+test('Успешная регистрация ', async () => {
   const data = { login: '', password: '' };
   global.fetch = mockFetch({ body: '{ "message": "string"}', status: 200, statusText: 'OK' });
   const res = await Registration.create(data);
-  expect(res).toBe(true);
-});
-test('Регистрация -  в body кривой JSON', async () => {
-  const data = { login: '', password: '' };
-  global.fetch = mockFetch({ body: '{ "messag', status: 200, statusText: 'OK' });
-  const res = await Registration.create(data);
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/signup`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    mode: 'cors',
+    body: JSON.stringify(data),
+  });
   expect(res).toBe(true);
 });
