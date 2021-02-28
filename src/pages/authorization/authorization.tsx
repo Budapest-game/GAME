@@ -16,7 +16,7 @@ class Authorization extends PureComponent<AuthorizationState> {
 
   redirectToGame = () => {
     const { history } = this.props;
-    if (history) history.push('/game');
+    history.push('/game');
   }
 
   loginReq = (data: Record<string, string>):void => {
