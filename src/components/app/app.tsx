@@ -23,39 +23,17 @@ export default class App extends PureComponent {
           <Navigation />
           <div>
             <Switch>
-              <Route path="/authorization">
-                <Authorization />
-              </Route>
-              <Route path="/registration">
-                <Registration />
-              </Route>
-              <Route path="/game">
-                <Game />
-              </Route>
-              <Route path="/leaderboard">
-                <Leaderboard />
-              </Route>
-              <Route path="/forum">
-                <Forum />
-              </Route>
-              <Route path="/profile">
-                <Profile />
-              </Route>
-              <Route path="/changePassword">
-                <ChangePassword />
-              </Route>
-              <Route path="/changeData">
-                <ChangeData />
-              </Route>
-              <Route path="/page404">
-                <Page404 />
-              </Route>
-              <Route path="/page500">
-                <Page500 />
-              </Route>
-              <Route path="/controlsDemoPage">
-                <ControlsDemoPage />
-              </Route>
+              <Route path="/authorization" component={Authorization}/>
+              <Route path="/registration" component={Registration}/>
+              <Route path="/game" component={Game}/>
+              <Route path="/leaderboard" component={Leaderboard}/>
+              <Route path="/forum" component={Forum}/>
+              <Route path="/profile" component={Profile}/>
+              <Route path="/changePassword" component={ChangePassword}/>
+              <Route path="/changeData" component={ChangeData}/>
+              <Route path="/page404" component={Page404}/>
+              <Route path="/page500" component={Page500}/>
+              <Route path="/controlsDemoPage" component={ControlsDemoPage}/>
             </Switch>
           </div>
         </div>
