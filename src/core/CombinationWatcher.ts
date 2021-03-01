@@ -1,6 +1,8 @@
 import { DrawResultType } from './CoreTypes';
 import { clearRect } from '../utils/drawImage';
 import Cell from './Cell';
+import { eventBus } from './EventBus';
+import { GlobalEvents } from './GlobalEvents';
 
 export default class CombinationWatcher {
   protected gameMap: DrawResultType[][] = [];
@@ -12,6 +14,8 @@ export default class CombinationWatcher {
   protected height: number;
 
   protected cell: Cell;
+
+  protected combineScore = 0;
 
   constructor(
     gameMap: DrawResultType[][],
@@ -98,6 +102,7 @@ export default class CombinationWatcher {
   }
 
   protected clearCombination(buffer:DrawResultType[]):void {
+    eventBus.emit(GlobalEvents.CHANGE_GAME_SCORE, { newScore: buffer.length });
     buffer.forEach((element) => {
       const { x, y } = element.innerCoordinates;
       clearRect(this.ctx, this.cell, x, y);
