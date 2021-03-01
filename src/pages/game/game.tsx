@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
+import { withNaming } from '@bem-react/classname';
 import Field from '../../core/Field';
-import EventBus from '../../core/EventBus';
+import { eventBus } from '../../core/EventBus';
 import { GlobalEvents } from '../../core/GlobalEvents';
 import { Elements } from '../../core/levels/1/Elements';
 import { Styles } from '../../core/levels/1/Styles';
@@ -11,7 +12,7 @@ import { getScore } from '../../utils/getScore';
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
 
-  protected numberMoves = 25;
+  protected numberMoves = 3;
 
   protected score = 0;
 
@@ -27,17 +28,15 @@ export class Game extends PureComponent {
 
   protected eventResult:boolean|number = false;
 
-  protected eventBus: EventBus;
-
   constructor(props: Readonly<unknown>) {
     super(props);
-    this.eventBus = new EventBus(true);
     this.refCanvas = React.createRef();
   }
 
   state = {
     numberMoves: this.numberMoves,
     score: this.score,
+    gameFieldDisabled: false,
     canvasSize: {
       width: 0,
       height: 0,
@@ -45,7 +44,7 @@ export class Game extends PureComponent {
   }
 
   componentDidMount() {
-    this.eventBus.on(GlobalEvents.CHANGE_GAME_SCORE, this.changeGameScore.bind(this));
+    eventBus.on(GlobalEvents.CHANGE_GAME_SCORE, this.changeGameScore.bind(this));
     if (this.refCanvas.current) {
       this.field = new Field(
         this.refCanvas.current,
@@ -55,9 +54,7 @@ export class Game extends PureComponent {
         Styles,
       );
       this.gameMap = this.field.drawField();
-      this.setState(() => {
-        return { canvasSize: this.field?.getCanvasSize() };
-      });
+      this.setState({ canvasSize: this.field?.getCanvasSize() });
     }
   }
 
@@ -65,63 +62,57 @@ export class Game extends PureComponent {
     const { newScore } = data;
     let { score } = this.state;
     score += getScore(newScore as number, this.scoreMultiplier);
-    this.setState(() => {
-      return { score };
-    });
+    this.setState({ score });
   }
 
-  handleClick = (e:React.SyntheticEvent):void => {
+  handleClick = (e:React.SyntheticEvent<HTMLCanvasElement, MouseEvent>):void => {
     const { nativeEvent } = e;
-    let { numberMoves } = this.state;
+    let { numberMoves, gameFieldDisabled } = this.state;
     if (this.field && this.gameMap && numberMoves > 0) {
-      const result = this.field.initEvent(nativeEvent as MouseEvent, this.gameMap);
+      const result = this.field.initEvent(nativeEvent, this.gameMap);
       if (result) {
         numberMoves--;
-        this.setState(() => {
-          return { numberMoves };
-        });
+        this.setState({ numberMoves });
       }
     }
     if (numberMoves === 0) {
-      const gameField = document.querySelector('.game-map-wrapper__main');
-      if (gameField) {
-        gameField.classList.add('disabled');
-        const finalTitle = gameField.querySelector('h2');
-        if (finalTitle) {
-          finalTitle.style.display = 'block';
-        }
-      }
+      gameFieldDisabled = !gameFieldDisabled;
+      this.setState({ gameFieldDisabled });
     }
   }
 
   render() {
-    const { numberMoves, score, canvasSize } = this.state;
+    const {
+      numberMoves, score, canvasSize, gameFieldDisabled,
+    } = this.state;
     const height = {
       height: canvasSize.height,
     };
+    const cn = withNaming({ e: '__' });
+    const cls = cn('game-map-wrapper');
     return (
-            <div id="gameField">
-                <h1>Игра</h1>
-                <div className="game-map-wrapper">
-                  <div className="game-map-wrapper__left-sidebar">
-                    <h4>Осталось ходов</h4>
-                    <p>{numberMoves}</p>
-                    <h4>Счет</h4>
-                    <p>{score}</p>
-                  </div>
-                  <div className="game-map-wrapper__main">
-                    <canvas ref={this.refCanvas} onClick={this.handleClick}/>
-                    <div className="game-map-wrapper__final" style={ height }>
-                      <h2>Игра окончена</h2>
-                    </div>
-                  </div>
-                  <div className="game-map-wrapper__right-sidebar">
-                    <h3>x3 <span>- 1</span></h3>
-                    <h3>x4 <span>- 1.25</span></h3>
-                    <h3>x5 <span>- 1.5</span></h3>
-                  </div>
+        <div id="gameField">
+            <h1>Игра</h1>
+            <div className={cls()}>
+              <div className={cls('left-sidebar')}>
+                <h4>Осталось ходов</h4>
+                <p>{numberMoves}</p>
+                <h4>Счет</h4>
+                <p>{score}</p>
+              </div>
+              <div className={cls('main')} aria-disabled={gameFieldDisabled}>
+                <canvas ref={this.refCanvas} onClick={this.handleClick}/>
+                <div className={cls('final')} style={ height }>
+                  <h2>Игра окончена</h2>
                 </div>
+              </div>
+              <div className={cls('right-sidebar')}>
+                <h3>x3 <span>- 1</span></h3>
+                <h3>x4 <span>- 1.25</span></h3>
+                <h3>x5 <span>- 1.5</span></h3>
+              </div>
             </div>
+        </div>
     );
   }
 }

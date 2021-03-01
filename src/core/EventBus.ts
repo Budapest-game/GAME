@@ -1,19 +1,8 @@
 type callback = (data: Record<string, unknown>) => void;
 type Listeners = Record<string, callback[]>
 
-export default class EventBus {
+class EventBus {
     protected listeners:Listeners = {};
-
-    static instance:EventBus;
-
-    constructor(isNew = false) {
-      if (EventBus.instance && !isNew) {
-        return EventBus.instance;
-      }
-      if (isNew) {
-        EventBus.instance = this;
-      }
-    }
 
     public on(event: string, callback:(data: Record<string, unknown>) => void):void {
       if (!this.listeners[event]) {
@@ -40,3 +29,5 @@ export default class EventBus {
       }
     }
 }
+
+export const eventBus = new EventBus();

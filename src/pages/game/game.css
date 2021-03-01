@@ -1,41 +1,47 @@
 .game-map-wrapper {
   display: flex;
   justify-content: center;
-  color: #33393D;
-}
-.game-map-wrapper__main {
-  position: relative;
-  border: 3px solid #2AABE4;
-  border-radius: 5px;
-  padding: 0;
-}
-.game-map-wrapper__main .game-map-wrapper__final {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  text-align: center;
-  color: #2AABE4;
-  background: #ffffff;
-  display: none;
-}
-.game-map-wrapper__main.disabled .game-map-wrapper__final {
-  display: block;
+  color: #33393d;
+
+  &__main {
+   position: relative;
+   border: 3px solid #2aabe4;
+   border-radius: 5px;
+   padding: 0;
+  }
+
+  &__final {
+   position: absolute;
+   width: 100%;
+   top: 0;
+   left: 0;
+   text-align: center;
+   color: #2aabe4;
+   background: #ffffff;
+   display: none;
+  }
+
+  &__left-sidebar, &__right-sidebar {
+   width: 200px;
+   border: 3px solid #2aabe4;
+   border-radius: 5px;
+   padding: 20px;
+  }
+
+  &__left-sidebar {
+   margin-right: 20px;
+  }
+
+  &__right-sidebar {
+    margin-left: 20px;
+  }
+
+  &__right-sidebar h3 span {
+    font-weight: normal;
+    font-size: 1rem;
+  }
 }
 
-.game-map-wrapper__left-sidebar, .game-map-wrapper__right-sidebar {
-  width: 200px;
-  border: 3px solid #2AABE4;
-  border-radius: 5px;
-  padding: 20px;
-}
-.game-map-wrapper__left-sidebar {
-  margin-right: 20px;
-}
-.game-map-wrapper__right-sidebar {
-  margin-left: 20px;
-}
-.game-map-wrapper__right-sidebar h3 span {
-  font-weight: normal;
-  font-size: 1rem;
+.game-map-wrapper__main[aria-disabled="true"] .game-map-wrapper__final {
+  display: block;
 }
