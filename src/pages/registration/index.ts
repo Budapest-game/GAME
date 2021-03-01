@@ -2,7 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { RegistrationAction } from '../../store/actionCreators/registration';
 import { ApplicationState } from '../../store/reducers';
-import { register } from '../../store/thunks/registration';
+import { register } from '../../store/actions/registration';
 import Registration from './registration';
 import { RegistrationData } from '../../api/types';
 
