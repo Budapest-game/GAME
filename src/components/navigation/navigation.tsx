@@ -31,7 +31,7 @@ export class Navigation extends PureComponent {
             <Link to="/page500">Страница 500</Link>
           </li>
           <li>
-            <Link to="/controlsDemoPage">Демо страница с контролами</Link>
+            <Link to="/controls-demo">Демо страница с контролами</Link>
           </li>
         </ul>
       </nav>

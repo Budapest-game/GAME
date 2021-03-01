@@ -3,6 +3,7 @@ import { cn } from '@bem-react/classname';
 import { leader } from '../../components/leader/leader';
 import './leaderboard.css';
 
+const Cls = cn('leaderboard');
 export class Leaderboard extends PureComponent {
   fakeLeaders():JSX.Element[] {
     const leaders = [];
@@ -18,7 +19,6 @@ export class Leaderboard extends PureComponent {
   }
 
   render():JSX.Element {
-    const Cls = cn('leaderboard');
     const leadersComponents = this.fakeLeaders();
     return (
              <div className={Cls()}>
