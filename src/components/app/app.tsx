@@ -12,7 +12,7 @@ import ChangePassword from '../../pages/changePassword/changePassword';
 import ChangeData from '../../pages/changeData/changeData';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
-import { ControlsDemoPage } from '../../pages/controlsDemoPage/controlsDemoPage';
+import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 
 export default class App extends PureComponent {
   render() {
@@ -29,11 +29,11 @@ export default class App extends PureComponent {
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/forum" component={Forum}/>
               <Route path="/profile" component={Profile}/>
-              <Route path="/changePassword" component={ChangePassword}/>
-              <Route path="/changeData" component={ChangeData}/>
+              <Route path="/change-password" component={ChangePassword}/>
+              <Route path="/change-data" component={ChangeData}/>
               <Route path="/page404" component={Page404}/>
               <Route path="/page500" component={Page500}/>
-              <Route path="/controlsDemoPage" component={ControlsDemoPage}/>
+              <Route path="/controls-demo" component={ControlsDemo}/>
             </Switch>
           </div>
         </div>

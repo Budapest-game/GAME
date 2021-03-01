@@ -14,9 +14,9 @@ interface ProfileInfo {
   phone: string,
 }
 
+const Cls = cn('profile');
 export class Profile extends PureComponent {
   profileLayout(info: ProfileInfo): JSX.Element {
-    const Cls = cn('profile');
     return (
       <React.Fragment>
         <Avatar avatarPath={info.avatar}/>
@@ -49,11 +49,11 @@ export class Profile extends PureComponent {
           </li>
 
           <li className={Cls('item')}>
-            <Link to="/changedata">Изменить данные</Link>
+            <Link to="/change-data">Изменить данные</Link>
           </li>
 
           <li className={Cls('item')}>
-            <Link to="/changepassword">Изменить пароль</Link>
+            <Link to="/change-password">Изменить пароль</Link>
           </li>
 
           <li className={Cls('item')}>
