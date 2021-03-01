@@ -1,10 +1,7 @@
-import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
-import { RegistrationAction } from '../../store/actionCreators/registration';
 import { ApplicationState } from '../../store/reducers';
 import { register } from '../../store/actions/registration';
 import Registration from './registration';
-import { RegistrationData } from '../../api/types';
 
 const mapStateToProps = (state: ApplicationState) => {
   return {
@@ -14,13 +11,4 @@ const mapStateToProps = (state: ApplicationState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch
-  : ThunkDispatch<ApplicationState, unknown, RegistrationAction>) => {
-  return {
-    register: (data: RegistrationData) => {
-      dispatch(register(data));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Registration);
+export default connect(mapStateToProps, { register })(Registration);
