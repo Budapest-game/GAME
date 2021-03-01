@@ -36,8 +36,9 @@ export class Form extends PureComponent<Props> {
     if (!Object.keys(state).length) {
       const initValues:Record<string, InputState> = {};
       props.inputsInfo.forEach((i) => {
-        const value = i.value !== undefined ? i.value : '';
-        initValues[i.name] = { value, isValid: false, errorMessage: '' };
+        const value = (i.value !== undefined && i.value !== null) ? i.value : '';
+        const initialValidation = inputValidation(value, i.validate);
+        initValues[i.name] = { value, isValid: initialValidation.state, errorMessage: '' };
       });
       return initValues;
     }
