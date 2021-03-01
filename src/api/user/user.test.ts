@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '../constants';
 import UserApi from './user';
 
 function mockFetch(data) {
@@ -13,28 +14,28 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('Запрос данных пользователя', async () => {
+test('Неудачный запрос данных пользователя, нет сессии', async () => {
   global.fetch = mockFetch({ status: 401, statusText: 'Unauthorized' });
   await expect(UserApi.get()).rejects.toThrow('Unauthorized');
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/user', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/user`, {
     credentials: 'include',
     method: 'GET',
     mode: 'cors',
   });
 });
-test('Запрос данных пользовател я- OK', async () => {
+test('Успешный запрос данных пользователя', async () => {
   global.fetch = mockFetch({ status: 200, body: '{"id":1}' });
   const res = await UserApi.get();
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/auth/user', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/auth/user`, {
     credentials: 'include',
     method: 'GET',
     mode: 'cors',
   });
   expect(res.id).toBe(1);
 });
-test('Смена инфы пользователя', async () => {
+test('Успешная смена информации пользователя', async () => {
   const testData = {
     first_name: 'string',
     second_name: 'string',
@@ -44,9 +45,9 @@ test('Смена инфы пользователя', async () => {
     phone: 'string',
   };
   global.fetch = mockFetch({ status: 200, body: '{"id":1}' });
-  const res = await UserApi.changeInfo(testData);
+  await UserApi.changeInfo(testData);
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/user/profile', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/user/profile`, {
     credentials: 'include',
     method: 'PUT',
     mode: 'cors',
@@ -56,15 +57,15 @@ test('Смена инфы пользователя', async () => {
     },
   });
 });
-test('Смена инфы пользователя/Пароль', async () => {
+test('Успешная смена пароля', async () => {
   const testData = {
     oldPassword: 'string',
     newPassword: 'string',
   };
   global.fetch = mockFetch({ status: 200, body: '{"id":1}' });
-  const res = await UserApi.changePassword(testData);
+  await UserApi.changePassword(testData);
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/user/password', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/user/password`, {
     credentials: 'include',
     method: 'PUT',
     mode: 'cors',
@@ -74,16 +75,16 @@ test('Смена инфы пользователя/Пароль', async () => {
     },
   });
 });
-test('Смена инфы пользователя/Автатар', async () => {
+test('Успешная смена аватара пользователя', async () => {
   const testData = new FormData();
   const file = new File(['foo'], 'foo.txt', {
     type: 'text/plain',
   });
   testData.append('avatar', file);
   global.fetch = mockFetch({ status: 200, body: '{"id":1}' });
-  const res = await UserApi.changeAvatar(testData);
+  await UserApi.changeAvatar(testData);
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith('https://ya-praktikum.tech/api/v2/user/profile/avatar', {
+  expect(fetch).toHaveBeenCalledWith(`${BASE_API_URL}/user/profile/avatar`, {
     credentials: 'include',
     method: 'PUT',
     mode: 'cors',

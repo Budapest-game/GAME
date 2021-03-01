@@ -24,7 +24,7 @@ class ChangeData extends PureComponent<ChangeDataState> {
 
   componentDidMount():void {
     UserApi.get().then((res) => {
-      this.setState({ ...this.state, user: res, loading: false });
+      this.setState({ user: res, loading: false });
     });
   }
 
@@ -61,7 +61,7 @@ class ChangeData extends PureComponent<ChangeDataState> {
 
   redirectToProfile = ():void => {
     const { history } = this.props;
-    if (history) history.push('/profile');
+    history.push('/profile');
   }
 
   changeData = (data: Record<string, string>) => {
