@@ -19,13 +19,13 @@ export function forumReducer(
     case FORUM_INFO_IS_LOADING:
       return {
         ...state,
-        isLoading: action.isLoading,
+        isLoading: action.payload.isLoading,
       };
 
     case FORUM_INFO_LOAD_SUCCESS:
       return {
         ...state,
-        forumInfo: action.forumInfo,
+        forumInfo: action.payload.forumInfo,
       };
 
     default:

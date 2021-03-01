@@ -7,10 +7,10 @@ import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
 
 ReactDOM.render(
-  <ErrorBoundary>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ErrorBoundary>
       <App/>
-    </Provider>
-  </ErrorBoundary>,
+    </ErrorBoundary>
+  </Provider>,
   document.getElementById('root'),
 );

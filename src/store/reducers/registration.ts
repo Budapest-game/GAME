@@ -26,28 +26,28 @@ export function registrationReducer(
     case REGISTRATION_REQUEST_SENT:
       return {
         ...state,
-        requestSent: action.requestSent,
+        requestSent: action.payload.requestSent,
       };
 
     case REGISTRATION_SUCCESSFUL:
       return {
         ...state,
-        requestSuccess: action.requestSuccess,
+        requestSuccess: action.payload.requestSuccess,
       };
 
     case REGISTRATION_FAILED:
       return {
         ...state,
-        requestSuccess: action.requestSuccess,
-        registrationErrorMessage: action.registrationErrorMessage,
+        requestSuccess: action.payload.requestSuccess,
+        registrationErrorMessage: action.payload.registrationErrorMessage,
       };
 
     case REGISTRATION_RESET_STATE:
       return {
         ...state,
-        requestSent: action.requestSent,
-        requestSuccess: action.requestSuccess,
-        registrationErrorMessage: action.registrationErrorMessage,
+        requestSent: action.payload.requestSent,
+        requestSuccess: action.payload.requestSuccess,
+        registrationErrorMessage: action.payload.registrationErrorMessage,
       };
 
     default:

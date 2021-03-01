@@ -7,22 +7,30 @@ import {
 } from '../actions/registration';
 
 export interface RegistrationRequestSentAction extends Action<typeof REGISTRATION_REQUEST_SENT> {
-  requestSent: boolean;
+  payload: {
+    requestSent: boolean;
+  }
 }
 
 export interface RegistrationSuccessAction extends Action<typeof REGISTRATION_SUCCESSFUL> {
-  requestSuccess: boolean;
+  payload: {
+    requestSuccess: boolean;
+  }
 }
 
 export interface RegistrationFailedAction extends Action<typeof REGISTRATION_FAILED> {
-  requestSuccess: boolean;
-  registrationErrorMessage: string;
+  payload: {
+    registrationErrorMessage: string;
+    requestSuccess: boolean;
+  }
 }
 
 export interface RegistrationResetStateAction extends Action<typeof REGISTRATION_RESET_STATE> {
-  registrationErrorMessage: string;
-  requestSent: boolean;
-  requestSuccess?: boolean;
+  payload: {
+    registrationErrorMessage: string;
+    requestSent: boolean;
+    requestSuccess?: boolean;
+  }
 }
 
 export type RegistrationAction = RegistrationRequestSentAction
@@ -33,30 +41,38 @@ export type RegistrationAction = RegistrationRequestSentAction
 export function registrationRequestSent(): RegistrationRequestSentAction {
   return {
     type: REGISTRATION_REQUEST_SENT,
-    requestSent: true,
+    payload: {
+      requestSent: true,
+    },
   };
 }
 
 export function registrationSuccessful(): RegistrationSuccessAction {
   return {
     type: REGISTRATION_SUCCESSFUL,
-    requestSuccess: true,
+    payload: {
+      requestSuccess: true,
+    },
   };
 }
 
 export function registrationFailed(errorMessage: string): RegistrationFailedAction {
   return {
     type: REGISTRATION_FAILED,
-    registrationErrorMessage: errorMessage,
-    requestSuccess: false,
+    payload: {
+      registrationErrorMessage: errorMessage,
+      requestSuccess: false,
+    },
   };
 }
 
 export function registrationResetState(): RegistrationResetStateAction {
   return {
     type: REGISTRATION_RESET_STATE,
-    registrationErrorMessage: '',
-    requestSent: false,
-    requestSuccess: undefined,
+    payload: {
+      registrationErrorMessage: '',
+      requestSent: false,
+      requestSuccess: undefined,
+    },
   };
 }

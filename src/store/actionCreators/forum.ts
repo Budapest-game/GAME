@@ -12,11 +12,15 @@ export interface ForumInfo {
 }
 
 export interface ForumInfoLoadingAction extends Action<typeof FORUM_INFO_IS_LOADING> {
-  isLoading: boolean;
+  payload: {
+    isLoading: boolean;
+  }
 }
 
 export interface ForumInfoLoadSuccessAction extends Action<typeof FORUM_INFO_LOAD_SUCCESS> {
-  forumInfo: ForumInfo[];
+  payload: {
+    forumInfo: ForumInfo[];
+  }
 }
 
 export type ForumAction = ForumInfoLoadingAction | ForumInfoLoadSuccessAction;
@@ -24,13 +28,17 @@ export type ForumAction = ForumInfoLoadingAction | ForumInfoLoadSuccessAction;
 export function forumInfoLoading(isLoading: boolean): ForumInfoLoadingAction {
   return {
     type: FORUM_INFO_IS_LOADING,
-    isLoading,
+    payload: {
+      isLoading,
+    },
   };
 }
 
 export function forumInfoLoadSuccess(forumInfo: ForumInfo[]): ForumInfoLoadSuccessAction {
   return {
     type: FORUM_INFO_LOAD_SUCCESS,
-    forumInfo,
+    payload: {
+      forumInfo,
+    },
   };
 }

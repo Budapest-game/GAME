@@ -22,7 +22,7 @@ const forumsInfo: ForumInfo[] = [
     ],
   },
   {
-    name: 'Раздел ',
+    name: 'Раздел 2',
     themes: [
       {
         name: 'Тема 1',
