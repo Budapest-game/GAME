@@ -121,6 +121,14 @@ export default class Field {
     return gameMap;
   }
 
+  public getCanvasSize():Record<string, number> {
+    const { sellWidth, cellHeight } = this.cell.getFullSize();
+    return {
+      width: sellWidth * this.width,
+      height: cellHeight * this.height,
+    };
+  }
+
   protected fillNeighbors(
     gameMap:DrawResultType[][],
     heightIndex:number,
@@ -177,77 +185,76 @@ export default class Field {
   /**
    * Инициализация событий
    * Тут же условия для срабатывания перестановки элементов
-   * Надо придумать как не допускать перестановки элементов по диагонали
    */
-  public initEvent(gameMap:DrawResultType[][]):void {
+  public initEvent(event: MouseEvent, gameMap: DrawResultType[][]):boolean|number {
     this.gameMap = gameMap;
-    this.canvas.addEventListener('click', (event:MouseEvent) => {
-      if (!this.cellWidth || !this.cellHeight) {
-        throw new Error('no field init');
+    if (!this.cellWidth || !this.cellHeight) {
+      throw new Error('no field init');
+    }
+    let isCombinate = false;
+    const { offsetX, offsetY } = event;
+    const widthIndex = Math.floor(offsetX / this.cellWidth);
+    const heightIndex = Math.floor(offsetY / this.cellHeight);
+    if (widthIndex < this.width && heightIndex < this.height) {
+      if (!this.gameMap) {
+        throw new Error('no gameMap');
       }
-      const { offsetX, offsetY } = event;
-      const widthIndex = Math.floor(offsetX / this.cellWidth);
-      const heightIndex = Math.floor(offsetY / this.cellHeight);
-      if (widthIndex < this.width && heightIndex < this.height) {
-        if (!this.gameMap) {
-          return;
-        }
-        const clickElement = this.gameMap[heightIndex][widthIndex];
-        if (this.activeElement) {
-          const { x, y } = this.activeElement.innerCoordinates;
-          const activeWidthIndex = Math.floor(x / this.cellWidth);
-          const activeHeightIndex = Math.floor(y / this.cellHeight);
-          const activeElement = this.gameMap[activeHeightIndex][activeWidthIndex];
+      const clickElement = this.gameMap[heightIndex][widthIndex];
+      if (this.activeElement) {
+        const { x, y } = this.activeElement.innerCoordinates;
+        const activeWidthIndex = Math.floor(x / this.cellWidth);
+        const activeHeightIndex = Math.floor(y / this.cellHeight);
+        const activeElement = this.gameMap[activeHeightIndex][activeWidthIndex];
+        if (
+          (
+            (widthIndex - 1 === activeWidthIndex || widthIndex + 1 === activeWidthIndex)
+          && heightIndex === activeHeightIndex
+          )
+          || (
+            (heightIndex - 1 === activeHeightIndex || heightIndex + 1 === activeHeightIndex)
+          && widthIndex === activeWidthIndex
+          )
+        ) {
+          this.switchElementDraws(
+            activeElement,
+            clickElement,
+          );
+          switchInnerElements(
+            activeElement,
+            clickElement,
+          );
+          isCombinate = true;
           if (
-            (
-              (widthIndex - 1 === activeWidthIndex || widthIndex + 1 === activeWidthIndex)
-            && heightIndex === activeHeightIndex
-            )
-            || (
-              (heightIndex - 1 === activeHeightIndex || heightIndex + 1 === activeHeightIndex)
-            && widthIndex === activeWidthIndex
-            )
+            this.watcher
+            && !this.watcher.checkCombination()
+            && this.activeElement
+            && this.gameMap
           ) {
             this.switchElementDraws(
-              activeElement,
               clickElement,
+              activeElement,
             );
             switchInnerElements(
               activeElement,
               clickElement,
             );
-            setTimeout(() => {
-              if (
-                this.watcher
-                && !this.watcher.checkCombination()
-                && this.activeElement
-                && this.gameMap
-              ) {
-                this.switchElementDraws(
-                  clickElement,
-                  activeElement,
-                );
-                switchInnerElements(
-                  activeElement,
-                  clickElement,
-                );
-              }
-              if (this.animateGenerator) {
-                this.animateGenerator.updateGameField();
-              }
-              this.activeElement = null;
-            }, 200);
-          } else {
-            this.deactivateElement(activeElement);
-            this.activateElement(clickElement);
-            this.activeElement = clickElement;
+            isCombinate = false;
           }
-        } else {
-          this.activateElement(clickElement);
-          this.activeElement = clickElement;
+          if (this.animateGenerator) {
+            this.animateGenerator.updateGameField();
+          }
+          this.activeElement = null;
+          return isCombinate;
         }
+        this.deactivateElement(activeElement);
+        this.activateElement(clickElement);
+        this.activeElement = clickElement;
+      } else {
+        this.activateElement(clickElement);
+        this.activeElement = clickElement;
       }
-    });
+    }
+    return isCombinate;
   }
 
   /**
