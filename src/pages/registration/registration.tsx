@@ -1,32 +1,40 @@
 import React, { PureComponent } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
-import RegistationApi from '../../api/reg/registration';
 import { RegistrationData } from '../../api/types';
 import textContent from './textContent';
 import './registration.css';
 
-interface RegistrationState extends RouteComponentProps {
-  error?: null | string;
+interface RegistrationState {
+  error: null | string;
 }
 
-class Registration extends PureComponent<RegistrationState> {
-  state = {
-    error: null,
+interface RegistrationFormData extends RegistrationData {
+  'second_password': string;
+}
+
+interface RegistrationPageProps extends RouteComponentProps {
+  requestSent: boolean;
+  requestSuccess?: boolean;
+  errorMessage: string;
+  register: (data: RegistrationData) => void;
+}
+
+class Registration extends PureComponent<RegistrationPageProps, RegistrationState> {
+  constructor(props: RegistrationPageProps) {
+    super(props);
+    this.state = {
+      error: null,
+    };
   }
 
-  redirectToGame = () => {
-    const { history } = this.props;
-    history.push('/game');
-  }
+  regRequest = (_data: Record<string, string>): void => {
+    this.setState({ error: null });
 
-  regRequest = (data: Record<string, string>):void => {
+    const data = _data as unknown as RegistrationFormData;
+
     if (data.password === data.second_password) {
-      RegistationApi.create(data as unknown as RegistrationData).then(() => {
-        this.redirectToGame();
-      }).catch(({ message }) => {
-        this.setState({ error: message });
-      });
+      this.props.register(data);
     } else {
       this.setState({ error: 'Пароли не совпадают' });
     }
@@ -62,9 +70,27 @@ class Registration extends PureComponent<RegistrationState> {
     },
   };
 
-  render():JSX.Element {
+  render(): JSX.Element {
+    let registrationError = null;
+
+    if (this.props.requestSent) {
+      if (this.props.requestSuccess) {
+        return <Redirect to='/game'/>;
+      }
+
+      if (this.props.requestSuccess === false) {
+        registrationError = this.props.errorMessage;
+      } else {
+        return <>Loading...</>;
+      }
+    }
+
     return <div className="registrationPage">
-      <Form {...this.formSettings} submit={this.regRequest} error={this.state.error}/>
+      <Form
+        {...this.formSettings}
+        submit={this.regRequest}
+        error={this.state.error || registrationError}
+      />
       </div>;
   }
 }
