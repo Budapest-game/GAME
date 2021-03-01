@@ -26,6 +26,8 @@ interface InputState {
   isValid: boolean,
   errorMessage:string
 }
+
+const Cls = cn('form');
 export class Form extends PureComponent<Props> {
   state: Record<string, InputState> = {};
 
@@ -92,14 +94,13 @@ export class Form extends PureComponent<Props> {
   }
 
   render():JSX.Element {
-    const form = cn('form');
-    const formClasses = form(null, [this.props.className]);
+    const formClasses = Cls(null, [this.props.className]);
     return (
       <div className={formClasses}>
         <h1>{this.props.formHeader}</h1>
         <form onSubmit={this.onSubmit}>
           {this.renderInputs()}
-          {this.props.error && <div className={form('error')}><span>{this.props.error}</span></div>}
+          {this.props.error && <div className={Cls('error')}><span>{this.props.error}</span></div>}
           <div>
             <Button type="submit" text={this.props.submitText}/>
           </div>

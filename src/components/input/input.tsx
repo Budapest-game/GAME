@@ -13,9 +13,9 @@ export interface InputProps
   disabled?: boolean;
 }
 
+const Cls = cn('input');
 export class Input extends PureComponent<InputProps> {
   render() {
-    const Cls = cn('input');
     const classNames = Cls(null, [this.props.className]);
     const { error, ...props } = this.props;
 

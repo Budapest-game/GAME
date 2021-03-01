@@ -13,14 +13,14 @@ class WrongComponent extends PureComponent {
   }
 }
 
-interface ControlsDemoPageState {
+interface ControlsDemoState {
   controlledInputValue?: string,
   controlledValidationInputValue?: string,
   error?: string,
   compError?: boolean,
 }
 
-export class ControlsDemoPage extends PureComponent<unknown, ControlsDemoPageState> {
+export class ControlsDemo extends PureComponent<unknown, ControlsDemoState> {
   constructor(props: unknown) {
     super(props);
     this.state = {
