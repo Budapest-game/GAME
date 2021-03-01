@@ -7,7 +7,7 @@ import Registration from '../../pages/registration';
 import { Game } from '../../pages/game/game';
 import { Leaderboard } from '../../pages/leaderboard/leaderboard';
 import Forum from '../../pages/forum';
-import { Profile } from '../../pages/profile/profile';
+import Profile from '../../pages/profile/profile';
 import ChangePassword from '../../pages/changePassword/changePassword';
 import ChangeData from '../../pages/changeData/changeData';
 import { Page404 } from '../../pages/page404/page404';
