@@ -1,51 +1,97 @@
 import React, { PureComponent } from 'react';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { cn } from '@bem-react/classname';
-import { Link } from 'react-router-dom';
 import { Avatar } from '../../components/avatar/avatar';
 import { Button } from '../../components/button/button';
+import UserApi from '../../api/user/user';
+import AuthorizationApi from '../../api/auth/authorization';
 import './profile.css';
 
 interface ProfileInfo {
   avatar: string,
-  name: string,
-  lastName: string,
+  first_name: string,
+  second_name: string,
   login: string,
   email: string,
   phone: string,
 }
+interface ProfileState{
+  loading: boolean,
+  user: ProfileInfo
+}
+class Profile extends PureComponent<RouteComponentProps> {
+  state:ProfileState = {
+    loading: true,
+    user: {
+      avatar: '',
+      first_name: '',
+      second_name: '',
+      login: '',
+      email: '',
+      phone: '',
+    },
+  }
 
-export class Profile extends PureComponent {
-  profileLayout(info: ProfileInfo): JSX.Element {
+  componentDidMount():void {
+    UserApi.get().then((res) => {
+      this.setState({ ...this.state, user: res, loading: false });
+    });
+  }
+
+  redirectToLogin = ():void => {
+    const { history } = this.props;
+    if (history) history.push('/authorization');
+  }
+
+  logOut = ():void => {
+    AuthorizationApi.logOut().then(() => {
+      this.redirectToLogin();
+    });
+  }
+
+  avatarChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    if (target.files && target.files[0]) {
+      const data = new FormData();
+      data.append('avatar', target.files[0]);
+      UserApi.changeAvatar(data).then((res) => {
+        if (res.avatar !== null) {
+          this.setState({ user: { ...this.state.user, avatar: res.avatar } });
+        }
+      });
+    }
+  }
+
+  profileLayout(): JSX.Element {
     const Cls = cn('profile');
     return (
       <React.Fragment>
-        <Avatar avatarPath={info.avatar}/>
-        <legend className={Cls('legend')}>{info.name} {info.lastName}</legend>
+        <Avatar avatarPath={this.state.user.avatar} onChange={this.avatarChange}/>
+        <legend className={Cls('legend')}>{this.state.user.first_name} {this.state.user.second_name}</legend>
 
         <ul className={Cls()}>
           <li className={Cls('item')}>
             <span>Имя</span>
-            <span className={Cls('content')}>{info.name}</span>
+            <span className={Cls('content')}>{this.state.user.first_name}</span>
           </li>
 
           <li className={Cls('item')}>
             <span>Фамилия</span>
-            <span className={Cls('content')}>{info.lastName}</span>
+            <span className={Cls('content')}>{this.state.user.second_name}</span>
           </li>
 
           <li className={Cls('item')}>
             <span>Логин</span>
-            <span className={Cls('content')}>{info.login}</span>
+            <span className={Cls('content')}>{this.state.user.login}</span>
           </li>
 
           <li className={Cls('item')}>
             <span>Почта</span>
-            <span className={Cls('content')}>{info.email}</span>
+            <span className={Cls('content')}>{this.state.user.email}</span>
           </li>
 
           <li className={Cls('item')}>
             <span>Телефон</span>
-            <span className={Cls('content')}>{info.phone}</span>
+            <span className={Cls('content')}>{this.state.user.phone}</span>
           </li>
 
           <li className={Cls('item')}>
@@ -59,7 +105,7 @@ export class Profile extends PureComponent {
           <li className={Cls('item')}>
             <Button
               type='submit'
-              onClick={() => { console.log('Выход'); }}
+              onClick={this.logOut}
               text='Выйти'
             />
           </li>
@@ -69,18 +115,14 @@ export class Profile extends PureComponent {
   }
 
   render():JSX.Element {
-    const profileComponent = this.profileLayout({
-      avatar: 'https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png',
-      name: 'Иван',
-      lastName: 'Иванов',
-      login: 'IvaN',
-      email: 'ivan@ya.ru',
-      phone: '+79001112233',
-    });
+    const profileComponent = this.profileLayout();
     return (
       <main className="profilePage">
-        {profileComponent}
+        {
+         this.state.loading ? <span>Загрузка</span> : profileComponent
+        }
       </main>
     );
   }
 }
+export default withRouter(Profile);
