@@ -8,6 +8,7 @@ import { Styles } from '../../core/levels/1/Styles';
 import './game.css';
 import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
+import { Button } from '../../components/button/button';
 
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
@@ -37,6 +38,7 @@ export class Game extends PureComponent {
     numberMoves: this.numberMoves,
     score: this.score,
     gameFieldDisabled: false,
+    fullscreenButtonText: 'На весь экран',
     canvasSize: {
       width: 0,
       height: 0,
@@ -65,6 +67,19 @@ export class Game extends PureComponent {
     this.setState({ score });
   }
 
+  toggleFullscreen = ():void => {
+    let { fullscreenButtonText } = this.state;
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      fullscreenButtonText = 'Свернуть экран';
+      this.setState({ fullscreenButtonText });
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+      fullscreenButtonText = 'На весь экран';
+      this.setState({ fullscreenButtonText });
+    }
+  }
+
   handleClick = (e:React.SyntheticEvent<HTMLCanvasElement, MouseEvent>):void => {
     const { nativeEvent } = e;
     let { numberMoves, gameFieldDisabled } = this.state;
@@ -83,7 +98,7 @@ export class Game extends PureComponent {
 
   render() {
     const {
-      numberMoves, score, canvasSize, gameFieldDisabled,
+      numberMoves, score, canvasSize, gameFieldDisabled, fullscreenButtonText,
     } = this.state;
     const height = {
       height: canvasSize.height,
@@ -110,6 +125,12 @@ export class Game extends PureComponent {
                 <h3>x3 <span>- 1</span></h3>
                 <h3>x4 <span>- 1.25</span></h3>
                 <h3>x5 <span>- 1.5</span></h3>
+                <Button
+                  className = {cls('btn-fullscreen')}
+                  type = 'button'
+                  text = {fullscreenButtonText}
+                  onClick = {this.toggleFullscreen}
+                />
               </div>
             </div>
         </div>

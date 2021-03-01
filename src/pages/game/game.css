@@ -40,6 +40,10 @@
     font-weight: normal;
     font-size: 1rem;
   }
+
+  &__btn-fullscreen {
+    margin-top: 7rem;
+  }
 }
 
 .game-map-wrapper__main[aria-disabled="true"] .game-map-wrapper__final {
