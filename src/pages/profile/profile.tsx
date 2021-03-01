@@ -3,6 +3,7 @@ import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import { Avatar } from '../../components/avatar/avatar';
 import { Button } from '../../components/button/button';
+import { ProfileField } from '../../components/profileField/profileField';
 import './profile.css';
 
 interface ProfileInfo {
@@ -23,39 +24,17 @@ export class Profile extends PureComponent {
         <legend className={Cls('legend')}>{info.name} {info.lastName}</legend>
 
         <ul className={Cls()}>
-          <li className={Cls('item')}>
-            <span>Имя</span>
-            <span className={Cls('content')}>{info.name}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Фамилия</span>
-            <span className={Cls('content')}>{info.lastName}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Логин</span>
-            <span className={Cls('content')}>{info.login}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Почта</span>
-            <span className={Cls('content')}>{info.email}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Телефон</span>
-            <span className={Cls('content')}>{info.phone}</span>
-          </li>
-
+          {ProfileField({ description: 'Имя', name: info.name })}
+          {ProfileField({ description: 'Фамилия', name: info.lastName })}
+          {ProfileField({ description: 'Логин', name: info.login })}
+          {ProfileField({ description: 'Почта', name: info.email })}
+          {ProfileField({ description: 'Телефон', name: info.phone })}
           <li className={Cls('item')}>
             <Link to="/change-data">Изменить данные</Link>
           </li>
-
           <li className={Cls('item')}>
             <Link to="/change-password">Изменить пароль</Link>
           </li>
-
           <li className={Cls('item')}>
             <Button
               type='submit'

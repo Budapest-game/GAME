@@ -15,18 +15,4 @@
     margin-bottom: 20px;
     text-align: center;
   }
-
-  &-item {
-    margin: 0;
-    padding: 14px 6px;
-    border-left: 1px solid #fff;
-    border-bottom: 1px solid #ddd;
-  }
-
-  &-content {
-    float: right;
-    font-size: 14px;
-    color: #8f9496;
-    padding: 4px;
-  }
 }
