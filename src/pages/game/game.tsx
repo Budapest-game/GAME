@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import Field from '../../core/Field';
 import { Elements } from '../../core/levels/1/Elements';
 import { Styles } from '../../core/levels/1/Styles';
+
+const Cls = cn('game-map');
 
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
@@ -12,9 +15,6 @@ export class Game extends PureComponent {
   }
 
   componentDidMount() {
-    // const canvas = document.createElement('canvas');
-    // const gameField = document.getElementById('gameField');
-    // console.log(this.refCanvas.current)
     if (this.refCanvas.current) {
       const field = new Field(
         this.refCanvas.current,
@@ -32,10 +32,10 @@ export class Game extends PureComponent {
     return (
             <div id="gameField">
                 <h1>Игра</h1>
-                <div className="game-map-wrapper">
-                  <div className="game-map-wrapper__left-sidebar" />
-                  <canvas className="game-map-wrapper__main" ref={this.refCanvas}/>
-                  <div className="game-map-wrapper__right-sidebar" />
+                <div className={Cls('wrapper')}>
+                  <div className={Cls('wrapper__left-sidebar')}/>
+                  <canvas className={Cls('wrapper__main')} ref={this.refCanvas}/>
+                  <div className={Cls('wrapper__right-sidebar')}/>
                 </div>
             </div>
     );
