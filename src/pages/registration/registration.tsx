@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import RegistationApi from '../../api/reg/registration';
 import { RegistrationData } from '../../api/types';
-import textContent from './textContent'
+import textContent from './textContent';
 import './registration.css';
 
 interface RegistrationState extends RouteComponentProps {
