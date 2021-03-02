@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import UserApi from '../../api/user/user';
 import { UserInfoUpdateData } from '../../api/types';
+import textContent from './textContent';
 
 interface ChangeDataState extends RouteComponentProps {
   error?: null | string,
@@ -31,29 +32,26 @@ class ChangeData extends PureComponent<ChangeDataState> {
   formSettings = () => {
     return {
       className: 'changeDataForm',
-      formHeader: 'Изменить данные',
+      formHeader: textContent.header,
       inputsInfo: [{
-        name: 'first_name', value: this.state.user.first_name, placeholder: 'Имя', type: 'text', validate: ['required'],
+        name: 'first_name', value: '', placeholder: textContent.first_name, type: 'text', validate: ['required'],
       },
       {
-        name: 'second_name', value: this.state.user.second_name, placeholder: 'Фамилия', type: 'text', validate: ['required'],
+        name: 'second_name', value: '', placeholder: textContent.second_name, type: 'text', validate: ['required'],
       },
       {
-        name: 'display_name', value: this.state.user.display_name, placeholder: 'Ник', type: 'text', validate: ['required'],
+        name: 'login', value: '', placeholder: textContent.login, type: 'text', validate: ['required'],
       },
       {
-        name: 'login', value: this.state.user.login, placeholder: 'Логин', type: 'text', validate: ['required'],
+        name: 'email', value: '', placeholder: textContent.email, type: 'text', validate: ['required', 'email'],
       },
       {
-        name: 'email', value: this.state.user.email, placeholder: 'Почта', type: 'text', validate: ['required', 'email'],
-      },
-      {
-        name: 'phone', value: this.state.user.phone, placeholder: 'Телефон', type: 'text', validate: ['required', 'phone'],
+        name: 'phone', value: '', placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
       },
       ],
-      submitText: 'Сохранить',
+      submitText: textContent.submit,
       redirLinkInfo: {
-        text: 'Страница пользователя',
+        text: textContent.link,
         href: '/profile',
       },
     };

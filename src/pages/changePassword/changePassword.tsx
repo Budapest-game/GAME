@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import UserApi from '../../api/user/user';
 import { UserPassUpdateData } from '../../api/types';
+import textContent from './textContent';
 
 interface ChangePasswordState extends RouteComponentProps {
   error?: null | string,
@@ -15,17 +16,17 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
 
   formSettings = {
     className: 'changeDataForm',
-    formHeader: 'Изменить пароль',
+    formHeader: textContent.header,
     inputsInfo: [{
-      name: 'oldPassword', value: '', placeholder: 'Старый пароль', type: 'password', validate: ['required'],
+      name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
     {
-      name: 'newPassword', value: '', placeholder: 'Новый пароль', type: 'password', validate: ['required'],
+      name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: 'Сохранить',
+    submitText: textContent.submit,
     redirLinkInfo: {
-      text: 'Страница пользователя',
+      text: textContent.link,
       href: '/profile',
     },
   };
