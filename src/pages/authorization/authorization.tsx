@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import AuthorizationApi from '../../api/auth/authorization';
 import { AuthorizationData } from '../../api/types';
+import textContent from './textContent';
 import './authorization.css';
 
 interface AuthorizationState extends RouteComponentProps {
@@ -29,17 +30,17 @@ class Authorization extends PureComponent<AuthorizationState> {
 
   formSettings = {
     className: 'authorizationForm',
-    formHeader: 'Вход',
+    formHeader: textContent.header,
     inputsInfo: [{
-      name: 'login', value: '', placeholder: 'Логин', type: 'text', validate: ['required'],
+      name: 'login', value: '', placeholder: textContent.login, type: 'text', validate: ['required'],
     },
     {
-      name: 'password', value: '', placeholder: 'Пароль', type: 'password', validate: ['required'],
+      name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: 'Авторизация',
+    submitText: textContent.submit,
     redirLinkInfo: {
-      text: 'Нет аккаунта?',
+      text: textContent.link,
       href: '/registration',
     },
   };

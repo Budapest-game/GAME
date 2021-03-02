@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
-
+import textContent from './textContent'
 interface ChangePasswordState extends RouteComponentProps {
   error?: null | string,
 }
@@ -15,10 +15,10 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
     className: 'changeDataForm',
     formHeader: 'Изменить пароль',
     inputsInfo: [{
-      name: 'password', value: '', placeholder: 'Пароль', type: 'password', validate: ['required'],
+      name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
     {
-      name: 'second_password', value: '', placeholder: 'Подтвердите пароль', type: 'password', validate: ['required'],
+      name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
     submitText: 'Сохранить',
