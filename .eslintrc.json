@@ -15,7 +15,7 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended", 
+        "plugin:@typescript-eslint/recommended",
         "airbnb-base"
     ],
     "parser": "@typescript-eslint/parser",
@@ -46,7 +46,8 @@
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
         "jest/valid-expect": "error",
-        "react/self-closing-comp": "error"
+        "react/self-closing-comp": "error",
+        "react/jsx-equals-spacing": ["error", "never"]
     },
     "overrides": [
         {
