@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
+import textContent from './textContent';
 
 interface ChangeDataState extends RouteComponentProps {
   error?: null | string,
@@ -13,26 +14,26 @@ class ChangeData extends PureComponent<ChangeDataState> {
 
   formSettings = {
     className: 'changeDataForm',
-    formHeader: 'Изменить данные',
+    formHeader: textContent.header,
     inputsInfo: [{
-      name: 'first_name', value: '', placeholder: 'Имя', type: 'text', validate: ['required'],
+      name: 'first_name', value: '', placeholder: textContent.first_name, type: 'text', validate: ['required'],
     },
     {
-      name: 'second_name', value: '', placeholder: 'Фамилия', type: 'text', validate: ['required'],
+      name: 'second_name', value: '', placeholder: textContent.second_name, type: 'text', validate: ['required'],
     },
     {
-      name: 'login', value: '', placeholder: 'Логин', type: 'text', validate: ['required'],
+      name: 'login', value: '', placeholder: textContent.login, type: 'text', validate: ['required'],
     },
     {
-      name: 'email', value: '', placeholder: 'Почта', type: 'text', validate: ['required', 'email'],
+      name: 'email', value: '', placeholder: textContent.email, type: 'text', validate: ['required', 'email'],
     },
     {
-      name: 'phone', value: '', placeholder: 'Телефон', type: 'text', validate: ['required', 'phone'],
+      name: 'phone', value: '', placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
     },
     ],
-    submitText: 'Сохранить',
+    submitText: textContent.submit,
     redirLinkInfo: {
-      text: 'Страница пользователя',
+      text: textContent.link,
       href: '/profile',
     },
   };
