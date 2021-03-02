@@ -68,15 +68,12 @@ export class Game extends PureComponent {
   }
 
   toggleFullscreen = ():void => {
-    let { fullscreenButtonText } = this.state;
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
-      fullscreenButtonText = 'Свернуть экран';
-      this.setState({ fullscreenButtonText });
+      this.setState({ fullscreenButtonText: 'Свернуть экран' });
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
-      fullscreenButtonText = 'На весь экран';
-      this.setState({ fullscreenButtonText });
+      this.setState({ fullscreenButtonText: 'На весь экран' });
     }
   }
 
@@ -126,10 +123,10 @@ export class Game extends PureComponent {
                 <h3>x4 <span>- 1.25</span></h3>
                 <h3>x5 <span>- 1.5</span></h3>
                 <Button
-                  className = {cls('btn-fullscreen')}
-                  type = 'button'
-                  text = {fullscreenButtonText}
-                  onClick = {this.toggleFullscreen}
+                  className={cls('btn-fullscreen')}
+                  type='button'
+                  text={fullscreenButtonText}
+                  onClick={this.toggleFullscreen}
                 />
               </div>
             </div>
