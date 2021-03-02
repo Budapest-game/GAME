@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
-import textContent from './textContent'
+import textContent from './textContent';
+
 interface ChangePasswordState extends RouteComponentProps {
   error?: null | string,
 }
