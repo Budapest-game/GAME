@@ -9,7 +9,7 @@ interface LeaderInfo {
   avatar: string
 }
 
-export function leader(info: LeaderInfo): JSX.Element {
+export function Leader(info: LeaderInfo): JSX.Element {
   const Cls = cn('leader');
   return <div className={Cls()} key={info.position}>
       <div className={Cls('position')}>{info.position}</div>
