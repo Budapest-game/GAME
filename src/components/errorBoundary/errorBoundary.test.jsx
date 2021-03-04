@@ -11,18 +11,14 @@ afterEach(() => {
   console.error.mockRestore();
 });
 
-function Bomb({ shouldThrow }) {
-  if (shouldThrow) {
-    throw new Error('💣');
-  } else {
-    return null;
-  }
+function Error() {
+  throw new Error();
 }
 describe('Компонет <errorBoundary>', () => {
   it('Компонент ловит ошибку', () => {
     const { container } = render(
       <ErrorBoundary>
-        <Bomb shouldThrow={true} />
+        <Error />
       </ErrorBoundary>,
     );
     expect(container).toHaveTextContent('Something went wrong!');

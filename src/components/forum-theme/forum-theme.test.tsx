@@ -3,9 +3,15 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ForumTheme } from './forum-theme';
 
-describe('Компонет <Form>', () => {
+const themeInfo = {
+  name: 'Тема 1',
+  postsCount: 40,
+};
+
+describe('Компонет <ForumTheme>', () => {
   it('Успешный рендер компонента', () => {
-    const { container } = render(<ForumTheme />);
+    const { container, getByText } = render(<ForumTheme {...themeInfo} />);
     expect(container.firstChild).toHaveClass('theme');
+    expect(getByText(themeInfo.name)).toBeInTheDocument();
   });
 });

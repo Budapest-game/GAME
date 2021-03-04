@@ -4,14 +4,17 @@ import '@testing-library/jest-dom';
 import { Avatar } from './avatar';
 import { BASE_URL } from '../../api/constants';
 
+const emtpyFn = () => {
+  // empty
+};
 describe('Компонет <Avatar>', () => {
   it('Успешный рендер компонента', () => {
-    const { container } = render(<Avatar avatarPath="/test/1" onChange={() => {}} />);
+    const { container } = render(<Avatar avatarPath="/test/1" onChange={emtpyFn} />);
     expect(container.firstChild).toHaveClass('avatar');
   });
   it('Корректно установлен URL картинки', () => {
     const path = '/test/1';
-    const { container } = render(<Avatar avatarPath={path} onChange={() => {}} />);
+    const { container } = render(<Avatar avatarPath={path} onChange={emtpyFn} />);
     const img = container.querySelector('img');
     if (img !== null) {
       expect(img.src).toBe(`${BASE_URL}${path}`);
@@ -19,7 +22,7 @@ describe('Компонет <Avatar>', () => {
   });
   it('Выбор файла для автара', () => {
     const file = new File(['file'], 'file.png', { type: 'image/png' });
-    const { container } = render(<Avatar avatarPath='/test/1' onChange={() => {}} />);
+    const { container } = render(<Avatar avatarPath='/test/1' onChange={emtpyFn} />);
     const input = container.querySelector('input');
     if (input !== null) {
       fireEvent.change(input, { target: { files: [file] } });

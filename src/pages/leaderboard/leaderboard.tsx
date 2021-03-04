@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
-import { leader } from '../../components/leader/leader';
+import { Leader } from '../../components/leader/leader';
 import './leaderboard.css';
 
 export class Leaderboard extends PureComponent {
   fakeLeaders():JSX.Element[] {
     const leaders = [];
     for (let i = 1; i < 11; i++) {
-      leaders.push(leader({
+      leaders.push(Leader({
         name: `Пользователь ${i}`,
         score: 1000,
         position: i,

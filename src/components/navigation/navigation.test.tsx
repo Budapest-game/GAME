@@ -4,9 +4,10 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Navigation } from './navigation';
 
-describe('Компонет <Form>', () => {
+describe('Компонет <Navigation>', () => {
   it('Успешный рендер компонента', () => {
     const { container } = render(<Router><Navigation /></Router>);
-    expect(container.firstChild).toHaveClass('leader');
+    const links = container.querySelectorAll('a');
+    expect(links.length > 0).toBe(true);
   });
 });
