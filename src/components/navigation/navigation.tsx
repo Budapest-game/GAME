@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import textContent from './textContent';
+import './navigation.css';
 
 export class Navigation extends PureComponent {
   render() {
+    const ClsNavigation = cn('navigation');
     return (
-      <nav>
+      <nav className={ClsNavigation()}>
         <ul>
           <li>
             <Link to="/authorization">{textContent.auth}</Link>
