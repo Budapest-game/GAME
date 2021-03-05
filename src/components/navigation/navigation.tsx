@@ -1,17 +1,14 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
+import './navigation.css';
 
 export class Navigation extends PureComponent {
   render() {
+    const ClsNavigation = cn('navigation');
     return (
-      <nav>
+      <nav className={ClsNavigation()}>
         <ul>
-          <li>
-            <Link to="/authorization">Авторизация</Link>
-          </li>
-          <li>
-            <Link to="/registration">Регистрация</Link>
-          </li>
           <li>
             <Link to="/game">Игра</Link>
           </li>
@@ -25,13 +22,7 @@ export class Navigation extends PureComponent {
             <Link to="/profile">Профиль</Link>
           </li>
           <li>
-            <Link to="/page404">Страница 404</Link>
-          </li>
-          <li>
-            <Link to="/page500">Страница 500</Link>
-          </li>
-          <li>
-            <Link to="/controlsDemoPage">Демо страница с контролами</Link>
+            <Link to="/authorization">Авторизация</Link>
           </li>
         </ul>
       </nav>

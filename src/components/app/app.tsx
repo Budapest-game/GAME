@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './app.css';
 import { Navigation } from '../navigation/navigation';
+import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
 import { Game } from '../../pages/game/game';
@@ -19,46 +20,45 @@ export default class App extends PureComponent {
     return (
     <div className="app">
       <Router>
-        <div>
-          <Navigation />
-          <div>
-            <Switch>
-            <Route path="/authorization">
-                <Authorization />
-              </Route>
-              <Route path="/registration">
-                <Registration />
-              </Route>
-              <Route path="/game">
-                <Game />
-              </Route>
-              <Route path="/leaderboard">
-                <Leaderboard />
-              </Route>
-              <Route path="/forum">
-                <Forum />
-              </Route>
-              <Route path="/profile">
-                <Profile />
-              </Route>
-              <Route path="/changePassword">
-                <ChangePassword />
-              </Route>
-              <Route path="/changeData">
-                <ChangeData />
-              </Route>
-              <Route path="/page404">
-                <Page404 />
-              </Route>
-              <Route path="/page500">
-                <Page500 />
-              </Route>
-              <Route path="/controlsDemoPage">
-                <ControlsDemoPage />
-              </Route>
-            </Switch>
-          </div>
-        </div>
+        <Navigation />
+        <Switch>
+          <Route exact path="/">
+            <GameDescription />
+          </Route>
+          <Route path="/authorization">
+            <Authorization />
+          </Route>
+          <Route path="/registration">
+            <Registration />
+          </Route>
+          <Route path="/game">
+            <Game />
+          </Route>
+          <Route path="/leaderboard">
+            <Leaderboard />
+          </Route>
+          <Route path="/forum">
+            <Forum />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route path="/changePassword">
+            <ChangePassword />
+          </Route>
+          <Route path="/changeData">
+            <ChangeData />
+          </Route>
+          <Route path="/page404">
+            <Page404 />
+          </Route>
+          <Route path="/page500">
+            <Page500 />
+          </Route>
+          <Route path="/controlsDemoPage">
+            <ControlsDemoPage />
+          </Route>
+        </Switch>
       </Router>
     </div>
     );
