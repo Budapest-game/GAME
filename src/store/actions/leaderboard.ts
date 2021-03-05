@@ -1,0 +1,22 @@
+import { Action, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { ApplicationState } from '../reducers';
+import { leaderboardInfoLoading, leaderboardInfoLoadSuccess } from '../actionCreators/leaderboard';
+import { leaderboardInfo } from './leaderboardFakeData';
+
+export const LEADERBOARD_INFO_IS_LOADING = 'FORUM_INFO_IS_LOADING';
+export const LEADERBOARD_INFO_LOAD_SUCCESS = 'FORUM_INFO_LOAD_SUCCESS';
+
+export function fetchLeaderboardInfo(/* url: string */):
+ThunkAction<void, ApplicationState, unknown, Action<string>> {
+  return (dispatch: Dispatch) => {
+    dispatch(leaderboardInfoLoading(true));
+
+    // fetch data from server
+
+    setTimeout(() => {
+      dispatch(leaderboardInfoLoading(false));
+      dispatch(leaderboardInfoLoadSuccess(leaderboardInfo));
+    }, 2000);
+  };
+}

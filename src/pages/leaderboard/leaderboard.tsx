@@ -1,34 +1,58 @@
 import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
-import { leader } from '../../components/leader/leader';
+import { Leader } from '../../components/leader/leader';
+import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leaderboard.css';
 
-export class Leaderboard extends PureComponent {
-  fakeLeaders():JSX.Element[] {
+export interface LeaderboardProps {
+  leaderboardIsLoading: boolean;
+  leaderboardInfo: LeaderInfo[];
+  fetchData: (/* url: string */) => void;
+}
+
+export class Leaderboard extends PureComponent<LeaderboardProps> {
+  makeLeadersInfoLayout(info: LeaderInfo[]):JSX.Element[] {
     const leaders = [];
-    for (let i = 1; i < 11; i++) {
-      leaders.push(leader({
-        name: `Пользователь ${i}`,
-        score: 1000,
-        position: i,
-        avatar: 'https://ih1.redbubble.net/image.223416826.7278/pp,840x830-pad,1000x1000,f8f8f8.u3.jpg',
+    for (let i = 0; i < info.length; i++) {
+      leaders.push(Leader({
+        name: info[i].name,
+        score: info[i].score,
+        position: info[i].position,
+        avatar: info[i].avatar,
       }));
     }
     return leaders;
   }
 
+  componentDidMount() {
+    this.props.fetchData();
+  }
+
   render():JSX.Element {
+    if (this.props.leaderboardIsLoading) {
+      return <>Loading...</>;
+    }
+
     const Cls = cn('leaderboard');
-    const leadersComponents = this.fakeLeaders();
+    const leadersComponents = this.makeLeadersInfoLayout(this.props.leaderboardInfo);
+
+    if (!this.props.leaderboardInfo) {
+      return (
+        <div className={Cls()}>
+            Loading...
+        </div>
+      );
+    }
+
     return (
-             <div className={Cls()}>
-               <div className={Cls('header')}>
-                 <h1>Таблица лидеров</h1>
-               </div>
-               <div className={Cls('content')}>
-                {leadersComponents}
-              </div>
-            </div>
+      <div className={Cls()}>
+        <div className={Cls('header')}>
+          <h1>Таблица лидеров</h1>
+        </div>
+        <div className={Cls('content')}>
+          {leadersComponents}
+        </div>
+      </div>
     );
   }
 }
