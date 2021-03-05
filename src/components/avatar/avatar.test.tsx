@@ -16,22 +16,15 @@ describe('Компонет <Avatar>', () => {
     const path = '/test/1';
     const { container } = render(<Avatar avatarPath={path} onChange={emtpyFn} />);
     const img = container.querySelector('img');
-    if (img !== null) {
-      expect(img.src).toBe(`${BASE_URL}${path}`);
-    }
+    expect(img.src).toBe(`${BASE_URL}${path}`);
   });
   it('Выбор файла для автара', () => {
     const file = new File(['file'], 'file.png', { type: 'image/png' });
     const { container } = render(<Avatar avatarPath='/test/1' onChange={emtpyFn} />);
     const input = container.querySelector('input');
-    if (input !== null) {
-      fireEvent.change(input, { target: { files: [file] } });
-      expect(input.files).toHaveLength(1);
-      if (input.files && input.files.length) expect(input?.files[0].name).toBe('file.png');
-      else throw new Error('У инпута с типо file нет свойства files');
-    } else {
-      throw new Error('Не найден элемет input');
-    }
+    fireEvent.change(input, { target: { files: [file] } });
+    expect(input.files).toHaveLength(1);
+    expect(input?.files[0].name).toBe('file.png');
   });
   it('Проверка обработчика onChange', () => {
     let handlerStatus = false;
@@ -40,11 +33,7 @@ describe('Компонет <Avatar>', () => {
     };
     const { container } = render(<Avatar avatarPath='/test/1' onChange={changeHandler} />);
     const input = container.querySelector('input');
-    if (input !== null) {
-      fireEvent.change(input);
-      expect(handlerStatus).toBe(true);
-    } else {
-      throw new Error('Не найден элемет input');
-    }
+    fireEvent.change(input);
+    expect(handlerStatus).toBe(true);
   });
 });
