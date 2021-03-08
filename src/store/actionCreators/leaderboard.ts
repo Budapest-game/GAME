@@ -14,34 +14,34 @@ export interface LeaderboardInfo {
 
 export interface LeaderboardInfoLoadingAction extends Action<typeof LEADERBOARD_INFO_IS_LOADING> {
   payload: {
-    leaderboardIsLoading: boolean;
+    isLoading: boolean;
   }
 }
 
 export interface LeaderboardInfoLoadSuccessAction extends
 Action<typeof LEADERBOARD_INFO_LOAD_SUCCESS> {
   payload: {
-    leaderboardInfo: LeaderInfo[];
+    info: LeaderInfo[];
   }
 }
 
 export type LeaderboardAction = LeaderboardInfoLoadingAction | LeaderboardInfoLoadSuccessAction;
 
-export function leaderboardInfoLoading(leaderboardIsLoading: boolean): LeaderboardInfoLoadingAction {
+export function leaderboardInfoLoading(isLoading: boolean): LeaderboardInfoLoadingAction {
   return {
     type: LEADERBOARD_INFO_IS_LOADING,
     payload: {
-      leaderboardIsLoading,
+      isLoading,
     },
   };
 }
 
-export function leaderboardInfoLoadSuccess(leaderboardInfo: LeaderInfo[]):
+export function leaderboardInfoLoadSuccess(info: LeaderInfo[]):
 LeaderboardInfoLoadSuccessAction {
   return {
     type: LEADERBOARD_INFO_LOAD_SUCCESS,
     payload: {
-      leaderboardInfo,
+      info,
     },
   };
 }

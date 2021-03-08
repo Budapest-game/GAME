@@ -2,13 +2,13 @@ import { LEADERBOARD_INFO_IS_LOADING, LEADERBOARD_INFO_LOAD_SUCCESS } from '../a
 import { LeaderInfo, LeaderboardAction } from '../actionCreators/leaderboard';
 
 export interface LeaderboardState {
-  leaderboardIsLoading: boolean;
-  leaderboardInfo: LeaderInfo[];
+  isLoading: boolean;
+  info: LeaderInfo[];
 }
 
 const defaultLeaderboardState: LeaderboardState = {
-  leaderboardIsLoading: false,
-  leaderboardInfo: [],
+  isLoading: false,
+  info: [],
 };
 
 export function leaderboardReducer(
@@ -19,13 +19,13 @@ export function leaderboardReducer(
     case LEADERBOARD_INFO_IS_LOADING:
       return {
         ...state,
-        leaderboardIsLoading: action.payload.leaderboardIsLoading,
+        isLoading: action.payload.isLoading,
       };
 
     case LEADERBOARD_INFO_LOAD_SUCCESS:
       return {
         ...state,
-        leaderboardInfo: action.payload.leaderboardInfo,
+        info: action.payload.info,
       };
 
     default:

@@ -1,6 +1,6 @@
 import { LeaderInfo } from '../actionCreators/leaderboard';
 
-export const leaderboardInfo: LeaderInfo[] = [
+export const info: LeaderInfo[] = [
   {
     name: 'Пользователь',
     score: 1000,

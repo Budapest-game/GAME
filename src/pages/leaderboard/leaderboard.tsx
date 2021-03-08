@@ -5,8 +5,8 @@ import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leaderboard.css';
 
 export interface LeaderboardProps {
-  leaderboardIsLoading: boolean;
-  leaderboardInfo: LeaderInfo[];
+  isLoading: boolean;
+  info: LeaderInfo[];
   fetchData: (/* url: string */) => void;
 }
 
@@ -29,14 +29,14 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
   }
 
   render():JSX.Element {
-    if (this.props.leaderboardIsLoading) {
+    if (this.props.isLoading) {
       return <>Loading...</>;
     }
 
     const Cls = cn('leaderboard');
-    const leadersComponents = this.makeLeadersInfoLayout(this.props.leaderboardInfo);
+    const leadersComponents = this.makeLeadersInfoLayout(this.props.info);
 
-    if (!this.props.leaderboardInfo) {
+    if (!this.props.info) {
       return (
         <div className={Cls()}>
             Loading...

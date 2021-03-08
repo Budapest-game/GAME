@@ -5,8 +5,8 @@ import { Leaderboard } from './leaderboard';
 
 const mapStateToProps = (state: ApplicationState) => {
   return {
-    leaderboardInfo: state.leaderboard.leaderboardInfo,
-    leaderboardIsLoading: state.leaderboard.leaderboardIsLoading,
+    info: state.leaderboard.info,
+    isLoading: state.leaderboard.isLoading,
   };
 };
 
