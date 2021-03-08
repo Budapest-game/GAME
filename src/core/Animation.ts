@@ -56,8 +56,6 @@ export default class Animation {
       setTimeout(() => {
         this.updateGameField();
       }, 300);
-    } else {
-
     }
   }
 

@@ -20,6 +20,8 @@ interface ProfileState{
   loading: boolean,
   user: ProfileInfo
 }
+
+const Cls = cn('profile');
 class Profile extends PureComponent<RouteComponentProps> {
   state:ProfileState = {
     loading: true,
@@ -63,7 +65,6 @@ class Profile extends PureComponent<RouteComponentProps> {
   }
 
   profileLayout(): JSX.Element {
-    const Cls = cn('profile');
     return (
       <React.Fragment>
         <Avatar avatarPath={this.state.user.avatar} onChange={this.avatarChange}/>
@@ -93,20 +94,9 @@ class Profile extends PureComponent<RouteComponentProps> {
             <span>Почта</span>
             <span className={Cls('content')}>{this.state.user.email}</span>
           </li>
-
           <li className={Cls('item')}>
-            <span>Телефон</span>
-            <span className={Cls('content')}>{this.state.user.phone}</span>
+            <Link to="/change-password">Изменить пароль</Link>
           </li>
-
-          <li className={Cls('item')}>
-            <Link to="/changedata">Изменить данные</Link>
-          </li>
-
-          <li className={Cls('item')}>
-            <Link to="/changepassword">Изменить пароль</Link>
-          </li>
-
           <li className={Cls('item')}>
             <Button
               type='submit'

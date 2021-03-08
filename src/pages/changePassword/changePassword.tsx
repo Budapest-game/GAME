@@ -4,6 +4,7 @@ import { Form } from '../../components/form/form';
 import textContent from './textContent';
 import UserApi from '../../api/user/user';
 import { UserPassUpdateData } from '../../api/types';
+import textContent from './textContent';
 
 interface ChangePasswordState extends RouteComponentProps {
   error?: null | string,
@@ -16,7 +17,7 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
 
   formSettings = {
     className: 'changeDataForm',
-    formHeader: 'Изменить пароль',
+    formHeader: textContent.header,
     inputsInfo: [{
       name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
@@ -24,9 +25,9 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
       name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: 'Сохранить',
+    submitText: textContent.submit,
     redirLinkInfo: {
-      text: 'Страница пользователя',
+      text: textContent.link,
       href: '/profile',
     },
   };
