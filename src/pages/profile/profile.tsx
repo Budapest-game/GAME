@@ -71,11 +71,11 @@ class Profile extends PureComponent<RouteComponentProps> {
         <legend className={Cls('legend')}>{this.state.user.first_name} {this.state.user.second_name}</legend>
 
         <ul className={Cls()}>
-          {ProfileField({ description: 'Имя', name: this.state.user.first_name })}
-          {ProfileField({ description: 'Фамилия', name: this.state.user.second_name })}
-          {ProfileField({ description: 'Логин', name: this.state.user.login })}
-          {ProfileField({ description: 'Почта', name: this.state.user.email })}
-          {ProfileField({ description: 'Телефон', name: this.state.user.phone })}
+          <ProfileField description='Имя' name={this.state.user.first_name} />
+          <ProfileField description='Фамилия' name={this.state.user.second_name} />
+          <ProfileField description='Логин' name={this.state.user.login} />
+          <ProfileField description='Почта' name={this.state.user.email} />
+          <ProfileField description='Телефон' name={this.state.user.phone} />
           <li className={Cls('item')}>
             <Link to="/change-data">Изменить данные</Link>
           </li>
