@@ -2,13 +2,6 @@ import React from 'react';
 import { cn } from '@bem-react/classname';
 import './leader.css';
 
-interface LeaderInfo {
-  name: string,
-  score: number,
-  position: number,
-  avatar: string
-}
-
 const Cls = cn('leader');
 
 export function Leader(info: LeaderInfo): JSX.Element {
