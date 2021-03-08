@@ -3,6 +3,7 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { cn } from '@bem-react/classname';
 import { Avatar } from '../../components/avatar/avatar';
 import { Button } from '../../components/button/button';
+import { ProfileField } from '../../components/profileField/profileField';
 import UserApi from '../../api/user/user';
 import AuthorizationApi from '../../api/auth/authorization';
 import './profile.css';
@@ -19,6 +20,8 @@ interface ProfileState{
   loading: boolean,
   user: ProfileInfo
 }
+
+const Cls = cn('profile');
 class Profile extends PureComponent<RouteComponentProps> {
   state:ProfileState = {
     loading: true,
@@ -62,46 +65,23 @@ class Profile extends PureComponent<RouteComponentProps> {
   }
 
   profileLayout(): JSX.Element {
-    const Cls = cn('profile');
     return (
       <React.Fragment>
         <Avatar avatarPath={this.state.user.avatar} onChange={this.avatarChange}/>
         <legend className={Cls('legend')}>{this.state.user.first_name} {this.state.user.second_name}</legend>
 
         <ul className={Cls()}>
+          <ProfileField description='Имя' name={this.state.user.first_name} />
+          <ProfileField description='Фамилия' name={this.state.user.second_name} />
+          <ProfileField description='Логин' name={this.state.user.login} />
+          <ProfileField description='Почта' name={this.state.user.email} />
+          <ProfileField description='Телефон' name={this.state.user.phone} />
           <li className={Cls('item')}>
-            <span>Имя</span>
-            <span className={Cls('content')}>{this.state.user.first_name}</span>
+            <Link to="/change-data">Изменить данные</Link>
           </li>
-
           <li className={Cls('item')}>
-            <span>Фамилия</span>
-            <span className={Cls('content')}>{this.state.user.second_name}</span>
+            <Link to="/change-password">Изменить пароль</Link>
           </li>
-
-          <li className={Cls('item')}>
-            <span>Логин</span>
-            <span className={Cls('content')}>{this.state.user.login}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Почта</span>
-            <span className={Cls('content')}>{this.state.user.email}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Телефон</span>
-            <span className={Cls('content')}>{this.state.user.phone}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <Link to="/changedata">Изменить данные</Link>
-          </li>
-
-          <li className={Cls('item')}>
-            <Link to="/changepassword">Изменить пароль</Link>
-          </li>
-
           <li className={Cls('item')}>
             <Button
               type='submit'

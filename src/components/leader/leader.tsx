@@ -3,8 +3,16 @@ import { cn } from '@bem-react/classname';
 import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leader.css';
 
+interface LeaderInfo {
+  name: string,
+  score: number,
+  position: number,
+  avatar: string
+}
+
+const Cls = cn('leader');
+
 export function Leader(info: LeaderInfo): JSX.Element {
-  const Cls = cn('leader');
   return <div className={Cls()} key={info.position}>
       <div className={Cls('position')}>{info.position}</div>
       <div className={Cls('media')}>
@@ -14,7 +22,7 @@ export function Leader(info: LeaderInfo): JSX.Element {
         <span>{info.name}</span>
       </div>
       <div className={Cls('score')}>
-        <span>{info.score}</span>
+          <span>{info.score}</span>
       </div>
   </div>;
 }

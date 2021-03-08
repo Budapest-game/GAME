@@ -4,6 +4,9 @@ import { Leader } from '../../components/leader/leader';
 import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leaderboard.css';
 
+
+const Cls = cn('leaderboard');
+
 export interface LeaderboardProps {
   isLoading: boolean;
   info: LeaderInfo[];
@@ -29,6 +32,8 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
   }
 
   render():JSX.Element {
+    const leadersComponents = this.fakeLeaders();
+    
     if (this.props.isLoading) {
       return <>Loading...</>;
     }
@@ -43,8 +48,7 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
         </div>
       );
     }
-
-    return (
+   return (
       <div className={Cls()}>
         <div className={Cls('header')}>
           <h1>Таблица лидеров</h1>

@@ -8,12 +8,13 @@ interface AvatarInfo {
   onChange: (event: React.ChangeEvent<HTMLInputElement>)=>void,
 }
 
+const Cls = cn('avatar');
+
 export function Avatar(props: AvatarInfo): JSX.Element {
-  const AvatarCls = cn('avatar');
   return (
-    <div className={AvatarCls()}>
-      <img className={AvatarCls('img')} src={BASE_URL + props.avatarPath} />
-      <input className={AvatarCls('attach')} type="file" name="avatar" onChange={props.onChange} />
+    <div className={Cls()}>
+      <img className={Cls('img')} src={BASE_URL + props.avatarPath} />
+      <input className={Cls('attach')} type="file" name="avatar" />
     </div>
   );
 }

@@ -10,9 +10,9 @@ interface ButtonProps
   text?: string;
 }
 
+const Cls = cn('btn');
 export class Button extends PureComponent<ButtonProps> {
   render() {
-    const Cls = cn('btn');
     const classNames = Cls(null, [this.props.className]);
     const { text, ...props } = this.props;
 
