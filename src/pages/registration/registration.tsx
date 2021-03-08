@@ -28,6 +28,11 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
     };
   }
 
+  redirectToGame = () => {
+    const { history } = this.props;
+    history.push('/game');
+  }
+
   regRequest = (_data: Record<string, string>): void => {
     this.setState({ error: null });
 

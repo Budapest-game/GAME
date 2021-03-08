@@ -86,13 +86,13 @@ export class ControlsDemo extends PureComponent<unknown, ControlsDemoState> {
         <Button
           type='reset'
           text='Reset'
-          className = 'button-error'
+          className='button-error'
           onClick={() => { console.log('clicked'); }}
         />
         <Button
           type='reset'
           text='Component Error'
-          className = 'button-error'
+          className='button-error'
           onClick={() => { this.setState({ compError: true }); }}
         />
         { this.state.compError ? <WrongComponent/> : '' }

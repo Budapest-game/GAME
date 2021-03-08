@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import textContent from './textContent';
 import './navigation.css';
 
+const Cls = cn('navigation');
 export class Navigation extends PureComponent {
   render() {
-    const ClsNavigation = cn('navigation');
     return (
-      <nav className={ClsNavigation()}>
+      <nav className={Cls()}>
         <ul>
           <li>
             <Link to="/authorization">{textContent.auth}</Link>

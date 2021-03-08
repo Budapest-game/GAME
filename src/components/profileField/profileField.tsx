@@ -9,9 +9,9 @@ interface fieldInfo {
 
 const Cls = cn('profile');
 
-export function ProfileField(info: fieldInfo): JSX.Element {
+export function ProfileField(props: fieldInfo): JSX.Element {
   return <li className={Cls('item')}>
-          <span>{info.description}</span>
-          <span className={Cls('content')}>{info.name}</span>
+          <span>{props.description}</span>
+          <span className={Cls('content')}>{props.name}</span>
         </li>;
 }

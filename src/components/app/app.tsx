@@ -23,6 +23,7 @@ export default class App extends PureComponent {
           <Navigation />
           <div>
             <Switch>
+              <Route exact path="/" component={GameDescription}/>
               <Route path="/authorization" component={Authorization}/>
               <Route path="/registration" component={Registration}/>
               <Route path="/game" component={Game}/>
