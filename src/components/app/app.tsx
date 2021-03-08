@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './app.css';
 import { Navigation } from '../navigation/navigation';
+import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
 import { Game } from '../../pages/game/game';
-import { Leaderboard } from '../../pages/leaderboard/leaderboard';
+import Leaderboard from '../../pages/leaderboard';
 import Forum from '../../pages/forum';
 import Profile from '../../pages/profile/profile';
 import ChangePassword from '../../pages/changePassword/changePassword';
@@ -23,6 +24,7 @@ export default class App extends PureComponent {
           <Navigation />
           <div>
             <Switch>
+              <Route exact path="/" component={GameDescription}/>
               <Route path="/authorization" component={Authorization}/>
               <Route path="/registration" component={Registration}/>
               <Route path="/game" component={Game}/>
