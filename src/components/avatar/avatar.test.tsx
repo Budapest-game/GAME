@@ -18,7 +18,7 @@ describe('Компонет <Avatar>', () => {
     const img = container.querySelector('img');
     expect(img.src).toBe(`${BASE_URL}${path}`);
   });
-  it('Выбор файла для автара', () => {
+  it('Выбор файла для аватара', () => {
     const file = new File(['file'], 'file.png', { type: 'image/png' });
     const { container } = render(<Avatar avatarPath='/test/1' onChange={emtpyFn} />);
     const input = container.querySelector('input');
