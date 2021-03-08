@@ -1,34 +1,58 @@
 import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
 import { Leader } from '../../components/leader/leader';
+import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leaderboard.css';
 
-export class Leaderboard extends PureComponent {
-  fakeLeaders():JSX.Element[] {
+const Cls = cn('leaderboard');
+
+export interface LeaderboardProps {
+  isLoading: boolean;
+  info: LeaderInfo[];
+  fetchData: (/* url: string */) => void;
+}
+
+export class Leaderboard extends PureComponent<LeaderboardProps> {
+  makeLeadersInfoLayout(info: LeaderInfo[]):JSX.Element[] {
     const leaders = [];
-    for (let i = 1; i < 11; i++) {
+    for (let i = 0; i < info.length; i++) {
       leaders.push(Leader({
-        name: `Пользователь ${i}`,
-        score: 1000,
-        position: i,
-        avatar: 'https://ih1.redbubble.net/image.223416826.7278/pp,840x830-pad,1000x1000,f8f8f8.u3.jpg',
+        name: info[i].name,
+        score: info[i].score,
+        position: info[i].position,
+        avatar: info[i].avatar,
       }));
     }
     return leaders;
   }
 
+  componentDidMount() {
+    this.props.fetchData();
+  }
+
   render():JSX.Element {
-    const Cls = cn('leaderboard');
-    const leadersComponents = this.fakeLeaders();
+    if (this.props.isLoading) {
+      return <>Loading...</>;
+    }
+
+    const leadersComponents = this.makeLeadersInfoLayout(this.props.info);
+
+    if (!this.props.info) {
+      return (
+        <div className={Cls()}>
+            Loading...
+        </div>
+      );
+    }
     return (
-             <div className={Cls()}>
-               <div className={Cls('header')}>
-                 <h1>Таблица лидеров</h1>
-               </div>
-               <div className={Cls('content')}>
-                {leadersComponents}
-              </div>
-            </div>
+      <div className={Cls()}>
+        <div className={Cls('header')}>
+          <h1>Таблица лидеров</h1>
+        </div>
+        <div className={Cls('content')}>
+          {leadersComponents}
+        </div>
+      </div>
     );
   }
 }
