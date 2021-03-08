@@ -4,7 +4,6 @@ import { Leader } from '../../components/leader/leader';
 import { LeaderInfo } from '../../store/actionCreators/leaderboard';
 import './leaderboard.css';
 
-
 const Cls = cn('leaderboard');
 
 export interface LeaderboardProps {
@@ -32,13 +31,10 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
   }
 
   render():JSX.Element {
-    const leadersComponents = this.fakeLeaders();
-    
     if (this.props.isLoading) {
       return <>Loading...</>;
     }
 
-    const Cls = cn('leaderboard');
     const leadersComponents = this.makeLeadersInfoLayout(this.props.info);
 
     if (!this.props.info) {

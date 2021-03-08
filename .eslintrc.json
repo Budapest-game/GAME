@@ -29,6 +29,7 @@
     ],
     "rules": {
         "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "**/*.test.tsx"]}],
         "no-plusplus": "off",
         "camelcase": "warn",
         "import/extensions": "off",
