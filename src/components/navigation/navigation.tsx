@@ -1,37 +1,41 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
+import textContent from './textContent';
+import './navigation.css';
 
+const Cls = cn('navigation');
 export class Navigation extends PureComponent {
   render() {
     return (
-      <nav>
+      <nav className={Cls()}>
         <ul>
           <li>
-            <Link to="/authorization">Авторизация</Link>
+            <Link to="/authorization">{textContent.auth}</Link>
           </li>
           <li>
-            <Link to="/registration">Регистрация</Link>
+            <Link to="/registration">{textContent.reg}</Link>
           </li>
           <li>
-            <Link to="/game">Игра</Link>
+            <Link to="/game">{textContent.game}</Link>
           </li>
           <li>
-            <Link to="/leaderboard">Таблица лидеров</Link>
+            <Link to="/leaderboard">{textContent.leaderbord}</Link>
           </li>
           <li>
-            <Link to="/forum">Форум</Link>
+            <Link to="/forum">{textContent.forum}</Link>
           </li>
           <li>
-            <Link to="/profile">Профиль</Link>
+            <Link to="/profile">{textContent.profile}</Link>
           </li>
           <li>
-            <Link to="/page404">Страница 404</Link>
+            <Link to="/page404">{textContent.page404}</Link>
           </li>
           <li>
-            <Link to="/page500">Страница 500</Link>
+            <Link to="/page500">{textContent.page500}</Link>
           </li>
           <li>
-            <Link to="/controlsDemoPage">Демо страница с контролами</Link>
+            <Link to="/controls-demo">{textContent.demo}</Link>
           </li>
         </ul>
       </nav>

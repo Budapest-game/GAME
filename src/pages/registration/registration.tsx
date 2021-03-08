@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import { RegistrationData } from '../../api/types';
+import textContent from './textContent';
 import './registration.css';
 
 interface RegistrationState {
@@ -27,6 +28,11 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
     };
   }
 
+  redirectToGame = () => {
+    const { history } = this.props;
+    history.push('/game');
+  }
+
   regRequest = (_data: Record<string, string>): void => {
     this.setState({ error: null });
 
@@ -41,30 +47,30 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
 
   formSettings = {
     className: 'registrationForm',
-    formHeader: 'Регистрация',
+    formHeader: textContent.header,
     inputsInfo: [{
-      name: 'email', value: '', placeholder: 'Почта', type: 'text', validate: ['required', 'email'],
+      name: 'email', value: '', placeholder: textContent.email, type: 'text', validate: ['required', 'email'],
     }, {
-      name: 'login', value: '', placeholder: 'Логин', type: 'text', validate: ['required'],
+      name: 'login', value: '', placeholder: textContent.login, type: 'text', validate: ['required'],
     }, {
-      name: 'first_name', value: '', placeholder: 'Имя', type: 'text', validate: ['required'],
+      name: 'first_name', value: '', placeholder: textContent.first_name, type: 'text', validate: ['required'],
     },
     {
-      name: 'second_name', value: '', placeholder: 'Фамилия', type: 'text', validate: ['required'],
+      name: 'second_name', value: '', placeholder: textContent.second_name, type: 'text', validate: ['required'],
     },
     {
-      name: 'phone', value: '', placeholder: 'Телефон', type: 'text', validate: ['required', 'phone'],
+      name: 'phone', value: '', placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
     },
     {
-      name: 'password', value: '', placeholder: 'Пароль', type: 'password', validate: ['required'],
+      name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
     {
-      name: 'second_password', value: '', placeholder: 'Подтвердите пароль', type: 'password', validate: ['required'],
+      name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: 'Зарегистрироваться',
+    submitText: textContent.submit,
     redirLinkInfo: {
-      text: 'Войти',
+      text: textContent.link,
       href: '/authorization',
     },
   };

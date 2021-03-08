@@ -44,7 +44,7 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
         </div>
       );
     }
-    return (
+   return (
       <div className={Cls()}>
         <div className={Cls('header')}>
           <h1>Таблица лидеров</h1>
