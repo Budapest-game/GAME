@@ -19,6 +19,11 @@ export class Forum extends PureComponent<ForumProps> {
       return <>Loading...</>;
     }
 
+    if (!this.props.forumInfo) {
+      return <div className="forumPage">
+        Loading...
+      </div>;
+    }
     const forum = this.props.forumInfo.map((f, i) => { return <ForumSection {...f} key={i}/>; });
     return <div className="forumPage">
       { forum }
