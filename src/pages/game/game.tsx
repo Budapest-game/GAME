@@ -10,8 +10,6 @@ import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
 import { Button } from '../../components/button/button';
 
-const Cls = cn('game-map');
-
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
 

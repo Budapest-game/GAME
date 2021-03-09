@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
-import textContent from './textContent';
 import UserApi from '../../api/user/user';
 import { UserPassUpdateData } from '../../api/types';
 import textContent from './textContent';
