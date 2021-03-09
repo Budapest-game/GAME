@@ -71,28 +71,13 @@ class Profile extends PureComponent<RouteComponentProps> {
         <legend className={Cls('legend')}>{this.state.user.first_name} {this.state.user.second_name}</legend>
 
         <ul className={Cls()}>
-          {ProfileField({ description: 'Имя', name: info.name })}
-          {ProfileField({ description: 'Фамилия', name: info.lastName })}
-          {ProfileField({ description: 'Логин', name: info.login })}
-          {ProfileField({ description: 'Почта', name: info.email })}
-          {ProfileField({ description: 'Телефон', name: info.phone })}
+          <ProfileField description='Имя' name={this.state.user.first_name} />
+          <ProfileField description='Фамилия' name={this.state.user.second_name} />
+          <ProfileField description='Логин' name={this.state.user.login} />
+          <ProfileField description='Почта' name={this.state.user.email} />
+          <ProfileField description='Телефон' name={this.state.user.phone} />
           <li className={Cls('item')}>
-            <span>Имя</span>
-            <span className={Cls('content')}>{this.state.user.first_name}</span>
-          </li>
-          <li className={Cls('item')}>
-            <span>Фамилия</span>
-            <span className={Cls('content')}>{this.state.user.second_name}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Логин</span>
-            <span className={Cls('content')}>{this.state.user.login}</span>
-          </li>
-
-          <li className={Cls('item')}>
-            <span>Почта</span>
-            <span className={Cls('content')}>{this.state.user.email}</span>
+            <Link to="/change-data">Изменить данные</Link>
           </li>
           <li className={Cls('item')}>
             <Link to="/change-password">Изменить пароль</Link>

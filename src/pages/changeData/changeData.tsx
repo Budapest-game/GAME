@@ -1,16 +1,9 @@
 import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
-<<<<<<< HEAD
-import textContent from './textContent';
-=======
 import UserApi from '../../api/user/user';
 import { UserInfoUpdateData } from '../../api/types';
-<<<<<<< HEAD
->>>>>>> S6T41: Добавить API для изменения профиля пользователя (#17)
-=======
 import textContent from './textContent';
->>>>>>> S6T56: Правки замечаний по 5 спринту (#25)
 
 interface ChangeDataState extends RouteComponentProps {
   error?: null | string,
@@ -30,32 +23,6 @@ class ChangeData extends PureComponent<ChangeDataState> {
     },
   }
 
-<<<<<<< HEAD
-  formSettings = {
-    className: 'changeDataForm',
-    formHeader: textContent.header,
-    inputsInfo: [{
-      name: 'first_name', value: '', placeholder: textContent.first_name, type: 'text', validate: ['required'],
-    },
-    {
-      name: 'second_name', value: '', placeholder: textContent.second_name, type: 'text', validate: ['required'],
-    },
-    {
-      name: 'login', value: '', placeholder: textContent.login, type: 'text', validate: ['required'],
-    },
-    {
-      name: 'email', value: '', placeholder: textContent.email, type: 'text', validate: ['required', 'email'],
-    },
-    {
-      name: 'phone', value: '', placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
-    },
-    ],
-    submitText: textContent.submit,
-    redirLinkInfo: {
-      text: textContent.link,
-      href: '/profile',
-    },
-=======
   componentDidMount():void {
     UserApi.get().then((res) => {
       this.setState({ user: res, loading: false });
@@ -91,7 +58,6 @@ class ChangeData extends PureComponent<ChangeDataState> {
         href: '/profile',
       },
     };
->>>>>>> S6T41: Добавить API для изменения профиля пользователя (#17)
   };
 
   redirectToProfile = ():void => {
