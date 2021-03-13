@@ -8,8 +8,7 @@
     "lint-fix": "eslint ./src/ --ext=.tsx --ext=.ts --fix",
     "test": "jest -u",
     "webpack": "webpack --config ./webpack.config.js",
-    "start": "webpack serve --mode development --open --hot",
-    "start-heroku": "node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -51,6 +50,7 @@
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@types/jest": "^26.0.20",
@@ -61,6 +61,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/react-test-renderer": "^17.0.1",
     "@types/redux": "^3.6.0",
+    "@types/webpack-env": "^1.16.0",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "babel-jest": "^26.6.3",
@@ -76,6 +77,7 @@
     "postcss-loader": "^5.0.0",
     "postcss-nested": "^5.0.3",
     "postcss-preset-env": "^6.7.0",
+    "react-refresh": "^0.9.0",
     "react-test-renderer": "^17.0.1",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.14",
@@ -84,6 +86,8 @@
     "webpack-dev-server": "^3.11.2",
     "workbox-core": "^6.1.2",
     "workbox-precaching": "^6.1.2",
-    "workbox-webpack-plugin": "^6.1.2"
+    "workbox-webpack-plugin": "^6.1.2",
+    "webpack-dev-middleware": "^4.1.0",
+    "webpack-hot-middleware": "^2.25.0"
   }
 }
