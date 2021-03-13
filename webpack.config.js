@@ -1,8 +1,12 @@
 const path = require('path');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   entry: [
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './src/index.tsx',
   ],
   module: {
@@ -35,12 +39,12 @@ module.exports = {
     filename: 'main.bundle.js',
     publicPath: '/',
   },
-  devServer: {
-    historyApiFallback: true,
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './www/index.html',
     }),
+    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };
