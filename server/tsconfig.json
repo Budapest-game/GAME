@@ -1,0 +1,36 @@
+
+{
+  "compilerOptions": {
+    "outDir": "../dist",
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "target": "es5",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "lib": ["DOM", "es2018"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "typeRoots": ["../node_modules/@types", "../src/types.d.ts"],
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strict": true,
+    "noImplicitThis": true,
+  },
+  "include": [
+    "server.ts",
+    "../src/**/*",
+    "../.d.ts",
+    "../tests/jest.setup.ts"
+  ],
+  "exclude": [
+    "../src/**/*.test.ts",
+    "../src/**/*.test.tsx"
+  ]
+}
