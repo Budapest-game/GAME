@@ -36,7 +36,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'static/'),
-    filename: 'main.[contenthash].js',
+    filename: 'main.bundle.js',
     publicPath: '/',
   },
   plugins: [
