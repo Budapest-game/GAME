@@ -1,7 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
 import { BASE_URL } from '../../api/constants';
-import './avatar.css';
 
 interface AvatarInfo {
   avatarPath: string,

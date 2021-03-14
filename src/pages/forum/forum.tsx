@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { ForumSection } from '../../components/forum-section/forum-section';
 import { ForumInfo } from '../../store/actionCreators/forum';
-import './forum.css';
 
 export interface ForumProps {
   isLoading: boolean;

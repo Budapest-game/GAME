@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
-import './input.css';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

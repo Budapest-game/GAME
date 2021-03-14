@@ -1,5 +1,8 @@
 import React from 'react';
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { StaticRouterContext } from 'react-router';
+import { StaticRouter } from 'react-router-dom';
+import Index from '../../../src/index';
 
 function getPageHtml(bundleHtml:string) {
   const html = renderToStaticMarkup(
@@ -19,10 +22,11 @@ interface RenderBundleArguments {
 }
 
 export default ():RenderBundleArguments => {
+  const context: StaticRouterContext = {};
   const bundleHtml = renderToString(
-      <span>
-         THIS IS SSSSSR
-      </span>,
+    <StaticRouter context={context} location='/'>
+      <Index />
+    </StaticRouter>,
   );
   return {
     html: getPageHtml(bundleHtml),

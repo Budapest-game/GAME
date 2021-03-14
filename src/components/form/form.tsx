@@ -3,7 +3,6 @@ import { cn } from '@bem-react/classname';
 import { inputValidation } from '../../utils/validation';
 import { Input, InputProps } from '../input/input';
 import { Button } from '../button/button';
-import './form.css';
 
 interface Props {
   formHeader: string

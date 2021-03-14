@@ -4,7 +4,7 @@
     "outDir": "../dist",
     "skipLibCheck": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "lib": ["DOM", "es2018"],
@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "jsx": "react",
-    "typeRoots": ["../node_modules/@types"],
+    "typeRoots": ["../node_modules/@types", "../src/types.d.ts"],
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "strictNullChecks": true,
@@ -24,12 +24,12 @@
     "noImplicitThis": true,
   },
   "include": [
-    "./@types/**/*",
-    "server.ts",
+    "../src/**/*",
     "../.d.ts",
-    "middlewares/**/*",
+    "../tests/jest.setup.ts"
   ],
   "exclude": [
-    "../src/*"
+    "../src/**/*.test.ts",
+    "../src/**/*.test.tsx"
   ]
 }

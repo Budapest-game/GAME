@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './app.css';
+import { Route, Switch } from 'react-router-dom';
 import { Navigation } from '../navigation/navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
@@ -19,7 +18,6 @@ export default class App extends PureComponent {
   render() {
     return (
     <div className="app">
-      <Router>
         <div>
           <Navigation />
           <div>
@@ -39,7 +37,6 @@ export default class App extends PureComponent {
             </Switch>
           </div>
         </div>
-      </Router>
     </div>
     );
   }
