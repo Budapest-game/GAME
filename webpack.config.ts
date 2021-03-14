@@ -1,7 +1,6 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const config: webpack.Configuration = {
   mode: 'development',
@@ -40,9 +39,6 @@ const config: webpack.Configuration = {
     publicPath: '/',
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './www/index.html',
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

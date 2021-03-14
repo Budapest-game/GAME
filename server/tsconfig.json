@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "jsx": "react",
-    "typeRoots": ["../node_modules/@types", "../src/types.d.ts"],
+    "typeRoots": ["../node_modules/@types", "../src/types.d.ts",],
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "strictNullChecks": true,
@@ -24,7 +24,9 @@
     "noImplicitThis": true,
   },
   "include": [
+    "./@types/**/*",
     "server.ts",
+    "middlewares/**/*",
     "../src/**/*",
     "../.d.ts",
     "../tests/jest.setup.ts"
