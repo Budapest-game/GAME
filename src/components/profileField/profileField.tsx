@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
-import './ProfileField.css';
+import './profileField.css';
 
 interface fieldInfo {
   description: string,

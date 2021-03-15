@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './app.css';
 import { Navigation } from '../navigation/navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
@@ -13,12 +14,12 @@ import ChangeData from '../../pages/changeData/changeData';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
-import './app.css';
 
 export default class App extends PureComponent {
   render() {
     return (
     <div className="app">
+      <Router>
         <div>
           <Navigation />
           <div>
@@ -38,6 +39,7 @@ export default class App extends PureComponent {
             </Switch>
           </div>
         </div>
+      </Router>
     </div>
     );
   }

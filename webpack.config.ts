@@ -1,6 +1,7 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: webpack.Configuration = {
@@ -41,6 +42,9 @@ const config: webpack.Configuration = {
     publicPath: '/',
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './www/index.html',
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),

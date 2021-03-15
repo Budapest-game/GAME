@@ -33,17 +33,19 @@ app.get('/static/main.css', (req, res) => {
   });
 });
 app.get('/', (req: Request, res: Response) => {
+  const fs = compiler.outputFileSystem;
+  fs.readFile('static/index.html', (err, result) => {
+    if (!err) {
+      res.set('content-type', 'text/html');
+      res.send(result);
+      res.end();
+    } else {
+      res.end('error');
+    }
+  });
+});
+app.get('/authorization', (req: Request, res: Response)=>{
   res.renderBundle('kek');
-  // const fs = compiler.outputFileSystem;
-  // fs.readFile('static/index.html', (err, result) => {
-  //   if (!err) {
-  //     res.set('content-type', 'text/html');
-  //     res.send(result);
-  //     res.end();
-  //   } else {
-  //     res.end('error');
-  //   }
-  // });
 });
 
 app.listen(port, () => {

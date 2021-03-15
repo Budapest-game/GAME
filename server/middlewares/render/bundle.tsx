@@ -1,9 +1,8 @@
-import path from 'path';
 import React from 'react';
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
 import { StaticRouter } from 'react-router-dom';
-import {ServerStyleSheet, StyleSheetManager} from 'styled-components';
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
 function getPageHtml(bundleHtml:string) {
   const html = renderToStaticMarkup(
@@ -21,23 +20,26 @@ function getPageHtml(bundleHtml:string) {
 }
 
 interface RenderBundleArguments {
-  html: string;
+  location:string
+}
+interface RenderBundleHTML{
+  html?:string,
+  redirectUrl?:string
 }
 
-export default ():RenderBundleArguments => {
+export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
   const context: StaticRouterContext = {};
   const sheet = new ServerStyleSheet();
-  console.log(path.join(__dirname, '../../../src/index'));
-  const Index = require( '../../../src/index').default;
-  console.log(Index);
+  const Authorization = require( '../../../src/pages/authorization/authorization').default;
   const bundleHtml = renderToString(
     <StyleSheetManager sheet={sheet.instance}>
-    <StaticRouter context={context} location='/'>
-      <Index />
+    <StaticRouter context={context} location={location}>
+      <Authorization />
     </StaticRouter>
     </StyleSheetManager>,
   );
-  return {
-    html: getPageHtml(bundleHtml),
-  };
+  if (context.url) {
+    return { redirectUrl: context.url };
+  }
+  return { html: getPageHtml(bundleHtml) };
 };
