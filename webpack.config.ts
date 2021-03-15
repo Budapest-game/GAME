@@ -23,6 +23,7 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.css$/i,
+        sideEffects: true,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
@@ -41,7 +42,7 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'main.bundle.css',
+      filename: '[name].css',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),

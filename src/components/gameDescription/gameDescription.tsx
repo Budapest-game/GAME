@@ -2,6 +2,7 @@ import React from 'react';
 import { cn } from '@bem-react/classname';
 // import game from './game.png';
 import textContent from './textContent';
+import './gameDescription.css';
 
 const game = 'test';
 

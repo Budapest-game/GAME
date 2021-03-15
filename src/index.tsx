@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import App from './components/app/app';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
+import './index.css';
 
 function Index() {
-  return <App/>
-
+  return <App/>;
 }
 export default Index;

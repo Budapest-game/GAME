@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
 import { LeaderInfo } from '../../store/actionCreators/leaderboard';
+import './leader.css';
 
 const Cls = cn('leader');
 

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import textContent from './textContent';
+import './navigation.css';
 
 const Cls = cn('navigation');
 export class Navigation extends PureComponent {

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
+import './button.css';
 
 interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

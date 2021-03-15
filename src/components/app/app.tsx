@@ -13,6 +13,7 @@ import ChangeData from '../../pages/changeData/changeData';
 import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
+import './app.css';
 
 export default class App extends PureComponent {
   render() {
