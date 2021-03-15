@@ -11,6 +11,7 @@
     "alwaysStrict": true,
     "strict": true,
     "noImplicitThis": true,
+    "esModuleInterop": true,
     "outDir": "static/js/",
     "lib": ["es2016","DOM"],
     "jsx": "react",
