@@ -4,6 +4,7 @@ import { Form } from '../../components/form/form';
 import AuthorizationApi from '../../api/auth/authorization';
 import { AuthorizationData } from '../../api/types';
 import textContent from './textContent';
+import './authorization.css';
 
 interface AuthorizationState extends RouteComponentProps {
   error?: null | string;

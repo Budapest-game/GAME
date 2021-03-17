@@ -6,6 +6,7 @@ import { Button } from '../../components/button/button';
 import { ProfileField } from '../../components/profileField/profileField';
 import UserApi from '../../api/user/user';
 import AuthorizationApi from '../../api/auth/authorization';
+import './profile.css';
 
 interface ProfileInfo {
   avatar: string,
