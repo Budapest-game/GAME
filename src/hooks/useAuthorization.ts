@@ -1,40 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useDispatch, useStore } from 'react-redux';
 import { AuthorizationData } from '../api/types';
-import Authorization from '../api/auth/authorization';
-import User from '../api/user/user';
+import { authorisation, getUser } from '../store/actions/authorization';
 
 type UserAuthorisationType = {
   authUser: (data:AuthorizationData) => void,
+  getUserData: () => void,
   isAuth: boolean,
-  userData:Record<string, string|number>|undefined,
+  userAuthData:Record<string, string|number>|undefined,
   isAuthLoading:boolean,
 }
 
 export function useAuthorisation():UserAuthorisationType {
   const [isAuth, setIsAuth] = useState(false);
-  const [userData, setUserData] = useState<Record<string, string|number>>();
+  const [userAuthData, setUserData] = useState<Record<string, string|number>>();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const dispatch = useDispatch();
+  const store = useStore();
+  const state = store.getState();
 
   const authUser = (data:AuthorizationData):void => {
     setIsAuthLoading(true);
-    Authorization.logIn(data).then((res) => {
-      setIsAuth(res);
+    // тут асинхронный вызов, как из него получить промис?
+    dispatch(authorisation(data));
+    if (state.authorisation.authorisationErrorMessage === '') {
+      setIsAuth(state.authorisation.requestSuccess);
       setIsAuthLoading(false);
-    });
+    }
   };
 
-  useEffect(() => {
-    if (isAuth) {
-      User.get().then((res) => {
-        setUserData(res);
-      });
-    }
-  });
+  const getUserData = ():void => {
+    // Тот же вопрос, тоже асинхронщина, как после кк выполнения положить данные в setUserData?
+    dispatch(getUser());
+    const { userData } = store.getState().authorisation;
+    setUserData(userData);
+  };
 
   return {
     authUser,
+    getUserData,
     isAuth,
-    userData,
+    userAuthData,
     isAuthLoading,
   };
 }

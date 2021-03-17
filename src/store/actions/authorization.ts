@@ -22,18 +22,23 @@ export function authorisation(data: AuthorizationData):
   ThunkAction<void, ApplicationState, unknown, Action<string>> {
   return (dispatch: Dispatch) => {
     dispatch(authorisationRequestSent());
-
     Authorization.logIn(data).then(() => {
       dispatch(authorisationSuccessful());
-      User.get().then((userData) => {
-        dispatch(authorisationGetUserData(userData));
-      });
     }).catch(({ message }) => {
       dispatch(authorisationFailed(message));
     }).finally(() => {
       setTimeout(() => {
         dispatch(authorisationResetState());
       }, 3000);
+    });
+  };
+}
+
+export function getUser():
+  ThunkAction<void, ApplicationState, unknown, Action<string>> {
+  return (dispatch: Dispatch) => {
+    User.get().then((userData) => {
+      dispatch(authorisationGetUserData(userData));
     });
   };
 }
