@@ -1,7 +1,6 @@
 
 {
   "compilerOptions": {
-    "outDir": "../dist",
     "skipLibCheck": true,
     "module": "commonjs",
     "target": "es5",
@@ -12,7 +11,6 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "jsx": "react",
-    "typeRoots": ["../node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "strictNullChecks": true,
@@ -23,13 +21,4 @@
     "strict": true,
     "noImplicitThis": true,
   },
-  "include": [
-    "./@types/**/*",
-    "server.ts",
-    "../.d.ts",
-    "middlewares/**/*",
-  ],
-  "exclude": [
-    "../src/*"
-  ]
 }

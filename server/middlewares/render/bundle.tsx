@@ -8,20 +8,32 @@ function getPageHtml(bundleHtml:string) {
   const html = renderToStaticMarkup(
         <html>
             <head>
-             <link rel="stylesheet" href="static/main.css"/>
+             <link rel="stylesheet" href="static/main.bundle.css"/>
             </head>
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
+              <script src="static/main.bundle.js"/>
+              <script
+                    dangerouslySetInnerHTML={{
+                      __html: 'Client.Index();',
+                    }}
+                />
             </body>
         </html>,
   );
 
   return `<!doctype html>${html}`;
 }
-
 interface RenderBundleArguments {
-  location:string
+  location:string,
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+function getAppComponent() {
+// eslint-disable-next-line global-require, import/no-unresolved, @typescript-eslint/no-var-requires
+  const app = require('../../../static/main.bundle').Application;
+  return app;
+}
+
 interface RenderBundleHTML{
   html?:string,
   redirectUrl?:string
@@ -30,12 +42,11 @@ interface RenderBundleHTML{
 export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
   const context: StaticRouterContext = {};
   const sheet = new ServerStyleSheet();
-  const Authorization = require( '../../../src/pages/authorization/authorization').default;
   const bundleHtml = renderToString(
     <StyleSheetManager sheet={sheet.instance}>
-    <StaticRouter context={context} location={location}>
-      <Authorization />
-    </StaticRouter>
+      <StaticRouter context={context} location={location}>
+        getAppComponent();
+      </StaticRouter>
     </StyleSheetManager>,
   );
   if (context.url) {

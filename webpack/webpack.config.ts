@@ -1,7 +1,6 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: webpack.Configuration = {
@@ -17,10 +16,10 @@ const config: webpack.Configuration = {
         use: {
           loader: 'ts-loader',
           options: {
-            configFile: path.resolve(__dirname, '../server/tsconfig_client.json'),
+            configFile: path.resolve(__dirname, '../../server/tsconfig_client.json'),
           },
         },
-        include: path.resolve(__dirname, '../src/'),
+        include: path.resolve(__dirname, '../../src/'),
       },
       {
         test: /\.css$/i,
@@ -37,16 +36,16 @@ const config: webpack.Configuration = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, '/'),
+    path: path.resolve(__dirname, '../static'),
+    library: 'Client',
+    libraryTarget: 'var',
+    globalObject: 'this',
     filename: 'main.bundle.js',
-    publicPath: '/',
+    publicPath: '/static/',
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './www/index.html',
-    }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: '[name].bundle.css',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),

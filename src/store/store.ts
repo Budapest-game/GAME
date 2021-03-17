@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import createRootReducer from './reducers/createRootReducer';
 
 export const history = createBrowserHistory();
-export default function configureStore(preloadedState={}) {
+export default function configureStore(preloadedState = {}) {
   const store = createStore(
     createRootReducer(history), // root reducer with router state
     preloadedState,

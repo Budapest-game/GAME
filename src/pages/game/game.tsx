@@ -8,6 +8,7 @@ import { Styles } from '../../core/levels/1/Styles';
 import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
 import { Button } from '../../components/button/button';
+import './game.css';
 
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
