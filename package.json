@@ -4,12 +4,15 @@
   "description": "Собрать 3 и более одинаковых элемента в ряд.\r ## Шаблоны страниц  \r https://www.figma.com/file/Q4k80uj2TfDdDGHBdo5paa/Game?node-id=0%3A1 \r ## Механика\r Игровое поле размером N на N элементов.",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint --ext=.tsx --ext=.ts  ./src/  ./server/  ./webpack/",
-    "lint-fix": "eslint --ext=.tsx --ext=.ts --fix ./src/  ./server/  ./webpack/ ",
+    "lint": "eslint --ext=.ts,.tsx, ./src/  ./server/  ./webpack/",
+    "lint-fix": "eslint --ext=.ts,.tsx  --fix ./src/  ./server/  ./webpack/ ",
     "test": "jest -u",
-    "build": "tsc --p server/tsconfig_server.json",
-    "webpack": "webpack --config ./dist/webpack/webpack.config",
-    "start": "npm run build && npm run webpack && node ./dist/server/server.js"
+    "build-configs": "tsc --p webpack/tsconfig_webpack.json",
+    "build-server": "tsc --p server/tsconfig_server.json ",
+    "webpack-client": "webpack --config ./dist/webpack/webpack.client",
+    "webpack-ssr": "webpack --config ./dist/webpack/webpack.ssr",
+    "build-all": "npm run build-configs && npm run build-server && npm run webpack-ssr && npm run webpack-client ",
+    "start": " npm run build-all && node ./dist/server/server.js"
   },
   "repository": {
     "type": "git",
@@ -44,7 +47,6 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "2.3.0",
-    "styled-components": "^5.2.1",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
@@ -79,7 +81,7 @@
     "eslint-plugin-jest": "^24.1.3",
     "eslint-plugin-react": "^7.22.0",
     "jest": "^26.6.3",
-    "mini-css-extract-plugin": "^1.3.9",
+    "null-loader": "^4.0.1",
     "postcss": "^8.2.6",
     "postcss-loader": "^5.0.0",
     "postcss-nested": "^5.0.3",
@@ -87,6 +89,7 @@
     "react-refresh": "^0.9.0",
     "react-router-dom": "^5.2.0",
     "react-test-renderer": "^17.0.1",
+    "style-loader": "^2.0.0",
     "ts-loader": "^8.0.14",
     "webpack": "^5.25.0",
     "webpack-cli": "^4.5.0",

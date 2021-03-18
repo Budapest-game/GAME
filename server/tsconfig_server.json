@@ -7,7 +7,7 @@
   },
   "include": [
     "./@types/**/*",
-    "server.ts",
+    "server.ts"
   ],
   "exclude": [
     "../src/*"

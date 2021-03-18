@@ -1,15 +1,11 @@
 import React from 'react';
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
-import { StaticRouter } from 'react-router-dom';
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
 
 function getPageHtml(bundleHtml:string) {
   const html = renderToStaticMarkup(
         <html>
-            <head>
-             <link rel="stylesheet" href="static/main.bundle.css"/>
-            </head>
+            <head/>
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
               <script src="static/main.bundle.js"/>
@@ -30,8 +26,8 @@ interface RenderBundleArguments {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 function getAppComponent() {
 // eslint-disable-next-line global-require, import/no-unresolved, @typescript-eslint/no-var-requires
-  const app = require('../../../static/main.bundle').Application;
-  return app;
+  const Index = require('../../../ssr/ssr').Index;
+  return Index;
 }
 
 interface RenderBundleHTML{
@@ -39,16 +35,12 @@ interface RenderBundleHTML{
   redirectUrl?:string
 }
 
+
+
 export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
   const context: StaticRouterContext = {};
-  const sheet = new ServerStyleSheet();
-  const bundleHtml = renderToString(
-    <StyleSheetManager sheet={sheet.instance}>
-      <StaticRouter context={context} location={location}>
-        getAppComponent();
-      </StaticRouter>
-    </StyleSheetManager>,
-  );
+  const Index = getAppComponent();
+  const bundleHtml = Index(location, context);
   if (context.url) {
     return { redirectUrl: context.url };
   }

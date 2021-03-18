@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack/webpack.config';
+import webpackConfig from '../webpack/webpack.client';
 import render from './middlewares/render/render';
 import router from './router';
 

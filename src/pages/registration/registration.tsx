@@ -3,6 +3,7 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import { RegistrationData } from '../../api/types';
 import textContent from './textContent';
+import './registration.css';
 
 interface RegistrationState {
   error: null | string;

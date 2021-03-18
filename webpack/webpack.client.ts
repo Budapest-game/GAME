@@ -1,7 +1,6 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const config: webpack.Configuration = {
   mode: 'development',
@@ -16,7 +15,7 @@ const config: webpack.Configuration = {
         use: {
           loader: 'ts-loader',
           options: {
-            configFile: path.resolve(__dirname, '../../server/tsconfig_client.json'),
+            configFile: path.resolve(__dirname, '../../src/tsconfig_client.json'),
           },
         },
         include: path.resolve(__dirname, '../../src/'),
@@ -24,7 +23,7 @@ const config: webpack.Configuration = {
       {
         test: /\.css$/i,
         sideEffects: true,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
@@ -44,9 +43,6 @@ const config: webpack.Configuration = {
     publicPath: '/static/',
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].bundle.css',
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

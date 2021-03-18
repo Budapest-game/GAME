@@ -8,11 +8,6 @@ import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
 
 const store = configureStore();
-const Bundle = ():JSX.Element => {
-  return (<App/>);
-};
-export const Application = Bundle;
-
 export function Index():void {
   ReactDOM.hydrate(
     <Provider store={store}>
