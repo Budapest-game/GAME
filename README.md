@@ -16,8 +16,11 @@ https://www.figma.com/file/Q4k80uj2TfDdDGHBdo5paa/Game?node-id=0%3A1
 Web URL:        https://morning-chamber-87005.herokuapp.com/
 ## Полезное  
 npm run lint - линтинг *.ts  в директориях  ./src/  ./server/ ./webpack   
-npm run lint-fix - фикс *.ts    в директориях  ./src/  ./server/ ./webpack    
-npm run build - сборка сервера в /dist/server   
-npm run webpack - сборка статики через вебпак в /dist/static    
-npm run start - сборка сервера, бандлов и страрт сервер       
+npm run lint-fix - фикс *.ts    в директориях  ./src/  ./server/ ./webpack
+npm run build-configs сборка конфигов webpack   
+npm run build-server  сборка сервера    
+npm run webpack-client - сборка клиентской части в /dist/static      
+npm run webpack-ssr - сборка ssr части в /dist/ssr    
+npm run build-all - сборка всего    
+npm run start - сборка сервера, бандлов и старт сервера   
 npm run test - тесты jest   

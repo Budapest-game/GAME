@@ -26,7 +26,7 @@ interface RenderBundleArguments {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 function getAppComponent() {
 // eslint-disable-next-line global-require, import/no-unresolved, @typescript-eslint/no-var-requires
-  const Index = require('../../../ssr/ssr').Index;
+  const { Index } = require('../../../ssr/ssr');
   return Index;
 }
 
@@ -34,8 +34,6 @@ interface RenderBundleHTML{
   html?:string,
   redirectUrl?:string
 }
-
-
 
 export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
   const context: StaticRouterContext = {};
