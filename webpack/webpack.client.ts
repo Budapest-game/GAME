@@ -1,9 +1,8 @@
-const path = require('path');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import webpack from 'webpack';
 
-module.exports = {
+const config: webpack.Configuration = {
   mode: 'development',
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
@@ -16,13 +15,14 @@ module.exports = {
         use: {
           loader: 'ts-loader',
           options: {
-            configFile: path.resolve(__dirname, 'tsconfig.json'),
+            configFile: path.resolve(__dirname, '../../src/tsconfig_client.json'),
           },
         },
-        include: path.resolve(__dirname, 'src/'),
+        include: path.resolve(__dirname, '../../src/'),
       },
       {
         test: /\.css$/i,
+        sideEffects: true,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
@@ -35,16 +35,17 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'static/'),
+    path: path.resolve(__dirname, '../static'),
+    library: 'Client',
+    libraryTarget: 'var',
+    globalObject: 'this',
     filename: 'main.bundle.js',
-    publicPath: '/',
+    publicPath: '/static/',
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './www/index.html',
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],
 };
+export default config;
