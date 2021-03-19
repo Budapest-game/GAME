@@ -1,0 +1,18 @@
+
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/src",
+    "target": "es6",
+    "typeRoots": ["../node_modules/@types", "../src/types.d.ts"],
+  },
+  "include": [
+    "**/*",
+    "../.d.ts",
+    "../tests/jest.setup.ts"
+  ],
+  "exclude": [
+    "../src/**/*.test.ts",
+    "../src/**/*.test.tsx"
+  ]
+}

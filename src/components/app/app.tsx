@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './app.css';
 import { Navigation } from '../navigation/navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
@@ -19,27 +19,23 @@ export default class App extends PureComponent {
   render() {
     return (
     <div className="app">
-      <Router>
         <div>
           <Navigation />
           <div>
-            <Switch>
-              <Route exact path="/" component={GameDescription}/>
-              <Route path="/authorization" component={Authorization}/>
-              <Route path="/registration" component={Registration}/>
-              <Route path="/game" component={Game}/>
-              <Route path="/leaderboard" component={Leaderboard}/>
-              <Route path="/forum" component={Forum}/>
-              <Route path="/profile" component={Profile}/>
-              <Route path="/change-password" component={ChangePassword}/>
-              <Route path="/change-data" component={ChangeData}/>
-              <Route path="/page404" component={Page404}/>
-              <Route path="/page500" component={Page500}/>
-              <Route path="/controls-demo" component={ControlsDemo}/>
-            </Switch>
+                <Route exact path="/" component={GameDescription}/>
+                <Route path="/authorization" component={Authorization}/>
+                <Route path="/registration" component={Registration}/>
+                <Route path="/game" component={Game}/>
+                <Route path="/leaderboard" component={Leaderboard}/>
+                <Route path="/forum" component={Forum}/>
+                <Route path="/profile" component={Profile}/>
+                <Route path="/change-password" component={ChangePassword}/>
+                <Route path="/change-data" component={ChangeData}/>
+                <Route path="/page404" component={Page404}/>
+                <Route path="/page500" component={Page500}/>
+                <Route path="/controls-demo" component={ControlsDemo}/>
           </div>
         </div>
-      </Router>
     </div>
     );
   }

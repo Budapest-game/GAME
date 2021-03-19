@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
 import { Leader } from '../../components/leader/leader';
 import { LeaderInfo } from '../../store/actionCreators/leaderboard';
-import './leaderboard.css';
 
 const Cls = cn('leaderboard');
 
@@ -44,7 +43,7 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
         </div>
       );
     }
-   return (
+    return (
       <div className={Cls()}>
         <div className={Cls('header')}>
           <h1>Таблица лидеров</h1>
