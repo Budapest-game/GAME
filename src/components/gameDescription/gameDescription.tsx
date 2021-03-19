@@ -1,8 +1,8 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
-import './gameDescription.css';
 import game from './game.png';
 import textContent from './textContent';
+import './gameDescription.css';
 
 export function GameDescription(): JSX.Element {
   const Cls = cn('gameDescription');

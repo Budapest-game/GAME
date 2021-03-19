@@ -15,8 +15,12 @@ https://www.figma.com/file/Q4k80uj2TfDdDGHBdo5paa/Game?node-id=0%3A1
 ## HEROKU
 Web URL:        https://morning-chamber-87005.herokuapp.com/
 ## Полезное  
-npm run lint - линтинг *.ts  в ./src/  
-npm run lint-fix - фикс *.ts  в ./src/  
-npm run webpack - сборка *.ts в ./static/js/main.bundle.js    
-npm run start - запуск dev сервера    
-npm run test - тесты из ./tests  
+npm run lint - линтинг *.ts  в директориях  ./src/  ./server/ ./webpack   
+npm run lint-fix - фикс *.ts    в директориях  ./src/  ./server/ ./webpack
+npm run build-configs сборка конфигов webpack   
+npm run build-server  сборка сервера    
+npm run webpack-client - сборка клиентской части в /dist/static      
+npm run webpack-ssr - сборка ssr части в /dist/ssr    
+npm run build-all - сборка всего    
+npm run start - сборка сервера, бандлов и старт сервера   
+npm run test - тесты jest   
