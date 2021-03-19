@@ -1,5 +1,6 @@
 node_modules/*
 static/*
+dist/*
 .DS_Store
 assets.json
 /.idea

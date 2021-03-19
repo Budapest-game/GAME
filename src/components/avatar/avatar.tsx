@@ -14,7 +14,7 @@ export function Avatar(props: AvatarInfo): JSX.Element {
   return (
     <div className={Cls()}>
       <img className={Cls('img')} src={BASE_URL + props.avatarPath} />
-      <input className={Cls('attach')} type="file" name="avatar" />
+      <input className={Cls('attach')} type="file" name="avatar" onChange={props.onChange} />
     </div>
   );
 }
