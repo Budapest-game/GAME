@@ -8,8 +8,7 @@ import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
 
 const store = configureStore();
-export function hydrate():void {
-  ReactDOM.hydrate(
+ReactDOM.hydrate(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <ErrorBoundary>
@@ -18,5 +17,4 @@ export function hydrate():void {
       </ConnectedRouter>
     </Provider>,
     document.getElementById('root'),
-  );
-}
+);

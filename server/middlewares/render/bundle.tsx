@@ -17,11 +17,6 @@ function getPageHtml(bundleHtml:string) {
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
               <script src="static/main.bundle.js"/>
-              <script
-                    dangerouslySetInnerHTML={{
-                      __html: 'Client.hydrate();',
-                    }}
-                />
             </body>
         </html>,
   );
