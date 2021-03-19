@@ -17,8 +17,8 @@ const instance = devMiddleware(compiler, { publicPath: '/static/' });
 
 app.use(instance);
 app.use(hotMiddleware(compiler, { path: '/__webpack_hmr' }));
-app.use(render);
 app.use(authChecker);
+app.use(render);
 app.use(router);
 
 https.createServer({
