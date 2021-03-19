@@ -4,7 +4,7 @@ import { StaticRouterContext } from 'react-router';
 import { StaticRouter } from 'react-router-dom';
 import App from '../../src/components/app/app';
 
-export function Index(location:string, context:StaticRouterContext):string {
+export function renderAppToString(location:string, context:StaticRouterContext):string {
   return renderToString(
     <StaticRouter context={context} location={location}>
         <App/>

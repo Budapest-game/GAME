@@ -2,6 +2,14 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
 
+interface RenderBundleHTML{
+  html?:string,
+  redirectUrl?:string
+}
+interface RenderBundleArguments {
+  location:string,
+}
+
 function getPageHtml(bundleHtml:string) {
   const html = renderToStaticMarkup(
         <html>
@@ -11,7 +19,7 @@ function getPageHtml(bundleHtml:string) {
               <script src="static/main.bundle.js"/>
               <script
                     dangerouslySetInnerHTML={{
-                      __html: 'Client.Index();',
+                      __html: 'Client.hydrate();',
                     }}
                 />
             </body>
@@ -20,19 +28,12 @@ function getPageHtml(bundleHtml:string) {
 
   return `<!doctype html>${html}`;
 }
-interface RenderBundleArguments {
-  location:string,
-}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 function getAppComponent() {
 // eslint-disable-next-line global-require, import/no-unresolved, @typescript-eslint/no-var-requires
-  const { Index } = require('../../../ssr/ssr');
-  return Index;
-}
-
-interface RenderBundleHTML{
-  html?:string,
-  redirectUrl?:string
+  const { renderAppToString } = require('../../../ssr/ssr');
+  return renderAppToString;
 }
 
 export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
