@@ -2,7 +2,7 @@ import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ApplicationState } from '../reducers';
 import {
-  authorisationRequestSent,
+  authorisationInProgress,
   authorisationSuccessful,
   authorisationFailed,
   authorisationResetState,
@@ -12,7 +12,7 @@ import { AuthorizationData } from '../../api/types';
 import Authorization from '../../api/auth/authorization';
 import User from '../../api/user/user';
 
-export const AUTHORIZATION_REQUEST_SENT = 'AUTHORIZATION_REQUEST_SENT';
+export const AUTHORIZATION_STARTED = 'AUTHORIZATION_STARTED';
 export const AUTHORIZATION_SUCCESSFUL = 'AUTHORIZATION_SUCCESSFUL';
 export const AUTHORIZATION_FAILED = 'AUTHORIZATION_FAILED';
 export const AUTHORIZATION_RESET_STATE = 'AUTHORIZATION_RESET_STATE';
@@ -21,7 +21,7 @@ export const AUTHORIZATION_GET_USER_DATA = 'AUTHORIZATION_GET_USER_DATA';
 export function authorisation(data: AuthorizationData):
   ThunkAction<void, ApplicationState, unknown, Action<string>> {
   return (dispatch: Dispatch) => {
-    dispatch(authorisationRequestSent());
+    dispatch(authorisationInProgress());
     Authorization.logIn(data).then(() => {
       dispatch(authorisationSuccessful());
     }).catch(({ message }) => {

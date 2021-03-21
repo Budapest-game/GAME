@@ -1,13 +1,13 @@
 import { Action } from 'redux';
 import {
-  AUTHORIZATION_REQUEST_SENT,
+  AUTHORIZATION_STARTED,
   AUTHORIZATION_SUCCESSFUL,
   AUTHORIZATION_FAILED,
   AUTHORIZATION_RESET_STATE,
   AUTHORIZATION_GET_USER_DATA,
 } from '../actions/authorization';
 
-export interface AuthorisationRequestSentAction extends Action<typeof AUTHORIZATION_REQUEST_SENT> {
+export interface AuthorisationStartAction extends Action<typeof AUTHORIZATION_STARTED> {
   payload: {
     requestSent: boolean;
   }
@@ -21,14 +21,14 @@ export interface AuthorisationSuccessAction extends Action<typeof AUTHORIZATION_
 
 export interface AuthorisationFailedAction extends Action<typeof AUTHORIZATION_FAILED> {
   payload: {
-    authorisationErrorMessage: string;
+    errorMessage: string;
     requestSuccess: boolean;
   }
 }
 
 export interface AuthorisationResetStateAction extends Action<typeof AUTHORIZATION_RESET_STATE> {
   payload: {
-    authorisationErrorMessage: string;
+    errorMessage: string;
     requestSent: boolean;
     requestSuccess?: boolean;
   }
@@ -40,15 +40,15 @@ export interface AuthorizationGetUserDataAction extends Action<typeof AUTHORIZAT
   }
 }
 
-export type AuthorisationAction = AuthorisationRequestSentAction
+export type AuthorisationAction = AuthorisationStartAction
   | AuthorisationSuccessAction
   | AuthorisationFailedAction
   | AuthorisationResetStateAction
   | AuthorizationGetUserDataAction;
 
-export function authorisationRequestSent(): AuthorisationRequestSentAction {
+export function authorisationInProgress(): AuthorisationStartAction {
   return {
-    type: AUTHORIZATION_REQUEST_SENT,
+    type: AUTHORIZATION_STARTED,
     payload: {
       requestSent: true,
     },
@@ -68,7 +68,7 @@ export function authorisationFailed(errorMessage: string): AuthorisationFailedAc
   return {
     type: AUTHORIZATION_FAILED,
     payload: {
-      authorisationErrorMessage: errorMessage,
+      errorMessage,
       requestSuccess: false,
     },
   };
@@ -78,7 +78,7 @@ export function authorisationResetState(): AuthorisationResetStateAction {
   return {
     type: AUTHORIZATION_RESET_STATE,
     payload: {
-      authorisationErrorMessage: '',
+      errorMessage: '',
       requestSent: false,
       requestSuccess: undefined,
     },

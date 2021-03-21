@@ -1,6 +1,6 @@
 import { AuthorisationAction } from '../actionCreators/authorisation';
 import {
-  AUTHORIZATION_REQUEST_SENT,
+  AUTHORIZATION_STARTED,
   AUTHORIZATION_SUCCESSFUL,
   AUTHORIZATION_FAILED,
   AUTHORIZATION_RESET_STATE,
@@ -10,14 +10,14 @@ import {
 export interface AuthorizationState {
   requestSent: boolean;
   requestSuccess?: boolean;
-  authorisationErrorMessage: string;
+  errorMessage: string;
   userData: Record<string, string|number>
 }
 
 const defaultAuthorizationState: AuthorizationState = {
   requestSent: false,
   requestSuccess: undefined,
-  authorisationErrorMessage: '',
+  errorMessage: '',
   userData: {
     first_name: '',
     second_name: '',
@@ -33,7 +33,7 @@ export function authorizationReducer(
   action: AuthorisationAction,
 ): AuthorizationState {
   switch (action.type) {
-    case AUTHORIZATION_REQUEST_SENT:
+    case AUTHORIZATION_STARTED:
       return {
         ...state,
         requestSent: action.payload.requestSent,
@@ -49,15 +49,15 @@ export function authorizationReducer(
       return {
         ...state,
         requestSuccess: action.payload.requestSuccess,
-        authorisationErrorMessage: action.payload.authorisationErrorMessage,
+        errorMessage: action.payload.errorMessage,
       };
 
     case AUTHORIZATION_RESET_STATE:
       return {
         ...state,
-        requestSent: action.payload.requestSent,
-        requestSuccess: action.payload.requestSuccess,
-        authorisationErrorMessage: action.payload.authorisationErrorMessage,
+        requestSent: false,
+        requestSuccess: undefined,
+        errorMessage: '',
       };
 
     case AUTHORIZATION_GET_USER_DATA:

@@ -9,30 +9,39 @@ type UseAsyncResultType = {
   error: string|null,
 }
 
-export function useAsync(asyncFunction: Callback, immediate = true):UseAsyncResultType {
+enum STATUSES {
+  'PENDING' = 'pending',
+  'SUCCESS' = 'success',
+  'ERROR' = 'error',
+}
+
+export function useAsync(
+  asyncFunction: Callback,
+  atTimeToCall = true,
+):UseAsyncResultType {
   const [status, setStatus] = useState<string>('idle');
   const [value, setValue] = useState<any|null>(null);
   const [error, setError] = useState<string|null>(null);
 
   const execute = useCallback(() => {
-    setStatus('pending');
+    setStatus(STATUSES.PENDING);
     setValue(null);
     setError(null);
 
     return asyncFunction().then((response) => {
       setValue(response);
-      setStatus('success');
+      setStatus(STATUSES.SUCCESS);
     }).catch((err) => {
       setError(err);
-      setStatus('error');
+      setStatus(STATUSES.ERROR);
     });
   }, [asyncFunction]);
 
   useEffect(() => {
-    if (immediate) {
+    if (atTimeToCall) {
       execute();
     }
-  }, [execute, immediate]);
+  }, [execute, atTimeToCall]);
 
   return {
     execute, status, value, error,

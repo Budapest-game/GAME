@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useDispatch, useStore } from 'react-redux';
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AuthorizationData } from '../api/types';
+import { ApplicationState } from '../store/reducers';
 import { authorisation, getUser } from '../store/actions/authorization';
 
 type UserAuthorisationType = {
@@ -12,34 +13,36 @@ type UserAuthorisationType = {
 }
 
 export function useAuthorisation():UserAuthorisationType {
-  const [isAuth, setIsAuth] = useState(false);
   const [userAuthData, setUserData] = useState<Record<string, string|number>>();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const dispatch = useDispatch();
-  const store = useStore();
-  const state = store.getState();
 
-  const authUser = (data:AuthorizationData):void => {
+  const authUser = useCallback((data:AuthorizationData) => {
     setIsAuthLoading(true);
-    // тут асинхронный вызов, как из него получить промис?
     dispatch(authorisation(data));
-    if (state.authorisation.authorisationErrorMessage === '') {
-      setIsAuth(state.authorisation.requestSuccess);
+    const errorMessage = useSelector((state:ApplicationState) => {
+      return state.authorisation.errorMessage;
+    });
+    const requestSuccess = useSelector((state:ApplicationState) => {
+      return state.authorisation.requestSuccess;
+    });
+    if (errorMessage !== '' && requestSuccess) {
       setIsAuthLoading(false);
     }
-  };
+  }, [authorisation]);
 
-  const getUserData = ():void => {
-    // Тот же вопрос, тоже асинхронщина, как после кк выполнения положить данные в setUserData?
+  const getUserData = useCallback(() => {
     dispatch(getUser());
-    const { userData } = store.getState().authorisation;
+    const userData = useSelector((state:ApplicationState) => {
+      return state.authorisation.userData;
+    });
     setUserData(userData);
-  };
+  }, [getUser]);
 
   return {
     authUser,
     getUserData,
-    isAuth,
+    isAuth: Boolean(userAuthData),
     userAuthData,
     isAuthLoading,
   };
