@@ -5,6 +5,9 @@ import store from './store/store';
 import App from './components/app/app';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
+// import { registerSW } from './registerSW';
+
+// registerSW();
 
 ReactDOM.render(
   <Provider store={store}>

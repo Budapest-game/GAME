@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const AssetsPlugin = require('assets-webpack-plugin')
 
 module.exports = {
   entry: [
@@ -41,6 +42,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './www/index.html',
+    }),
+    new AssetsPlugin({
+      filename: 'assets.json',
+      update: true,
+      fileTypes: ['js', 'jpg', 'png', 'html', 'css'],
+      includeAllFileTypes: false,
+      removeFullPathAutoPrefix: true,
     }),
   ],
 };
