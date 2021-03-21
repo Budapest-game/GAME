@@ -6,7 +6,6 @@ import { authorisation, getUser } from '../store/actions/authorization';
 
 type UserAuthorisationType = {
   authUser: (data:AuthorizationData) => void,
-  getUserData: () => void,
   isAuth: boolean,
   userAuthData:Record<string, string|number>|undefined,
   isAuthLoading:boolean,
@@ -18,8 +17,6 @@ export function useAuthorisation():UserAuthorisationType {
   const dispatch = useDispatch();
 
   const authUser = useCallback((data:AuthorizationData) => {
-    setIsAuthLoading(true);
-    dispatch(authorisation(data));
     const errorMessage = useSelector((state:ApplicationState) => {
       return state.authorisation.errorMessage;
     });
@@ -27,21 +24,18 @@ export function useAuthorisation():UserAuthorisationType {
       return state.authorisation.requestSuccess;
     });
     if (errorMessage !== '' && requestSuccess) {
-      setIsAuthLoading(false);
+      dispatch(getUser());
+      const userData = useSelector((state:ApplicationState) => {
+        return state.authorisation.userData;
+      });
+      setUserData(userData);
     }
+    setIsAuthLoading(false);
+    dispatch(authorisation(data));
   }, [authorisation]);
-
-  const getUserData = useCallback(() => {
-    dispatch(getUser());
-    const userData = useSelector((state:ApplicationState) => {
-      return state.authorisation.userData;
-    });
-    setUserData(userData);
-  }, [getUser]);
 
   return {
     authUser,
-    getUserData,
     isAuth: Boolean(userAuthData),
     userAuthData,
     isAuthLoading,
