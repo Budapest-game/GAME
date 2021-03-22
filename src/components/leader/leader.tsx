@@ -15,7 +15,7 @@ export function Leader(info: LeaderInfo): JSX.Element {
         <span>{info.name}</span>
       </div>
       <div className={Cls('score')}>
-          <span>{info.score}</span>
+          <span>{info.budapestScore}</span>
       </div>
   </div>;
 }

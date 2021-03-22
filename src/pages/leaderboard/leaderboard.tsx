@@ -17,8 +17,8 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
     for (let i = 0; i < info.length; i++) {
       leaders.push(Leader({
         name: info[i].name,
-        score: info[i].score,
-        position: info[i].position,
+        budapestScore: info[i].budapestScore,
+        position: i,
         avatar: info[i].avatar,
       }));
     }

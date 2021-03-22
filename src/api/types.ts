@@ -23,3 +23,20 @@ export interface UserPassUpdateData{
   'oldPassword': string,
   'newPassword': string
 }
+
+export interface Leader{
+  'id': number,
+  'name': string,
+  'budapestScore': number,
+  'avatar': string
+}
+export interface LeaderboardData{
+  'data': Leader,
+  'ratingFieldName': string
+}
+
+export interface GetLeaders{
+  'ratingFieldName': string,
+  'cursor': number,
+  'limit': number
+}

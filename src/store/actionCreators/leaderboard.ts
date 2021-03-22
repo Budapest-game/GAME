@@ -3,7 +3,7 @@ import { LEADERBOARD_INFO_IS_LOADING, LEADERBOARD_INFO_LOAD_SUCCESS } from '../a
 
 export interface LeaderInfo {
   name: string,
-  score: number,
+  budapestScore: number,
   position: number,
   avatar: string,
 }
