@@ -1,7 +1,8 @@
 import { BASE_API_URL } from './constants';
 import {
   RegistrationData, AuthorizationData,
-  UserPassUpdateData, UserInfoUpdateData,
+  UserPassUpdateData, UserInfoUpdateData, LeaderboardData,
+  GetLeaders,
 } from './types';
 
 enum METHODS {
@@ -25,7 +26,7 @@ const JSON_HEADERS = {
     'Content-Type': 'application/json',
   },
 };
-type postData = RegistrationData | AuthorizationData;
+type postData = RegistrationData | AuthorizationData | LeaderboardData | GetLeaders;
 type putData = UserPassUpdateData | UserInfoUpdateData
 class ApiBase {
   public post(url:string, data?:postData) {
