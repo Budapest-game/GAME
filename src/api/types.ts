@@ -28,7 +28,8 @@ export interface Leader{
   'id': number,
   'name': string,
   'budapestScore': number,
-  'avatar': string
+  'avatar': string,
+  'position'?: number
 }
 export interface LeaderboardData{
   'data': Leader,

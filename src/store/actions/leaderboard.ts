@@ -12,7 +12,11 @@ ThunkAction<void, ApplicationState, unknown, Action<string>> {
   return (dispatch: Dispatch) => {
     dispatch(leaderboardInfoLoading(true));
     Leaderboard.get().then((info) => {
-      const leaders = info.map((x) => { return x.data; });
+      const leaders = info.map((x, index) => {
+        const { data } = x;
+        data.position = index + 1;
+        return data;
+      });
       dispatch(leaderboardInfoLoading(false));
       dispatch(leaderboardInfoLoadSuccess(leaders as unknown as LeaderInfo[]));
     });
