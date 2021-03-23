@@ -30,10 +30,9 @@ const config: webpack.Configuration = {
     filename: 'main.bundle.js',
     publicPath: '/static/',
   },
-  plugins: [],
+  plugins: [
+    isDev && new ReactRefreshWebpackPlugin(),
+    isDev && new webpack.HotModuleReplacementPlugin(),
+  ].filter(Boolean) as webpack.WebpackPluginInstance[],
 };
-if (isDev) {
-  config.plugins?.push(new ReactRefreshWebpackPlugin());
-  config.plugins?.push(new webpack.HotModuleReplacementPlugin());
-}
 export default config;
