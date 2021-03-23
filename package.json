@@ -9,10 +9,16 @@
     "test": "jest -u",
     "build-configs": "tsc --p webpack/tsconfig_webpack.json",
     "build-server": "tsc --p server/tsconfig_server.json ",
-    "webpack-client": "webpack --config ./dist/webpack/webpack.client",
-    "webpack-ssr": "webpack --config ./dist/webpack/webpack.ssr",
-    "build-all": "npm run build-configs && npm run build-server && npm run webpack-ssr && npm run webpack-client ",
-    "start": " npm run build-all && node ./dist/server/server.js"
+    "build-client-prod": "cross-env NODE_ENV=production webpack --config ./dist/webpack/webpack.client",
+    "build-ssr-prod": "cross-env NODE_ENV=production webpack --config ./dist/webpack/webpack.ssr",
+    "build-client-dev": "cross-env NODE_ENV=development webpack --config ./dist/webpack/webpack.client",
+    "build-ssr-dev": "cross-env NODE_ENV=developments webpack --config ./dist/webpack/webpack.ssr",
+    "build-dev": "npm run build-configs && npm run build-server && npm run build-ssr-dev && npm run build-client-dev ",
+    "build-prod": "npm run build-configs && npm run build-server && npm run build-ssr-prod && npm run build-client-prod ",
+    "start-dev": "cross-env NODE_ENV=development node ./dist/server/server.js",
+    "start-prod": "cross-env NODE_ENV=production node ./dist/server/server.js ",
+    "dev": "npm run build-dev && npm run start-dev",
+    "prod": "npm run build-prod && npm run start-prod"
   },
   "repository": {
     "type": "git",
@@ -76,6 +82,7 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "babel-jest": "^26.6.3",
+    "cross-env": "^7.0.3",
     "css-loader": "^5.0.1",
     "eslint": "^7.19.0",
     "eslint-config-airbnb-base": "^14.2.1",
