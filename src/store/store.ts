@@ -5,7 +5,13 @@ import thunk from 'redux-thunk';
 import createRootReducer from './reducers/createRootReducer';
 
 export const history = createBrowserHistory();
-export default function configureStore(preloadedState = {}) {
+export default function configureStore() {
+  // eslint-disable-next-line no-underscore-dangle
+  const preloadedState = window.__PRELOADED_STATE__ || {};
+
+  // eslint-disable-next-line no-underscore-dangle
+  delete window.__PRELOADED_STATE__;
+
   const store = createStore(
     createRootReducer(history), // root reducer with router state
     preloadedState,

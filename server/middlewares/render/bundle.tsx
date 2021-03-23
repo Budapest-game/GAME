@@ -1,6 +1,9 @@
 import React from 'react';
+import { Store } from 'redux';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
+import serialize from 'serialize-javascript';
+import configureStore from '../../../src/store/server-store';
 
 interface RenderBundleHTML{
   html?:string,
@@ -10,12 +13,21 @@ interface RenderBundleArguments {
   location:string,
 }
 
-function getPageHtml(bundleHtml:string) {
+const renderObject = (data: unknown) => {
+  return serialize(data).replace(/</g, '\\\u003c');
+};
+
+function getPageHtml(bundleHtml: string, store: Store) {
   const html = renderToStaticMarkup(
         <html>
             <head/>
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `window.__PRELOADED_STATE__ = ${renderObject(store.getState())}`,
+                }}
+              />
               <script src="static/main.bundle.js"/>
             </body>
         </html>,
@@ -31,12 +43,13 @@ function getAppComponent() {
   return renderAppToString;
 }
 
-export default ({ location }:RenderBundleArguments): RenderBundleHTML => {
+export default ({ location }: RenderBundleArguments): RenderBundleHTML => {
+  const { store } = configureStore(location);
   const context: StaticRouterContext = {};
   const Index = getAppComponent();
-  const bundleHtml = Index(location, context);
+  const bundleHtml = Index(location, context, store);
   if (context.url) {
     return { redirectUrl: context.url };
   }
-  return { html: getPageHtml(bundleHtml) };
+  return { html: getPageHtml(bundleHtml, store) };
 };
