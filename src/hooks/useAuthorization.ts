@@ -16,22 +16,23 @@ export function useAuthorisation():UserAuthorisationType {
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const errorMessage = useSelector((state:ApplicationState) => {
+    return state.authorisation.errorMessage;
+  });
+  const requestSuccess = useSelector((state:ApplicationState) => {
+    return state.authorisation.requestSuccess;
+  });
+  const userData = useSelector((state:ApplicationState) => {
+    return state.authorisation.userData;
+  });
+
   const authUser = useCallback((data:AuthorizationData) => {
-    const errorMessage = useSelector((state:ApplicationState) => {
-      return state.authorisation.errorMessage;
-    });
-    const requestSuccess = useSelector((state:ApplicationState) => {
-      return state.authorisation.requestSuccess;
-    });
+    dispatch(authorisation(data));
     if (errorMessage !== '' && requestSuccess) {
       dispatch(getUser());
-      const userData = useSelector((state:ApplicationState) => {
-        return state.authorisation.userData;
-      });
       setUserData(userData);
     }
     setIsAuthLoading(false);
-    dispatch(authorisation(data));
   }, [authorisation]);
 
   return {
