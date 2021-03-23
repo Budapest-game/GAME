@@ -1,36 +1,22 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
+import { isDev } from './env';
+import ts from './loaders/typescript';
+import css from './loaders/css';
+import assets from './loaders/assets';
 
 const config: webpack.Configuration = {
-  mode: 'development',
+  mode: isDev ? 'development' : 'production',
   entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    isDev && 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './src/index.tsx',
-  ],
+  ].filter(Boolean) as string[],
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            configFile: path.resolve(__dirname, '../../src/tsconfig_client.json'),
-          },
-        },
-        include: path.resolve(__dirname, '../../src/'),
-      },
-      {
-        test: /\.css$/i,
-        sideEffects: true,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
-      },
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-        type: 'asset/resource',
-      },
+      { ...ts, include: path.resolve(__dirname, '../../src/') },
+      css,
+      assets,
     ],
   },
   resolve: {
@@ -45,15 +31,8 @@ const config: webpack.Configuration = {
     publicPath: '/static/',
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: './www/index.html',
-    }),
-    new InjectManifest({
-      swSrc: './sw.ts',
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+    isDev && new ReactRefreshWebpackPlugin(),
+    isDev && new webpack.HotModuleReplacementPlugin(),
+  ].filter(Boolean) as webpack.WebpackPluginInstance[],
 };
 export default config;

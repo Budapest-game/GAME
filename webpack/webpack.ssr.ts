@@ -1,31 +1,20 @@
 import path from 'path';
 import webpack from 'webpack';
+import { isDev } from './env';
+import ts from './loaders/typescript';
+import css from './loaders/css';
+import assets from './loaders/assets';
 
 const config: webpack.Configuration = {
-  mode: 'development',
+  mode: isDev ? 'development' : 'production',
   entry: [
     './server/src/index.tsx',
   ],
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            configFile: path.resolve(__dirname, '../../src/tsconfig_client.json'),
-          },
-        },
-      },
-      {
-        test: /\.css$/i,
-        sideEffects: true,
-        use: ['null-loader'],
-      },
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-        type: 'asset/resource',
-      },
+      ts,
+      { ...css, use: ['null-loader'] },
+      assets,
     ],
   },
   resolve: {
@@ -37,8 +26,5 @@ const config: webpack.Configuration = {
     filename: 'ssr.js',
     publicPath: '/static/',
   },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
 };
 export default config;
