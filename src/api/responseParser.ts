@@ -1,4 +1,4 @@
-async function responseParser(responce: Response):Promise<Record<string, string|number>> {
+async function responseParser<T>(responce: Response):Promise<T> {
   let body;
   try {
     body = await responce.json();
