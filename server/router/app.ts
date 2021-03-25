@@ -2,24 +2,49 @@ import {
   NextFunction, Request, Response, Router,
 } from 'express';
 
-const routes = [
+const publicRoutes = [
   '/',
-  '/authorization',
-  '/registration',
   '/game',
-  '/forum',
   '/leaderboard',
-  '/profile',
-  '/change-password',
-  '/change-data',
   '/controls-demo',
   '/page404',
   '/page500',
 ];
+const privateRoutes = [
+  '/profile',
+  '/change-password',
+  '/change-data',
+  '/forum',
+];
+
+const authenticatedRoutes = [
+  '/authorization',
+  '/registration',
+];
 
 export function appRoutes(router: Router): void {
-  router.get(routes, (req: Request, res: Response) => {
+  router.get(publicRoutes, (req: Request, res: Response) => {
     res.renderBundle();
+  });
+}
+
+export function authenticatedAppRoutes(router: Router): void {
+  router.get(authenticatedRoutes, (req: Request, res: Response) => {
+    if (req.isAuthenticated) {
+      res.redirect('/');
+    } else {
+      res.renderBundle();
+    }
+  });
+}
+
+export function privateAppRoutes(router: Router): void {
+  router.get(privateRoutes, (req: Request, res: Response) => {
+    if (req.isAuthenticated) {
+      res.renderBundle();
+    } else {
+      res.redirect('/authorization');
+    }
   });
 }
 
