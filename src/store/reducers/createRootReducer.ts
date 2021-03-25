@@ -4,6 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import { forumReducer } from './forum';
 import { registrationReducer } from './registration';
 import { leaderboardReducer } from './leaderboard';
+import { authReducer } from './auth';
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -11,6 +12,7 @@ const createRootReducer = (history: History) => {
     forum: forumReducer,
     registration: registrationReducer,
     leaderboard: leaderboardReducer,
+    auth: authReducer,
   });
 };
 export default createRootReducer;

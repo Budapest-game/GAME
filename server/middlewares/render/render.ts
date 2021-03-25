@@ -4,7 +4,8 @@ import renderBundle from './bundle';
 export default (req: Request, res: Response, next: NextFunction):void => {
   res.renderBundle = () => {
     const location = req.url;
-    const { html, redirectUrl } = renderBundle({ location });
+    const { isAuthenticated, user } = req;
+    const { html, redirectUrl } = renderBundle({ location, isAuthenticated, user });
 
     if (redirectUrl) {
       res.redirect(redirectUrl);
