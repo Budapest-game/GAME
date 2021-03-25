@@ -2,12 +2,13 @@ declare namespace Express {
   export interface Response {
     renderBundle(): void;
   }
+
   export interface Request {
     isAuthenticated: boolean;
     user: null | UserInfo;
-}
+  }
 
-export interface UserInfo{
+  export interface UserInfo {
     id: number,
     'first_name': string,
     'second_name': string,

@@ -5,12 +5,14 @@ import { StaticRouterContext } from 'react-router';
 import serialize from 'serialize-javascript';
 import configureStore from '../../../src/store/server-store';
 
-interface RenderBundleHTML{
-  html?:string,
-  redirectUrl?:string
+interface RenderBundleHTML {
+  html?: string,
+  redirectUrl?: string
 }
 interface RenderBundleArguments {
-  location:string,
+  location: string,
+  isAuthenticated: boolean,
+  user: Express.UserInfo | null,
 }
 
 const renderObject = (data: unknown) => {
@@ -43,8 +45,8 @@ function getAppComponent() {
   return renderAppToString;
 }
 
-export default ({ location }: RenderBundleArguments): RenderBundleHTML => {
-  const { store } = configureStore(location);
+export default ({ location, isAuthenticated, user }: RenderBundleArguments): RenderBundleHTML => {
+  const { store } = configureStore(location, isAuthenticated, user);
   const context: StaticRouterContext = {};
   const Index = getAppComponent();
   const bundleHtml = Index(location, context, store);
