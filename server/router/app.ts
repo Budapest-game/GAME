@@ -5,7 +5,6 @@ import {
 const publicRoutes = [
   '/',
   '/game',
-  '/leaderboard',
   '/controls-demo',
   '/page404',
   '/page500',
@@ -15,6 +14,7 @@ const privateRoutes = [
   '/change-password',
   '/change-data',
   '/forum',
+  '/leaderboard',
 ];
 
 const authenticatedRoutes = [

@@ -9,14 +9,10 @@ import './navigation.css';
 const Cls = cn('navigation');
 const LINKS = [
   { to: '/authorization', text: textContent.auth, auhenticated: true },
-  { to: '/registration', text: textContent.reg, auhenticated: true },
   { to: '/game', text: textContent.game },
-  { to: '/leaderboard', text: textContent.leaderbord },
+  { to: '/leaderboard', text: textContent.leaderbord, private: true },
   { to: '/forum', text: textContent.forum, private: true },
   { to: '/profile', text: textContent.profile, private: true },
-  { to: '/page404', text: textContent.page404 },
-  { to: '/page500', text: textContent.page500 },
-  { to: '/controls-demo', text: textContent.demo },
 ];
 export default function Navigation():JSX.Element {
   const isAuthenticated = useSelector((state:ApplicationState) => {
