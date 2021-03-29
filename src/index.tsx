@@ -21,3 +21,5 @@ ReactDOM.hydrate(
     </Provider>,
     document.getElementById('root'),
 );
+
+export type ApplicationState = ReturnType<typeof store.getState>;
