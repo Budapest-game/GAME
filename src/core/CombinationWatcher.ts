@@ -18,8 +18,6 @@ export default class CombinationWatcher {
 
   protected cell: Cell;
 
-  protected combineScore = 0;
-
   protected sound: Sound|null;
 
   constructor(
@@ -35,11 +33,10 @@ export default class CombinationWatcher {
     this.height = height;
     this.cell = cell;
 
-    const soundContext = new (window.AudioContext || window.webkitAudioContext)();
-    const soundBuffer = new SoundBuffer(soundContext, Sounds);
+    const soundBuffer = new SoundBuffer(Sounds);
     this.sound = null;
-    soundBuffer.loadSound(Sounds.coin).then((sound) => {
-      this.sound = new Sound(soundContext, sound);
+    soundBuffer.loadSound(Sounds.coin).then((result) => {
+      this.sound = new Sound(result.context, result.buffer);
     });
   }
 

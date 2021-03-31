@@ -4,6 +4,11 @@ declare global {
   }
 }
 
+type SoundBufferResult = {
+  buffer: AudioBuffer,
+  context: AudioContext,
+};
+
 export default class SoundBuffer {
   protected context: AudioContext;
 
@@ -11,21 +16,23 @@ export default class SoundBuffer {
 
   public buffer: AudioBuffer|null;
 
-  constructor(context: AudioContext, fileUrl: Record<string, string>) {
-    this.context = context;
+  constructor(fileUrl: Record<string, string>) {
+    this.context = new (window.AudioContext || window.webkitAudioContext)();
     this.fileUrls = fileUrl;
     this.buffer = null;
   }
 
-  public loadSound(url: string):Promise<AudioBuffer> {
+  public loadSound(url: string):Promise<SoundBufferResult> {
     const request = new XMLHttpRequest();
     request.open('get', url, true);
     request.responseType = 'arraybuffer';
-    return new Promise<AudioBuffer>((resolve) => {
+    return new Promise<SoundBufferResult>((resolve) => {
       request.onload = () => {
         return this.context.decodeAudioData(request.response, (buffer) => {
-          this.buffer = buffer;
-          resolve(this.buffer);
+          resolve({
+            buffer,
+            context: this.context,
+          });
         });
       };
       request.send();
