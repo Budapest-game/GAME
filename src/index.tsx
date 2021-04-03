@@ -5,8 +5,8 @@ import store from './store/store';
 import App from './components/app/app';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
+// TODO Добавить условие на включение sw в prod
 // import { registerSW } from './registerSW';
-
 // registerSW();
 
 ReactDOM.render(
