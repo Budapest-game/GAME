@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
 import './button.css';
 
-interface ButtonProps
+export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset' | undefined;
   disabled?: boolean | undefined,

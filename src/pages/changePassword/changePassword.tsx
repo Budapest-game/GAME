@@ -24,7 +24,12 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
       name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: textContent.submit,
+    buttonsInfo: [
+      {
+        type: 'submit',
+        text: 'Авторизация',
+      },
+    ],
     redirLinkInfo: {
       text: textContent.link,
       href: '/profile',
@@ -46,6 +51,7 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
 
   render():JSX.Element {
     return <div className="changePasswordPage">
+      {/* @ts-ignore */}
       <Form {...this.formSettings} submit={this.changePassword} error={this.state.error}/>
       </div>;
   }

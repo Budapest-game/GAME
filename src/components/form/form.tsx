@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import { cn } from '@bem-react/classname';
 import { inputValidation } from '../../utils/validation';
 import { Input, InputProps } from '../input/input';
-import { Button } from '../button/button';
+import { Button, ButtonProps } from '../button/button';
 import './form.css';
 
 interface Props {
   formHeader: string
   inputsInfo: FormInput[]
-  submitText: string
+  buttonsInfo: FormButton[]
   redirLinkInfo: {
     text: string,
     href: string
@@ -20,6 +20,12 @@ interface Props {
 interface FormInput extends InputProps {
   validate: string[];
   name: string;
+}
+interface FormButton extends ButtonProps {
+  type: 'button' | 'submit';
+  className?: string;
+  onClick?: (event?: React.MouseEvent) => void;
+  text: string;
 }
 interface InputState {
   value: string,
@@ -94,6 +100,13 @@ export class Form extends PureComponent<Props> {
     });
   }
 
+  renderButtons(): JSX.Element[] {
+    return this.props.buttonsInfo.map((button, i) => {
+      return <Button {...button}
+                     key={i}/>;
+    });
+  }
+
   render():JSX.Element {
     const formClasses = Cls(null, [this.props.className]);
     return (
@@ -102,9 +115,7 @@ export class Form extends PureComponent<Props> {
         <form onSubmit={this.onSubmit}>
           {this.renderInputs()}
           {this.props.error && <div className={Cls('error')}><span>{this.props.error}</span></div>}
-          <div>
-            <Button type="submit" text={this.props.submitText}/>
-          </div>
+          {this.renderButtons()}
           <p>
             <a href={this.props.redirLinkInfo.href}>{this.props.redirLinkInfo.text}</a>
           </p>

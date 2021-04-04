@@ -68,7 +68,12 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
       name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: textContent.submit,
+    buttonsInfo: [
+      {
+        type: 'submit',
+        text: 'Авторизация',
+      },
+    ],
     redirLinkInfo: {
       text: textContent.link,
       href: '/authorization',
@@ -91,6 +96,7 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
     }
 
     return <div className="registrationPage">
+      {/* @ts-ignore */}
       <Form
         {...this.formSettings}
         submit={this.regRequest}

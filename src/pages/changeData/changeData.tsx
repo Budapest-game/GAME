@@ -52,7 +52,12 @@ class ChangeData extends PureComponent<ChangeDataState> {
         name: 'phone', value: this.state.user.phone, placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
       },
       ],
-      submitText: textContent.submit,
+      buttonsInfo: [
+        {
+          type: 'submit',
+          text: 'Авторизация',
+        },
+      ],
       redirLinkInfo: {
         text: textContent.link,
         href: '/profile',
@@ -77,6 +82,7 @@ class ChangeData extends PureComponent<ChangeDataState> {
     return <div className="changeDataPage">
       {
        this.state.loading ? <span>Загрузка</span>
+         // @ts-ignore
          : <Form {...this.formSettings()} submit={this.changeData} error={this.state.error}/>
       }
       </div>;

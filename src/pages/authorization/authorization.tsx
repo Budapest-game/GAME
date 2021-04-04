@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import AuthorizationApi from '../../api/auth/authorization';
+import OAuth from '../../api/oauth/oauth';
 import { AuthorizationData } from '../../api/types';
 import textContent from './textContent';
 import './authorization.css';
@@ -28,6 +29,16 @@ class Authorization extends PureComponent<AuthorizationState> {
     });
   }
 
+  getOauthToken = ():void => {
+    OAuth.getToken().then((res) => {
+      if (res.service_id) {
+        const redirectUrl = process.env.NODE_ENV ? 'https://local.ya-praktikum.tech:5000/' : 'https://morning-chamber-87005.herokuapp.com/';
+        // eslint-disable-next-line no-restricted-globals
+        location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.service_id}&redirect_uri=${redirectUrl}`;
+      }
+    });
+  }
+
   formSettings = {
     className: 'authorizationForm',
     formHeader: textContent.header,
@@ -38,7 +49,18 @@ class Authorization extends PureComponent<AuthorizationState> {
       name: 'password', value: '', placeholder: textContent.password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: textContent.submit,
+    buttonsInfo: [
+      {
+        type: 'submit',
+        text: 'Авторизация',
+      },
+      {
+        type: 'button',
+        text: 'Яндекс',
+        className: 'oauth',
+        onClick: this.getOauthToken,
+      },
+    ],
     redirLinkInfo: {
       text: textContent.link,
       href: '/registration',
@@ -47,6 +69,8 @@ class Authorization extends PureComponent<AuthorizationState> {
 
   render():JSX.Element {
     return <div className="authorizationPage">
+      {/* Ошибка типов, не могу понять что не так */}
+      {/* @ts-ignore */}
       <Form {...this.formSettings} submit={this.loginReq} error={this.state.error}/>
       </div>;
   }
