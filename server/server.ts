@@ -10,7 +10,9 @@ import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
 import sequelize from './database/db';
-import User from './database/models/User';
+import Topic from './database/models/Topic';
+import Comment from './database/models/Comment';
+import Reaction from './database/models/Reaction';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -27,6 +29,58 @@ app.use(authChecker);
 app.use(render);
 app.use(router);
 
+async function testCRUD() {
+  await sequelize.sync();
+  // Данные для теста
+  // await Topic.create({
+  //   name: 'Тест',
+  //   content: 'Контент',
+  //   userId: 1,
+  // });
+  // await Comment.create({
+  //   topicId: 1,
+  //   content: 'Коммент',
+  //   userId: 2,
+  //   replyTo: null,
+  // });
+  // await Comment.create({
+  //   topicId: 1,
+  //   content: 'Коммент 2',
+  //   userId: 2,
+  //   replyTo: null,
+  // });
+  // await Comment.create({
+  //   topicId: 1,
+  //   content: 'Реплай 2',
+  //   userId: 2,
+  //   replyTo: 1,
+  // });
+  // await Reaction.create({
+  //   reactionType: 'thumbsup',
+  //   reactionTo: 1,
+  //   userId: 3,
+  // });
+  // await Reaction.create({
+  //   reactionType: 'thumbsdown',
+  //   reactionTo: 1,
+  //   userId: 3,
+  // });
+  const topics = await Topic.findAll({
+    include: [{
+      model: Comment,
+      include: [{
+        model: Reaction,
+      },
+      {
+        model: Comment,
+        as: 'replies',
+      },
+      ],
+    }],
+  });
+  console.log(topics[0]);
+}
+
 if (isDev) {
   https.createServer({
     key: fs.readFileSync(path.join(__dirname, '../../certificates/server.key')),
@@ -40,16 +94,4 @@ if (isDev) {
     console.log(`Сервер запущен, порт: ${PORT}`);
     testCRUD();
   });
-}
-// Пример работы sequelize
-async function testCRUD() {
-  await sequelize.sync();
-  await User.sync();
-  await User.create({ id: 1 });
-  const user = await User.findOne({
-    where: {
-      id: 1,
-    },
-  });
-  console.log('sequelize findOne result', user);
 }
