@@ -9,8 +9,8 @@ import webpackConfig from '../webpack/webpack.client';
 import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
-import sequelize from './databases/postgres/db';
-import User from './databases/postgres/models/testUser';
+import sequelize from './database/db';
+import User from './database/models/User';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -38,10 +38,11 @@ if (isDev) {
 } else {
   app.listen(PORT, () => {
     console.log(`Сервер запущен, порт: ${PORT}`);
+    testCRUD();
   });
 }
+// Пример работы sequelize
 async function testCRUD() {
-  sequelize.addModels([User]);
   await sequelize.sync();
   await User.sync();
   await User.create({ id: 1 });
@@ -50,5 +51,5 @@ async function testCRUD() {
       id: 1,
     },
   });
-  console.log('found', user);
+  console.log('sequelize findOne result', user);
 }

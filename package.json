@@ -46,6 +46,7 @@
   "dependencies": {
     "@bem-react/classname": "^1.5.9",
     "connected-react-router": "^6.9.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "htmlescape": "^1.1.1",
     "node-fetch": "^2.6.1",
