@@ -37,6 +37,9 @@ npm run test - тесты jest
 Далее в браузере приложение можно будет открывать по:           
 https://test.ya-praktikum.tech:8080
 
+## .env.example   
+Перед сборкой Docker Compose создайте .env файл по примеру .env.example   
+
 ## Docker Compose
 Команда для сборки всех зависимостей и запуска контейнера приложения:    
 `docker-compose up game`    
