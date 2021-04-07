@@ -3,6 +3,9 @@ import { clearRect } from '../utils/drawImage';
 import Cell from './Cell';
 import { eventBus } from './EventBus';
 import { GlobalEvents } from './GlobalEvents';
+import SoundBuffer from './SoundBuffer';
+import { Sounds } from './levels/1/Elements';
+import Sound from './Sound';
 
 export default class CombinationWatcher {
   protected gameMap: DrawResultType[][] = [];
@@ -15,7 +18,7 @@ export default class CombinationWatcher {
 
   protected cell: Cell;
 
-  protected combineScore = 0;
+  protected sound: Sound|null;
 
   constructor(
     gameMap: DrawResultType[][],
@@ -29,6 +32,12 @@ export default class CombinationWatcher {
     this.width = width;
     this.height = height;
     this.cell = cell;
+
+    const soundBuffer = new SoundBuffer(Sounds);
+    this.sound = null;
+    soundBuffer.loadSound(Sounds.coin).then((result) => {
+      this.sound = new Sound(result.context, result.buffer);
+    });
   }
 
   public checkCombination():boolean {
@@ -103,6 +112,9 @@ export default class CombinationWatcher {
 
   protected clearCombination(buffer:DrawResultType[]):void {
     eventBus.emit(GlobalEvents.CHANGE_GAME_SCORE, { newScore: buffer.length });
+    if (this.sound) {
+      this.sound.play();
+    }
     buffer.forEach((element) => {
       const { x, y } = element.innerCoordinates;
       clearRect(this.ctx, this.cell, x, y);
