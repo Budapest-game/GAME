@@ -8,24 +8,11 @@ const Cls = cn('leaderboard');
 export interface LeaderboardProps {
   isLoading: boolean;
   info: LeaderInfo[];
-  fetchData: (/* url: string */) => void;
+  fetchData: () => void;
 }
 
 export class Leaderboard extends PureComponent<LeaderboardProps> {
-  makeLeadersInfoLayout(info: LeaderInfo[]):JSX.Element[] {
-    const leaders = [];
-    for (let i = 0; i < info.length; i++) {
-      leaders.push(Leader({
-        name: info[i].name,
-        score: info[i].score,
-        position: info[i].position,
-        avatar: info[i].avatar,
-      }));
-    }
-    return leaders;
-  }
-
-  componentDidMount() {
+  componentDidMount():void {
     this.props.fetchData();
   }
 
@@ -33,8 +20,6 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
     if (this.props.isLoading) {
       return <>Loading...</>;
     }
-
-    const leadersComponents = this.makeLeadersInfoLayout(this.props.info);
 
     if (!this.props.info) {
       return (
@@ -49,7 +34,11 @@ export class Leaderboard extends PureComponent<LeaderboardProps> {
           <h1>Таблица лидеров</h1>
         </div>
         <div className={Cls('content')}>
-          {leadersComponents}
+          {
+             this.props.info.map((leaderInfo) => {
+               return <Leader {...leaderInfo} key={leaderInfo.position}/>;
+             })
+          }
         </div>
       </div>
     );
