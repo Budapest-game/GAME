@@ -11,6 +11,7 @@ import {
 } from '../utils/drawImage';
 import { switchInnerElements } from '../utils/switchInnerElements';
 
+
 export default class Field {
   protected width: number;
 
@@ -69,6 +70,7 @@ export default class Field {
     this.fieldWidth = sellWidth * this.width;
     this.fieldHeight = cellHeight * this.height;
     this.activeElement = null;
+
   }
 
   /**
