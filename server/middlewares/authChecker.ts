@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import { Request, Response, NextFunction } from 'express';
 import { BASE_API_URL } from '../../src/api/constants';
 
-export default async (req: Request, res:Response, next:NextFunction): Promise<void> => {
+export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   req.isAuthenticated = false;
   req.user = null;
   if (req.headers.cookie) {

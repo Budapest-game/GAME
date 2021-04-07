@@ -4,6 +4,7 @@ import banana from '../assets/banana.png';
 import bow from '../assets/bow.png';
 import candy from '../assets/candy.png';
 import raspberries from '../assets/raspberries.png';
+import Coin01 from '../assets/Coin01.mp3';
 
 export const Elements:InnerElementType[] = [
   {
@@ -37,3 +38,7 @@ export const Elements:InnerElementType[] = [
     dHeight: 30,
   },
 ];
+
+export const Sounds: Record<string, string> = {
+  coin: Coin01,
+};
