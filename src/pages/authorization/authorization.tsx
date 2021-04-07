@@ -51,12 +51,12 @@ class Authorization extends PureComponent<AuthorizationState> {
     ],
     buttonsInfo: [
       {
-        type: 'submit',
-        text: 'Авторизация',
+        type: 'submit' as ('submit'),
+        text: textContent.submit,
       },
       {
-        type: 'button',
-        text: 'Яндекс',
+        type: 'button' as ('button'),
+        text: textContent.yandex,
         className: 'oauth',
         onClick: this.getOauthToken,
       },
@@ -69,8 +69,6 @@ class Authorization extends PureComponent<AuthorizationState> {
 
   render():JSX.Element {
     return <div className="authorizationPage">
-      {/* Ошибка типов, не могу понять что не так */}
-      {/* @ts-ignore */}
       <Form {...this.formSettings} submit={this.loginReq} error={this.state.error}/>
       </div>;
   }

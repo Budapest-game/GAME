@@ -26,8 +26,8 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
     ],
     buttonsInfo: [
       {
-        type: 'submit',
-        text: 'Авторизация',
+        type: 'submit' as ('submit'),
+        text: textContent.submit,
       },
     ],
     redirLinkInfo: {
@@ -51,7 +51,6 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
 
   render():JSX.Element {
     return <div className="changePasswordPage">
-      {/* @ts-ignore */}
       <Form {...this.formSettings} submit={this.changePassword} error={this.state.error}/>
       </div>;
   }

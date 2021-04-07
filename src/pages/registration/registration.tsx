@@ -70,8 +70,8 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
     ],
     buttonsInfo: [
       {
-        type: 'submit',
-        text: 'Авторизация',
+        type: 'submit' as ('submit'),
+        text: textContent.submit,
       },
     ],
     redirLinkInfo: {
@@ -96,7 +96,6 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
     }
 
     return <div className="registrationPage">
-      {/* @ts-ignore */}
       <Form
         {...this.formSettings}
         submit={this.regRequest}

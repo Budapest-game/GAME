@@ -15,13 +15,14 @@ import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 import OAuth from '../../api/oauth/oauth';
+import win from '../../../webpack/mock/window.mock';
 
 export default class App extends PureComponent {
   render() {
     // Есть какой-то более простой способ вытаскивать GET-параметры?
     // это я нашел в интернете в нескольких местах, но на мой взгляд это кривовато
     // Так как редирект url у нас ведет на главную, не придумал куда лучше воткнуть эту ловушку
-    const { search } = window.location;
+    const { search } = win.location;
     const params = new URLSearchParams(search);
     const code = params.get('code');
     if (code) {

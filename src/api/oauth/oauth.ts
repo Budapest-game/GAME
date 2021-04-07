@@ -11,18 +11,8 @@ class OAuth {
 
   public async logIn(data:OAuthInterface) {
     const resp = await ApiBase.post('/oauth/yandex', data);
-    if (resp.status !== 200) {
-      let errorMessage = resp.statusText;
-      let body;
-      try {
-        body = await resp.json();
-      } catch {
-        body = '';
-      }
-      if (body && body.reason) errorMessage = body.reason;
-      throw new Error(errorMessage);
-    }
-    return true;
+    const body = await responseParser<Record<string, string>>(resp);
+    return body;
   }
 }
 export default new OAuth();

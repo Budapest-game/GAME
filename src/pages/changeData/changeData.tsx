@@ -54,8 +54,8 @@ class ChangeData extends PureComponent<ChangeDataState> {
       ],
       buttonsInfo: [
         {
-          type: 'submit',
-          text: 'Авторизация',
+          type: 'submit' as ('submit'),
+          text: textContent.submit,
         },
       ],
       redirLinkInfo: {
@@ -82,7 +82,6 @@ class ChangeData extends PureComponent<ChangeDataState> {
     return <div className="changeDataPage">
       {
        this.state.loading ? <span>Загрузка</span>
-         // @ts-ignore
          : <Form {...this.formSettings()} submit={this.changeData} error={this.state.error}/>
       }
       </div>;
