@@ -41,3 +41,7 @@ export interface GetLeaders{
   'cursor': number,
   'limit': number
 }
+
+export interface OAuthInterface{
+  'code': string,
+}

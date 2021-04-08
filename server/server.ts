@@ -10,7 +10,7 @@ import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
 
-const { PORT = 8080, NODE_ENV } = process.env;
+const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
 const app: Express = express();
 

@@ -17,3 +17,8 @@
   background-color: var(--pink);
   padding: 10px;
 }
+
+.form .oauth {
+  margin-top: 0;
+  background-color: #ffcc00;
+}

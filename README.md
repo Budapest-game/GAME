@@ -33,6 +33,6 @@ npm run test - тесты jest
 
 ## Запуск HTTPS на локальной машине
 Для тестов на локальной машине нужно добавить в host запись:    
-127.0.0.1 test.ya-praktikum.tech    
+127.0.0.1 local.ya-praktikum.tech    
 Далее в браузере приложение можно будет открывать по:           
 https://test.ya-praktikum.tech:8080
