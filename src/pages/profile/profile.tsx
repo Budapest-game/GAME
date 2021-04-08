@@ -4,6 +4,7 @@ import { cn } from '@bem-react/classname';
 import { Avatar } from '../../components/avatar/avatar';
 import { Button } from '../../components/button/button';
 import { ProfileField } from '../../components/profileField/profileField';
+import { ThemeToggler } from '../../components/themeToggler/themeToggler';
 import UserApi from '../../api/user/user';
 import AuthorizationApi from '../../api/auth/authorization';
 import './profile.css';
@@ -16,7 +17,7 @@ interface ProfileInfo {
   email: string,
   phone: string,
 }
-interface ProfileState{
+interface ProfileState {
   loading: boolean,
   user: ProfileInfo
 }
@@ -82,13 +83,17 @@ class Profile extends PureComponent<RouteComponentProps> {
           <li className={Cls('item')}>
             <Link to="/change-password">Изменить пароль</Link>
           </li>
-          <li className={Cls('item')}>
-            <Button
-              type='submit'
-              onClick={this.logOut}
-              text='Выйти'
-            />
-          </li>
+          <ThemeToggler
+            currentTheme="dark"
+            onToggle={() => {
+              console.log('theme');
+            }}
+          />
+          <Button
+            type='submit'
+            onClick={this.logOut}
+            text='Выйти'
+          />
         </ul>
       </React.Fragment>
     );
