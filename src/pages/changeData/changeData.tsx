@@ -52,7 +52,12 @@ class ChangeData extends PureComponent<ChangeDataState> {
         name: 'phone', value: this.state.user.phone, placeholder: textContent.phone, type: 'text', validate: ['required', 'phone'],
       },
       ],
-      submitText: textContent.submit,
+      buttonsInfo: [
+        {
+          type: 'submit' as ('submit'),
+          text: textContent.submit,
+        },
+      ],
       redirLinkInfo: {
         text: textContent.link,
         href: '/profile',

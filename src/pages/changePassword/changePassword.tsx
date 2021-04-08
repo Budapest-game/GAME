@@ -24,7 +24,12 @@ class ChangePassword extends PureComponent<ChangePasswordState> {
       name: 'second_password', value: '', placeholder: textContent.second_password, type: 'password', validate: ['required'],
     },
     ],
-    submitText: textContent.submit,
+    buttonsInfo: [
+      {
+        type: 'submit' as ('submit'),
+        text: textContent.submit,
+      },
+    ],
     redirLinkInfo: {
       text: textContent.link,
       href: '/profile',

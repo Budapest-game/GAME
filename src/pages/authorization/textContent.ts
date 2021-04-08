@@ -4,4 +4,5 @@ export default {
   password: 'Пароль',
   submit: 'Авторизация',
   link: 'Нет аккаунта?',
+  yandex: 'Яндекс',
 };
