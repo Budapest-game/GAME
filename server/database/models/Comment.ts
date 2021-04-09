@@ -1,7 +1,9 @@
 import {
   DataType, Model, Table, Column, PrimaryKey,
   AutoIncrement, HasMany, ForeignKey,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import CommentsReactions from './CommentsReactions';
 import Reaction from './Reaction';
 import Topic from './Topic';
 
@@ -40,7 +42,7 @@ class Comment extends Model<CommentAttributes> {
   @HasMany(() => { return Comment; }, 'replyTo')
   replies: Comment[]
 
-  @HasMany(() => { return Reaction; }, 'reactionTo')
-  reactions: Reaction[]
+  @BelongsToMany(() => { return Reaction; }, () => { return CommentsReactions; }, 'commentId', 'reactionId')
+  reactions: Reaction[];
 }
 export default Comment;

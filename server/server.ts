@@ -13,6 +13,7 @@ import sequelize from './database/db';
 import Topic from './database/models/Topic';
 import Comment from './database/models/Comment';
 import Reaction from './database/models/Reaction';
+import CommentsReactions from './database/models/CommentsReactions';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -57,28 +58,42 @@ async function testCRUD() {
   // });
   // await Reaction.create({
   //   reactionType: 'thumbsup',
-  //   reactionTo: 1,
   //   userId: 3,
   // });
   // await Reaction.create({
   //   reactionType: 'thumbsdown',
-  //   reactionTo: 1,
   //   userId: 3,
+  // });
+  // await CommentsReactions.create({
+  //   commentId: 1,
+  //   reactionId: 1,
+  // });
+  // await CommentsReactions.create({
+  //   commentId: 1,
+  //   reactionId: 2,
+  // });
+  // await CommentsReactions.findAll({
+  //   include: [{
+  //     model: Reaction,
+  //   }],
   // });
   const topics = await Topic.findAll({
     include: [{
       model: Comment,
-      include: [{
-        model: Reaction,
-      },
-      {
-        model: Comment,
-        as: 'replies',
-      },
+      include: [
+        {
+          model: Reaction,
+          as: 'reactions',
+        },
+        {
+          model: Comment,
+          as: 'replies',
+        },
       ],
     }],
+    raw: true,
   });
-  console.log(topics[0]);
+  // console.log(topics);
 }
 
 if (isDev) {

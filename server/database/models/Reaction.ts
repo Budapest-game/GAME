@@ -1,12 +1,11 @@
 import {
-  DataType, Model, Table, Column, PrimaryKey,
-  AutoIncrement, ForeignKey,
+  DataType, Model, Table, Column, PrimaryKey, BelongsToMany, AutoIncrement,
 } from 'sequelize-typescript';
 import Comment from './Comment';
+import CommentsReactions from './CommentsReactions';
 
 interface ReactiontAttributes{
   reactionType: string,
-  reactionTo: number,
   userId: number,
 }
 
@@ -20,14 +19,13 @@ class Reaction extends Model<ReactiontAttributes> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
-  reactionId: number;
+  reactionId: number
 
   @Column(DataType.CHAR)
   reactionType: string;
 
-  @ForeignKey(() => { return Comment; })
-  @Column(DataType.INTEGER)
-  reactionTo: number;
+  @BelongsToMany(() => { return Comment; }, () => { return CommentsReactions; }, 'reactionId', 'commentId')
+  comments: Comment[]
 
   @Column(DataType.INTEGER)
   userId: number;
