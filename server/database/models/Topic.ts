@@ -5,6 +5,7 @@ import {
 import Comment from './Comment';
 
 interface TopicAttributes{
+  topicId?: number,
   name: string,
   content:string,
   userId: number,

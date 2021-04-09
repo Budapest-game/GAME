@@ -47,7 +47,6 @@ export function privateAppRoutes(router: Router): void {
     }
   });
 }
-
 export function notFoundRoute(router: Router): void {
   router.get('*', (req: Request, res: Response) => {
     res.redirect('/page404');
