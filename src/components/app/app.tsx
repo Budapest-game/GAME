@@ -15,21 +15,21 @@ import { Page404 } from '../../pages/page404/page404';
 import { Page500 } from '../../pages/page500/page500';
 import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 import OAuth from '../../api/oauth/oauth';
-import win from '../../../webpack/mock/window.mock';
 import PrivateRoute from '../privateRoute/privateRoute';
 import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
 
 export default class App extends PureComponent {
   render() {
-    // Есть какой-то более простой способ вытаскивать GET-параметры?
-    // это я нашел в интернете в нескольких местах, но на мой взгляд это кривовато
-    // Так как редирект url у нас ведет на главную, не придумал куда лучше воткнуть эту ловушку
-    const { search } = win.location;
-    const params = new URLSearchParams(search);
-    const code = params.get('code');
-    if (code) {
-      OAuth.logIn({ code });
+    // Убрал мок window, тк не получилось заставить его нормально работать
+    if (typeof window !== 'undefined') {
+      const { search } = window.location;
+      const params = new URLSearchParams(search);
+      const code = params.get('code');
+      if (code) {
+        OAuth.logIn({ code });
+      }
     }
+
     return (
     <div className="app">
         <div>
