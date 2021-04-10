@@ -61,6 +61,7 @@ export interface updateTopicData{
 }
 
 export interface TopicInfo{
+  topicId: number
   name: string,
   content: string,
   comments: [],

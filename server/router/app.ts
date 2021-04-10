@@ -14,6 +14,7 @@ const privateRoutes = [
   '/change-password',
   '/change-data',
   '/forum',
+  '/create-topic',
   '/leaderboard',
 ];
 

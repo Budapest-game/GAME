@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
-import { ForumSection } from '../../components/forum-section/forum-section';
-import { ForumInfo } from '../../store/actionCreators/forum';
+import { Link } from 'react-router-dom';
+import { ForumTopic } from '../../components/forumTopic/forumTopic';
+import { TopicInfo } from '../../api/types';
 import './forum.css';
 
 export interface ForumProps {
   isLoading: boolean;
-  forumInfo: ForumInfo[];
-  fetchData: (/* url: string */) => void;
+  forumInfo: TopicInfo[];
+  fetchData: () => void;
 }
 
 export class Forum extends PureComponent<ForumProps> {
@@ -24,9 +25,12 @@ export class Forum extends PureComponent<ForumProps> {
         Loading...
       </div>;
     }
-    const forum = this.props.forumInfo.map((f, i) => { return <ForumSection {...f} key={i}/>; });
+    const themes = this.props.forumInfo.map((t, i) => { return <ForumTopic {...t} key={i}/>; });
     return <div className="forumPage">
-      { forum }
+       <div className="controls">
+         <Link to="/create-topic">Создать тему</Link>
+       </div>
+      { themes }
     </div>;
   }
 }

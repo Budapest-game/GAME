@@ -17,6 +17,7 @@ import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 import OAuth from '../../api/oauth/oauth';
 import PrivateRoute from '../privateRoute/privateRoute';
 import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
+import { CreateTopic } from '../../pages/createTopic/createTopic';
 
 export default class App extends PureComponent {
   render() {
@@ -41,6 +42,7 @@ export default class App extends PureComponent {
                 <Route path="/game" component={Game}/>
                 <Route path="/leaderboard" component={Leaderboard}/>
                 <PrivateRoute path="/forum" component={Forum} redirectTo="/authorization"/>
+                <PrivateRoute path="/create-topic" component={CreateTopic} redirectTo="/authorization"/>
                 <PrivateRoute path="/profile" component={Profile} redirectTo="/authorization"/>
                 <PrivateRoute path="/change-password" component={ChangePassword } redirectTo="/authorization"/>
                 <PrivateRoute path="/change-data" component={ChangeData} redirectTo="/authorization"/>
