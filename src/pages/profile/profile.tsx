@@ -7,6 +7,7 @@ import { ProfileField } from '../../components/profileField/profileField';
 import { ThemeToggler } from '../../components/themeToggler/themeToggler';
 import UserApi from '../../api/user/user';
 import AuthorizationApi from '../../api/auth/authorization';
+import { getCurrentTheme, toggleTheme } from '../../utils/currentTheme';
 import './profile.css';
 
 interface ProfileInfo {
@@ -84,9 +85,10 @@ class Profile extends PureComponent<RouteComponentProps> {
             <Link to="/change-password">Изменить пароль</Link>
           </li>
           <ThemeToggler
-            currentTheme="dark"
+            currentTheme={ getCurrentTheme() }
             onToggle={() => {
-              console.log('theme');
+              toggleTheme();
+              window.location.reload();
             }}
           />
           <Button

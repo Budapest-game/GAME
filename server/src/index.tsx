@@ -14,7 +14,7 @@ export function renderAppToString(
   return renderToString(
     <Provider store={store}>
       <StaticRouter context={context} location={location}>
-        <App/>
+        <App themeCSS={''} fetchCSS={() => { return undefined; }} />
       </StaticRouter>
     </Provider>,
   );
