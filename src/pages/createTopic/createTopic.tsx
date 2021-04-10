@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Input } from '../../components/input/input';
 import { Button } from '../../components/button/button';
-import Topic from '../../api/forum/topic';
+import TopicAPi from '../../api/forum/topic';
 import './createTopic.css';
 
 export function CreateTopic(props:RouteComponentProps):JSX.Element {
@@ -15,7 +15,7 @@ export function CreateTopic(props:RouteComponentProps):JSX.Element {
   }
   function createClick() {
     if (name && content) {
-      Topic.create({ name, content }).then((status) => {
+      TopicAPi.create({ name, content }).then((status) => {
         if (status) {
           redirectToForum();
         }

@@ -2,7 +2,7 @@ import { GameApi } from '../base';
 import responseParser from '../responseParser';
 import { createTopicData, updateTopicData, TopicInfo } from '../types';
 
-class Topic {
+class TopicAPI {
   public async create(data: createTopicData) {
     const resp = await GameApi.post('/forum/topic', data);
     if (resp.status === 200) return true;
@@ -33,4 +33,4 @@ class Topic {
     return body;
   }
 }
-export default new Topic();
+export default new TopicAPI();

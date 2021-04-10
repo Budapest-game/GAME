@@ -2,7 +2,7 @@ import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ApplicationState } from '../reducers';
 import { forumInfoLoading, forumInfoLoadSuccess } from '../actionCreators/forum';
-import Topic from '../../api/forum/topic';
+import TopicAPI from '../../api/forum/topic';
 
 export const FORUM_INFO_IS_LOADING = 'FORUM_INFO_IS_LOADING';
 export const FORUM_INFO_LOAD_SUCCESS = 'FORUM_INFO_LOAD_SUCCESS';
@@ -11,7 +11,7 @@ export function fetchForumInfo(/* url: string */):
 ThunkAction<void, ApplicationState, unknown, Action<string>> {
   return (dispatch: Dispatch) => {
     dispatch(forumInfoLoading(true));
-    Topic.getAll().then((topics) => {
+    TopicAPI.getAll().then((topics) => {
       dispatch(forumInfoLoading(false));
       console.log(topics);
       dispatch(forumInfoLoadSuccess(topics));
