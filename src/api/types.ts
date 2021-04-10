@@ -1,3 +1,7 @@
+export type postData = RegistrationData | AuthorizationData
+| LeaderboardData | GetLeaders | OAuthInterface | createTopicData | updateTopicData;
+
+export type putData = UserPassUpdateData | UserInfoUpdateData;
 export interface RegistrationData{
   'first_name': string,
   'second_name': string,
@@ -44,4 +48,21 @@ export interface GetLeaders{
 
 export interface OAuthInterface{
   'code': string,
+}
+
+export interface createTopicData{
+  name: string,
+  content: string,
+}
+
+export interface updateTopicData{
+    name? : string,
+    content?:string
+}
+
+export interface TopicInfo{
+  name: string,
+  content: string,
+  comments: [],
+  userId: number
 }

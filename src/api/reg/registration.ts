@@ -1,9 +1,9 @@
-import ApiBase from '../base';
+import { PraktikumAPI } from '../base';
 import { RegistrationData } from '../types';
 
 class Registration {
   public async create(data: RegistrationData) {
-    const resp = await ApiBase.post('/auth/signup', data);
+    const resp = await PraktikumAPI.post('/auth/signup', data);
     if (resp.status !== 200) {
       let errorMessage = resp.statusText;
       let body;
