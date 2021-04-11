@@ -10,7 +10,6 @@ import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
 import sequelize from './database/db';
-import User from './database/models/User';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -33,23 +32,11 @@ if (isDev) {
     cert: fs.readFileSync(path.join(__dirname, '../../certificates/server.cert')),
   }, app).listen(PORT, () => {
     console.log(`dev-сервер запущен, порт: ${PORT}`);
-    testCRUD();
+    sequelize.sync();
   });
 } else {
   app.listen(PORT, () => {
     console.log(`Сервер запущен, порт: ${PORT}`);
-    testCRUD();
+    sequelize.sync();
   });
-}
-// Пример работы sequelize
-async function testCRUD() {
-  await sequelize.sync();
-  await User.sync();
-  await User.create({ id: 1 });
-  const user = await User.findOne({
-    where: {
-      id: 1,
-    },
-  });
-  console.log('sequelize findOne result', user);
 }
