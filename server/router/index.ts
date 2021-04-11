@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import ForumAPIRoutes from '../api/forum/router';
 import {
   appRoutes, privateAppRoutes, authenticatedAppRoutes,
   notFoundRoute, errorHandlerRoute,
@@ -11,6 +12,7 @@ appRoutes(router);
 authenticatedAppRoutes(router);
 privateAppRoutes(router);
 staticRoutes(router);
+ForumAPIRoutes(router);
 notFoundRoute(router);
 errorHandlerRoute(router);
 

@@ -14,6 +14,7 @@ import sequelize from './database/db';
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
 const app: Express = express();
+app.use(express.json());
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
