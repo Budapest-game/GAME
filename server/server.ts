@@ -9,6 +9,7 @@ import webpackConfig from '../webpack/webpack.client';
 import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
+import sequelize from './database/db';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -31,9 +32,11 @@ if (isDev) {
     cert: fs.readFileSync(path.join(__dirname, '../../certificates/server.cert')),
   }, app).listen(PORT, () => {
     console.log(`dev-сервер запущен, порт: ${PORT}`);
+    sequelize.sync();
   });
 } else {
   app.listen(PORT, () => {
     console.log(`Сервер запущен, порт: ${PORT}`);
+    sequelize.sync();
   });
 }
