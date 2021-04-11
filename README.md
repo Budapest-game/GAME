@@ -33,6 +33,21 @@ npm run test - тесты jest
 
 ## Запуск HTTPS на локальной машине
 Для тестов на локальной машине нужно добавить в host запись:    
-127.0.0.1 local.ya-praktikum.tech    
+127.0.0.1 test.ya-praktikum.tech    
 Далее в браузере приложение можно будет открывать по:           
 https://test.ya-praktikum.tech:8080
+
+## .env.example   
+Перед сборкой Docker Compose создайте .env файл по примеру .env.example   
+
+## Docker Compose
+Команда для сборки всех зависимостей и запуска контейнера приложения:    
+`docker-compose up game`    
+После запуска контейнер с приложением можно остановить, и использовать только контейнер с БД    
+
+## PGAdmin
+Веб-интерфейс:  
+http://localhost:8080/    
+
+IP адрес сервера postgres:   
+`docker network inspect game_net`   

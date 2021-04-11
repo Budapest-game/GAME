@@ -1,0 +1,45 @@
+services: 
+  postgres:
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    volumes: 
+      - ./postgresdata:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - net
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.18
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    ports:
+      - 8080:${PGADMIN_LISTEN_PORT}
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin:rw
+    depends_on:
+      - postgres
+    networks:
+      - net
+  game: 
+    depends_on:
+      - postgres
+      - pgadmin
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 5000:5000
+    restart: always
+    networks:
+      - net
+networks:
+  net:
+    driver: bridge 
