@@ -16,7 +16,7 @@ class TopicAPI {
       Topic.create({
         name,
         content,
-        userId: 1,
+        userId: req.user.id,
       }).then(() => {
         res.sendStatus(responseCodes.OK);
       }).catch(() => {
@@ -90,8 +90,8 @@ class TopicAPI {
       const { name, content } = req.body;
       const upd:TopicUpdateData = {};
 
-      if (name !== undefined && typeof name === 'string') upd.name = name;
-      if (content !== undefined && typeof content === 'string') upd.content = content;
+      if (typeof name === 'string') upd.name = name;
+      if (typeof content === 'string') upd.content = content;
 
       Topic.update(
         upd,
