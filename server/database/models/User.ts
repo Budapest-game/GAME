@@ -1,6 +1,8 @@
-import { DataType, Model, Table, Column, PrimaryKey } from 'sequelize-typescript';
+import {
+  DataType, Model, Table, Column, PrimaryKey,
+} from 'sequelize-typescript';
 
-//Тест модель 
+// Тест модель
 interface UserAttributes{
   id: number
 }
