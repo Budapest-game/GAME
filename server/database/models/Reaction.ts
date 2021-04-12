@@ -6,7 +6,6 @@ import CommentsReactions from './CommentsReactions';
 
 interface ReactiontAttributes{
   reactionType: string,
-  userId: number,
 }
 
 @Table({
@@ -26,8 +25,5 @@ class Reaction extends Model<ReactiontAttributes> {
 
   @BelongsToMany(() => { return Comment; }, () => { return CommentsReactions; }, 'reactionId', 'commentId')
   comments: Comment[]
-
-  @Column(DataType.INTEGER)
-  userId: number;
 }
 export default Reaction;
