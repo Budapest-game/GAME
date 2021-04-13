@@ -36,7 +36,7 @@ export interface AuthorisationResetStateAction extends Action<typeof AUTHORIZATI
 
 export interface AuthorizationGetUserDataAction extends Action<typeof AUTHORIZATION_GET_USER_DATA> {
   payload: {
-    data: Record<string, string|number>
+    data: Express.UserInfo
   }
 }
 
@@ -85,7 +85,7 @@ export function authorisationResetState(): AuthorisationResetStateAction {
   };
 }
 
-export function authorisationGetUserData(data: Record<string, string|number>)
+export function authorisationGetUserData(data: Express.UserInfo)
   :AuthorizationGetUserDataAction {
   return {
     type: AUTHORIZATION_GET_USER_DATA,

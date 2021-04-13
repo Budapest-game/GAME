@@ -5,7 +5,7 @@ declare namespace Express {
 
   export interface Request {
     isAuthenticated: boolean;
-    user: null | UserInfo;
+    user: undefined | UserInfo;
   }
 
   export interface UserInfo {
