@@ -8,6 +8,7 @@ import Reaction from './Reaction';
 import Topic from './Topic';
 
 interface CommentAttributes{
+  commentId?: number,
   topicId: number,
   content: string,
   userId: number,
