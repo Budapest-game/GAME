@@ -5,7 +5,7 @@ import { Button } from '../../components/button/button';
 import TopicAPi from '../../api/forum/topic';
 import './createTopic.css';
 
-export function CreateTopic(props:RouteComponentProps):JSX.Element {
+export default function CreateTopic(props:RouteComponentProps):JSX.Element {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
 

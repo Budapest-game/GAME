@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import { ForumTopic } from '../../components/forumTopic/forumTopic';
 import { TopicInfo } from '../../api/types';
@@ -10,8 +11,9 @@ export interface ForumProps {
   fetchData: () => void;
 }
 
+const Cls = cn('forumPage');
 export class Forum extends PureComponent<ForumProps> {
-  componentDidMount() {
+  componentDidMount():void {
     this.props.fetchData();
   }
 
@@ -21,14 +23,14 @@ export class Forum extends PureComponent<ForumProps> {
     }
 
     if (!this.props.forumInfo) {
-      return <div className="forumPage">
+      return <div className={Cls()}>
         Loading...
       </div>;
     }
     const themes = this.props.forumInfo.map((t, i) => { return <ForumTopic {...t} key={i}/>; });
-    return <div className="forumPage">
-       <div className="controls">
-         <Link to="/create-topic">Создать тему</Link>
+    return <div className={Cls()}>
+       <div className={Cls('controls')}>
+         <Link className="button-themed-link" to="/create-topic">Создать тему</Link>
        </div>
       { themes }
     </div>;

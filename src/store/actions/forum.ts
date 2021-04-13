@@ -13,7 +13,6 @@ ThunkAction<void, ApplicationState, unknown, Action<string>> {
     dispatch(forumInfoLoading(true));
     TopicAPI.getAll().then((topics) => {
       dispatch(forumInfoLoading(false));
-      console.log(topics);
       dispatch(forumInfoLoadSuccess(topics));
     });
   };

@@ -3,9 +3,11 @@
   height: 90px;
   display: inline-flex;
   cursor: pointer;
+  border-radius: var(--boxRadius);
   background-color: var(--white);
   border-bottom: 1px solid var(--light);
   align-items: center;
+  margin: 5px 0 5px 0;
   &-name {
     flex: 1 1 80%;
     padding-left: 1em;
