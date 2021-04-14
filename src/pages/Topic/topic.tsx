@@ -10,7 +10,7 @@ export interface TopicProps {
   fetchData: (id:number) => void;
 }
 
-const Cls = cn('topic');
+const Cls = cn('topicPage');
 
 export default function Topic(props: TopicProps):JSX.Element {
   const [topicInfo] = useState(0);
@@ -23,10 +23,10 @@ export default function Topic(props: TopicProps):JSX.Element {
     return <>Loading...</>;
   }
   if (props.info) {
-    return <div>
+    return <div className={Cls()}>
     <div className={Cls('info')}>
-      <div className={Cls('name')}>{props.info?.name}</div>
-      <div className={Cls('content')}>{props.info?.content}</div>
+      <div className={Cls('info-name')}>{props.info?.name}</div>
+      <div className={Cls('info-content')}>{props.info?.content}</div>
     </div>
     <div className={Cls('comments')}>КОММЕНТЫ ТУТ</div>
   </div>;

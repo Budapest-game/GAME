@@ -1,0 +1,26 @@
+.newTopic {
+  width: 100%;
+  height: calc(100% - 64px);
+  padding-top: 50px;
+
+  &-topicBody {
+    width: 90%;
+    margin: 0 auto;
+
+    &-area {
+      display: block;
+      width: 100%;
+      min-width: 100%;
+      min-height: 200px;
+      max-height: 500px;
+      border-radius: var(--boxRadius);
+      border-color: var(--light);
+      font-size: 14px;
+    }
+    
+    &-createButton {
+      width: 20%;
+      float: right;
+    }
+  }
+}

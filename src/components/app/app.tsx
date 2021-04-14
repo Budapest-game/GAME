@@ -17,7 +17,7 @@ import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 import OAuth from '../../api/oauth/oauth';
 import PrivateRoute from '../privateRoute/privateRoute';
 import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
-import CreateTopic from '../../pages/createTopic/createTopic';
+import newTopic from '../../pages/newTopic/newTopic';
 import Topic from '../../pages/topic';
 
 export default class App extends PureComponent {
@@ -34,9 +34,9 @@ export default class App extends PureComponent {
 
     return (
     <div className="app">
-        <div>
+        <div className="wrap">
           <Navigation />
-          <div>
+          <div className="wrap">
                 <Route exact path="/" component={GameDescription}/>
                 <AuthenticatedRoute path="/authorization" component={Authorization} redirectTo="/"/>
                 <AuthenticatedRoute path="/registration" component={Registration} redirectTo="/"/>
@@ -44,7 +44,7 @@ export default class App extends PureComponent {
                 <Route path="/leaderboard" component={Leaderboard}/>
                 <PrivateRoute path="/forum" component={Forum} redirectTo="/authorization"/>
                 <PrivateRoute path="/topic/:topicId" component={Topic} redirectTo="/authorization"/>
-                <PrivateRoute path="/create-topic" component={CreateTopic} redirectTo="/authorization"/>
+                <PrivateRoute path="/create-topic" component={newTopic} redirectTo="/authorization"/>
                 <PrivateRoute path="/profile" component={Profile} redirectTo="/authorization"/>
                 <PrivateRoute path="/change-password" component={ChangePassword } redirectTo="/authorization"/>
                 <PrivateRoute path="/change-data" component={ChangeData} redirectTo="/authorization"/>

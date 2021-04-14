@@ -12,6 +12,7 @@ button, .button-themed-link {
 }
 .button-themed-link {
   text-decoration: none;
+  text-align: center;
 }
 
 button[disabled] {
