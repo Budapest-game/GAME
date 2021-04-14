@@ -12,7 +12,7 @@ interface RenderBundleHTML {
 interface RenderBundleArguments {
   location: string,
   isAuthenticated: boolean,
-  user: Express.UserInfo | null,
+  user: Express.UserInfo | undefined,
 }
 
 const renderObject = (data: unknown) => {
@@ -30,7 +30,7 @@ function getPageHtml(bundleHtml: string, store: Store) {
                   __html: `window.__PRELOADED_STATE__ = ${renderObject(store.getState())}`,
                 }}
               />
-              <script src="static/main.bundle.js"/>
+              <script src="/static/main.bundle.js"/>
             </body>
         </html>,
   );

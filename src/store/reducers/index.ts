@@ -1,16 +1,25 @@
 import { combineReducers } from 'redux';
-import { forumReducer } from './forum';
-import { registrationReducer } from './registration';
-import { leaderboardReducer } from './leaderboard';
-import { authorizationReducer } from './authorization';
+import { History } from 'history';
+import { connectRouter } from 'connected-react-router';
+import { forumReducer, ForumState} from './forum';
+import { registrationReducer, RegistrationState } from './registration';
+import { leaderboardReducer, LeaderboardState } from './leaderboard';
+import { authorizationReducer, AuthorizationState } from './authorization';
 
-const rootReducer = combineReducers({
-  forum: forumReducer,
-  registration: registrationReducer,
-  leaderboard: leaderboardReducer,
-  authorisation: authorizationReducer,
-});
+const createRootReducer = (history: History) => {
+  return combineReducers({
+    router: connectRouter(history),
+    forum: forumReducer,
+    registration: registrationReducer,
+    leaderboard: leaderboardReducer,
+    authorisation: authorizationReducer,
+  });
+};
+export default createRootReducer;
 
-export type ApplicationState = ReturnType<typeof rootReducer>;
-
-export default rootReducer;
+export interface ApplicationState{
+  forum: ForumState,
+  registration: RegistrationState,
+  leaderboard: LeaderboardState,
+  authorisation: AuthorizationState
+}

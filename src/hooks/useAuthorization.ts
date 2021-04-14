@@ -7,12 +7,12 @@ import { authorisation, getUser } from '../store/actions/authorization';
 type UserAuthorisationType = {
   authUser: (data:AuthorizationData) => void,
   isAuth: boolean,
-  userAuthData:Record<string, string|number>|undefined,
+  userAuthData:Express.UserInfo | undefined,
   isAuthLoading:boolean,
 }
 
 export function useAuthorisation():UserAuthorisationType {
-  const [userAuthData, setUserData] = useState<Record<string, string|number>>();
+  const [userAuthData, setUserData] = useState<Express.UserInfo>();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ export function useAuthorisation():UserAuthorisationType {
     return state.authorisation.requestSuccess;
   });
   const userData = useSelector((state:ApplicationState) => {
-    return state.authorisation.userData;
+    return state.authorisation.user;
   });
 
   const authUser = useCallback((data:AuthorizationData) => {

@@ -5,7 +5,7 @@ import { UserInfoUpdateData, UserPassUpdateData } from '../types';
 class User {
   public async get() {
     const resp = await ApiBase.get('/auth/user');
-    const body = await responseParser<Record<string, string>>(resp);
+    const body = await responseParser<Express.UserInfo>(resp);
     return body;
   }
 
