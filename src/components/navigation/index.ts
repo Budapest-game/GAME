@@ -1,0 +1,5 @@
+import { connect } from 'react-redux';
+import { fetchThemeCSS } from '../../store/actions/theme';
+import Navigation from './navigation';
+
+export default connect(() => { return {}; }, { fetchCSS: fetchThemeCSS })(Navigation);

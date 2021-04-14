@@ -16,8 +16,13 @@ const LINKS = [
   { to: '/forum', text: textContent.forum, private: true },
   { to: '/profile', text: textContent.profile, private: true },
 ];
-export default function Navigation():JSX.Element {
-  const isAuthenticated = useSelector((state:ApplicationState) => {
+
+export interface NavigationProps {
+  fetchCSS: (themeName: string) => void;
+}
+
+export default function Navigation(props: NavigationProps): JSX.Element {
+  const isAuthenticated = useSelector((state: ApplicationState) => {
     return state.authorisation.isAuthenticated;
   });
   const navigationLinks = LINKS.filter((x) => {
@@ -36,7 +41,7 @@ export default function Navigation():JSX.Element {
             currentTheme={ getCurrentTheme() }
             onToggle={() => {
               toggleTheme();
-              window.location.reload();
+              props.fetchCSS(getCurrentTheme());
             }}
           />
       </nav>

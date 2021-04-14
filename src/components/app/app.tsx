@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router-dom';
 import './app.css';
-import Navigation from '../navigation/navigation';
+import Navigation from '../navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
