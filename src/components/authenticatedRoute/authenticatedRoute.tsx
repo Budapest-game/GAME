@@ -4,7 +4,7 @@ import { ApplicationState } from '../../index';
 
 export default function AuthenticatedRoute(props:AdvancedRoute): JSX.Element | null {
   const isAuthenticated = useSelector((state:ApplicationState) => {
-    return state.auth.isAuthenticated;
+    return state.authorisation.isAuthenticated;
   });
   return RedirectRoute({ redirectFlag: !isAuthenticated, ...props });
 }

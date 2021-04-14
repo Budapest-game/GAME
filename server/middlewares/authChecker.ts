@@ -4,7 +4,7 @@ import { BASE_API_URL } from '../../src/api/constants';
 
 export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   req.isAuthenticated = false;
-  req.user = null;
+  req.user = undefined;
   if (req.headers.cookie) {
     const resp = await fetch(`${BASE_API_URL}/auth/user`, { headers: { cookie: req.headers.cookie } });
     if (resp.status === 200) {

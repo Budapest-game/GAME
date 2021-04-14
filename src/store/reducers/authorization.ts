@@ -8,24 +8,19 @@ import {
 } from '../actions/authorization';
 
 export interface AuthorizationState {
-  requestSent: boolean;
+  requestSent?: boolean;
   requestSuccess?: boolean;
-  errorMessage: string;
-  userData: Record<string, string|number>
+  errorMessage?: string;
+  isAuthenticated: boolean;
+  user: Express.UserInfo | undefined;
 }
 
 const defaultAuthorizationState: AuthorizationState = {
   requestSent: false,
   requestSuccess: undefined,
   errorMessage: '',
-  userData: {
-    first_name: '',
-    second_name: '',
-    display_name: '',
-    login: '',
-    email: '',
-    phone: '',
-  },
+  isAuthenticated: false,
+  user: undefined,
 };
 
 export function authorizationReducer(
@@ -50,6 +45,8 @@ export function authorizationReducer(
         ...state,
         requestSuccess: action.payload.requestSuccess,
         errorMessage: action.payload.errorMessage,
+        isAuthenticated: false,
+        user: undefined,
       };
 
     case AUTHORIZATION_RESET_STATE:
@@ -58,12 +55,15 @@ export function authorizationReducer(
         requestSent: false,
         requestSuccess: undefined,
         errorMessage: '',
+        isAuthenticated: false,
+        user: undefined,
       };
 
     case AUTHORIZATION_GET_USER_DATA:
       return {
         ...state,
-        userData: action.payload.data,
+        isAuthenticated: true,
+        user: action.payload.data,
       };
 
     default:

@@ -16,7 +16,7 @@ const LINKS = [
 ];
 export default function Navigation():JSX.Element {
   const isAuthenticated = useSelector((state:ApplicationState) => {
-    return state.auth.isAuthenticated;
+    return state.authorisation.isAuthenticated;
   });
   const navigationLinks = LINKS.filter((x) => {
     if (isAuthenticated) {
