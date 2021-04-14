@@ -71,7 +71,6 @@ class TopicAPI {
     }).then((data) => {
       res.json(data);
     }).catch((err) => {
-      console.log(err)
       res.sendStatus(responseCodes.ERROR);
     });
   }

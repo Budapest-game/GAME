@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { History } from 'history';
 import { connectRouter } from 'connected-react-router';
-import { forumReducer, ForumState} from './forum';
+import { forumReducer, ForumState } from './forum';
 import { registrationReducer, RegistrationState } from './registration';
 import { leaderboardReducer, LeaderboardState } from './leaderboard';
 import { authorizationReducer, AuthorizationState } from './authorization';
