@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ export default function Navigation(props: NavigationProps): JSX.Element {
   const isAuthenticated = useSelector((state: ApplicationState) => {
     return state.authorisation.isAuthenticated;
   });
+
   const navigationLinks = LINKS.filter((x) => {
     if (isAuthenticated) {
       return !x.authenticated;
@@ -32,18 +33,23 @@ export default function Navigation(props: NavigationProps): JSX.Element {
     return !x.private;
   }).map((link) => { return <li key={link.to}><Link to={link.to}>{link.text}</Link></li>; });
 
+  const memoizedOnToggle = useCallback(
+    () => {
+      toggleTheme();
+      props.fetchCSS(getCurrentTheme());
+    },
+    [props.fetchCSS],
+  );
+
   return (
-      <nav className={Cls()}>
-        <ul>
-          {navigationLinks}
-        </ul>
-        <ThemeToggler
-            currentTheme={ getCurrentTheme() }
-            onToggle={() => {
-              toggleTheme();
-              props.fetchCSS(getCurrentTheme());
-            }}
-          />
-      </nav>
+    <nav className={Cls()}>
+      <ul>
+        {navigationLinks}
+      </ul>
+      <ThemeToggler
+        currentTheme={ getCurrentTheme() }
+        onToggle={ memoizedOnToggle }
+      />
+    </nav>
   );
 }
