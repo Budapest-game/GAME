@@ -1,9 +1,5 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '../button/button';
-
-interface ThemeTogglerState {
-  lightTheme: boolean;
-}
 
 interface ThemeTogglerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,32 +7,21 @@ interface ThemeTogglerProps
   onToggle: () => void;
 }
 
-export class ThemeToggler extends PureComponent<ThemeTogglerProps, ThemeTogglerState> {
-  constructor(props: ThemeTogglerProps) {
-    super(props);
+export function ThemeToggler(props: ThemeTogglerProps): JSX.Element {
+  const [lightTheme, setLightTheme] = useState(props.currentTheme === 'light');
 
-    this.state = {
-      lightTheme: this.props.currentTheme === 'light',
-    };
-  }
+  const memoizedOnClick = useCallback(
+    () => {
+      setLightTheme(!lightTheme);
+      props.onToggle();
+    },
+    [props.onToggle, lightTheme],
+  );
 
-  changeTheme = (): void => {
-    this.setState({ lightTheme: !this.state.lightTheme });
-    this.props.onToggle();
-  }
-
-  render() {
-    let themeTogglerText = 'Светлая тема ☀️';
-
-    if (this.state.lightTheme) {
-      themeTogglerText = 'Темная тема 🌚';
-    }
-
-    return (
-      <Button
-        onClick={this.changeTheme}
-        text={themeTogglerText}
-      />
-    );
-  }
+  return (
+    <Button
+      onClick={ memoizedOnClick }
+      text={lightTheme ? 'Темная тема 🌚' : 'Светлая тема ☀️'}
+    />
+  );
 }
