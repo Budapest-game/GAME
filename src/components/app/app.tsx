@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router-dom';
 import './app.css';
-import Navigation from '../navigation/navigation';
+import Navigation from '../navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
@@ -17,8 +17,18 @@ import { ControlsDemo } from '../../pages/controlsDemo/controlsDemo';
 import OAuth from '../../api/oauth/oauth';
 import PrivateRoute from '../privateRoute/privateRoute';
 import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
+import { getCurrentTheme } from '../../utils/currentTheme';
 
-export default class App extends PureComponent {
+export interface AppProps {
+  themeCSS: string;
+  fetchCSS: (themeName: string) => void;
+}
+
+export default class App extends PureComponent<AppProps> {
+  componentDidMount() {
+    this.props.fetchCSS(getCurrentTheme());
+  }
+
   render() {
     // Убрал мок window, тк не получилось заставить его нормально работать
     if (typeof window !== 'undefined') {
@@ -31,25 +41,29 @@ export default class App extends PureComponent {
     }
 
     return (
-    <div className="app">
-        <div>
-          <Navigation />
+      <>
+        <style>{ this.props.themeCSS }</style>
+
+        <div className="app">
           <div>
-                <Route exact path="/" component={GameDescription}/>
-                <AuthenticatedRoute path="/authorization" component={Authorization} redirectTo="/"/>
-                <AuthenticatedRoute path="/registration" component={Registration} redirectTo="/"/>
-                <Route path="/game" component={Game}/>
-                <Route path="/leaderboard" component={Leaderboard}/>
-                <PrivateRoute path="/forum" component={Forum} redirectTo="/authorization"/>
-                <PrivateRoute path="/profile" component={Profile} redirectTo="/authorization"/>
-                <PrivateRoute path="/change-password" component={ChangePassword } redirectTo="/authorization"/>
-                <PrivateRoute path="/change-data" component={ChangeData} redirectTo="/authorization"/>
-                <Route path="/page404" component={Page404}/>
-                <Route path="/page500" component={Page500}/>
-                <Route path="/controls-demo" component={ControlsDemo}/>
+            <Navigation />
+            <div>
+              <Route exact path="/" component={GameDescription}/>
+              <AuthenticatedRoute path="/authorization" component={Authorization} redirectTo="/"/>
+              <AuthenticatedRoute path="/registration" component={Registration} redirectTo="/"/>
+              <Route path="/game" component={Game}/>
+              <Route path="/leaderboard" component={Leaderboard}/>
+              <PrivateRoute path="/forum" component={Forum} redirectTo="/authorization"/>
+              <PrivateRoute path="/profile" component={Profile} redirectTo="/authorization"/>
+              <PrivateRoute path="/change-password" component={ChangePassword } redirectTo="/authorization"/>
+              <PrivateRoute path="/change-data" component={ChangeData} redirectTo="/authorization"/>
+              <Route path="/page404" component={Page404}/>
+              <Route path="/page500" component={Page500}/>
+              <Route path="/controls-demo" component={ControlsDemo}/>
+            </div>
           </div>
         </div>
-    </div>
+      </>
     );
   }
 }

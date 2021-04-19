@@ -5,7 +5,7 @@
 
   &__main {
    position: relative;
-   border: 3px solid #2aabe4;
+   border: 3px solid var(--blue);
    border-radius: 5px;
    padding: 0;
   }
@@ -16,14 +16,14 @@
    top: 0;
    left: 0;
    text-align: center;
-   color: #2aabe4;
-   background: #ffffff;
+   color: var(--blue);
+   background: var(--white);
    display: none;
   }
 
   &__left-sidebar, &__right-sidebar {
    width: 200px;
-   border: 3px solid #2aabe4;
+   border: 3px solid var(--blue);
    border-radius: 5px;
    padding: 20px;
   }
