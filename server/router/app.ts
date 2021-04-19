@@ -8,6 +8,7 @@ const publicRoutes = [
   '/controls-demo',
   '/page404',
   '/page500',
+  '/theme',
 ];
 const privateRoutes = [
   '/profile',

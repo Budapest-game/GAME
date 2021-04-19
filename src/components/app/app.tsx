@@ -18,7 +18,7 @@ import OAuth from '../../api/oauth/oauth';
 import PrivateRoute from '../privateRoute/privateRoute';
 import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
 import newTopic from '../../pages/newTopic/newTopic';
-import Topic from '../../pages/topic';
+import Topic from '../../pages/Topic';
 
 import { getCurrentTheme } from '../../utils/currentTheme';
 
