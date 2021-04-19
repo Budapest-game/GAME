@@ -2,7 +2,7 @@ export default {
   auth: 'Авторизация',
   reg: 'Регистрация',
   game: 'Игра',
-  leaderbord: 'Таблица лидеров',
+  leaderboard: 'Таблица лидеров',
   forum: 'Форум',
   profile: 'Профиль',
   page404: 'Страница 404',

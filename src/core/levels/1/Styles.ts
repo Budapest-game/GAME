@@ -6,8 +6,8 @@ export const Styles:StyleTypes = {
   padding: {
     top: 5,
   },
-  paddingBackground: '#FFFFFF',
-  borderWidth: 2,
-  borderColor: '#2AABE4',
-  background: '#ffffff',
+  paddingBackground: '#fff',
+  borderWidth: 1,
+  borderColor: '#3369f3',
+  background: '#fff',
 };
