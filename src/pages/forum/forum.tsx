@@ -30,7 +30,7 @@ export class Forum extends PureComponent<ForumProps> {
     const themes = this.props.forumInfo.map((t, i) => { return <ForumTopic {...t} key={i}/>; });
     return <div className={Cls()}>
        <div className={Cls('controls')}>
-         <Link className={`${Cls('controls-button')} button-themed-link`} to="/create-topic">Создать тему</Link>
+         <Link className={`${Cls('controls-button')} button button-themed-link`} to="/create-topic">Создать тему</Link>
        </div>
       { themes }
     </div>;

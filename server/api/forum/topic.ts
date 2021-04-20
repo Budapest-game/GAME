@@ -70,7 +70,7 @@ class TopicAPI {
       }],
     }).then((data) => {
       res.json(data);
-    }).catch((err) => {
+    }).catch(() => {
       res.sendStatus(responseCodes.ERROR);
     });
   }

@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { cn } from '@bem-react/classname';
 import { Input } from '../../components/input/input';
 import { Button } from '../../components/button/button';
 import TopicAPi from '../../api/forum/topic';
 import './newTopic.css';
 
-export default function CreateTopic(props:RouteComponentProps):JSX.Element {
+export default function CreateTopic():JSX.Element {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
   const Cls = cn('newTopic');
+  const history = useHistory();
 
-  function redirectToForum():void {
-    const { history } = props;
+  const redirectToForum = useCallback(() => {
     history.push('/forum');
-  }
-  function createClick() {
+  }, []);
+
+  const handleCreateClick = useCallback(() => {
     if (name && content) {
       TopicAPi.create({ name, content }).then((status) => {
         if (status) redirectToForum();
@@ -23,18 +24,21 @@ export default function CreateTopic(props:RouteComponentProps):JSX.Element {
         console.log(err);
       });
     }
-  }
+  }, [name, content]);
+
   function inputName(e:React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
   }
+
   function inputContent(e:React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.target.value);
   }
+
   return <div className={Cls()}>
     <div className={Cls('topicBody')}>
       <Input type="text" placeholder="Тема" maxlength="250" onInput={inputName}/>
       <textarea className={Cls('topicBody-area')} onInput={inputContent}/>
-      <Button className={Cls('topicBody-createButton')} text="Cоздать тему" type="button" onClick={createClick}/>
+      <Button className={Cls('topicBody-createButton')} text="Cоздать тему" type="button" onClick={handleCreateClick}/>
     </div>
   </div>;
 }

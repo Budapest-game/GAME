@@ -1,4 +1,4 @@
-button, .button-themed-link {
+button, .button {
   background-color: var(--blue);
   color: var(--white);
   border: none;
