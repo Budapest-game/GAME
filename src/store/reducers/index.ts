@@ -4,6 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import { forumReducer, ForumState } from './forum';
 import { registrationReducer, RegistrationState } from './registration';
 import { leaderboardReducer, LeaderboardState } from './leaderboard';
+import { themeReducer } from './theme';
 import { authorizationReducer, AuthorizationState } from './authorization';
 import { topicReducer, TopicState } from './topic';
 
@@ -15,6 +16,7 @@ const createRootReducer = (history: History) => {
     registration: registrationReducer,
     leaderboard: leaderboardReducer,
     authorisation: authorizationReducer,
+    theme: themeReducer,
   });
 };
 export default createRootReducer;
@@ -25,4 +27,5 @@ export interface ApplicationState{
   registration: RegistrationState,
   leaderboard: LeaderboardState,
   authorisation: AuthorizationState,
+  theme: string,
 }

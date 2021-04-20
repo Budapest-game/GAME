@@ -16,7 +16,7 @@ interface ProfileInfo {
   email: string,
   phone: string,
 }
-interface ProfileState{
+interface ProfileState {
   loading: boolean,
   user: ProfileInfo
 }
@@ -82,13 +82,11 @@ class Profile extends PureComponent<RouteComponentProps> {
           <li className={Cls('item')}>
             <Link to="/change-password">Изменить пароль</Link>
           </li>
-          <li className={Cls('item')}>
-            <Button
-              type='submit'
-              onClick={this.logOut}
-              text='Выйти'
-            />
-          </li>
+          <Button
+            type='submit'
+            onClick={this.logOut}
+            text='Выйти'
+          />
         </ul>
       </React.Fragment>
     );

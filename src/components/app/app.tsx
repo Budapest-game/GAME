@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route } from 'react-router-dom';
 import './app.css';
-import Navigation from '../navigation/navigation';
+import Navigation from '../navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
@@ -20,7 +20,18 @@ import AuthenticatedRoute from '../authenticatedRoute/authenticatedRoute';
 import newTopic from '../../pages/newTopic/newTopic';
 import Topic from '../../pages/topic';
 
-export default class App extends PureComponent {
+import { getCurrentTheme } from '../../utils/currentTheme';
+
+export interface AppProps {
+  themeCSS: string;
+  fetchCSS: (themeName: string) => void;
+}
+
+export default class App extends PureComponent<AppProps> {
+  componentDidMount() {
+    this.props.fetchCSS(getCurrentTheme());
+  }
+
   render() {
     // Убрал мок window, тк не получилось заставить его нормально работать
     if (typeof window !== 'undefined') {
@@ -33,10 +44,13 @@ export default class App extends PureComponent {
     }
 
     return (
-    <div className="app">
-        <div className="wrap">
-          <Navigation />
+      <>
+        <style>{ this.props.themeCSS }</style>
+
+        <div className="app">
           <div className="wrap">
+            <Navigation />
+            <div className="wrap">
                 <Route exact path="/" component={GameDescription}/>
                 <AuthenticatedRoute path="/authorization" component={Authorization} redirectTo="/"/>
                 <AuthenticatedRoute path="/registration" component={Registration} redirectTo="/"/>
@@ -51,9 +65,10 @@ export default class App extends PureComponent {
                 <Route path="/page404" component={Page404}/>
                 <Route path="/page500" component={Page500}/>
                 <Route path="/controls-demo" component={ControlsDemo}/>
+            </div>
           </div>
         </div>
-    </div>
+      </>
     );
   }
 }

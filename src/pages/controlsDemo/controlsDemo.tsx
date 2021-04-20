@@ -3,6 +3,8 @@
 import React, { PureComponent } from 'react';
 import { Input } from '../../components/input/input';
 import { Button } from '../../components/button/button';
+import { ThemeToggler } from '../../components/themeToggler/themeToggler';
+import './controlsDemo.css';
 
 class WrongComponent extends PureComponent {
   render() {
@@ -33,7 +35,13 @@ export class ControlsDemo extends PureComponent<unknown, ControlsDemoState> {
 
   render() {
     return (
-      <div>
+      <div className="controlsDemoPage">
+        <ThemeToggler
+          currentTheme="dark"
+          onToggle={() => {
+            console.log('theme changed');
+          }}
+        />
         <Input type="text" placeholder="name" />
         <Input type="password" placeholder="password" />
         <Input type="text" placeholder="name" error="error message" />
