@@ -1,15 +1,6 @@
 import { Action } from 'redux';
 import { FORUM_INFO_IS_LOADING, FORUM_INFO_LOAD_SUCCESS } from '../actions/forum';
-
-export interface ForumThemeInfo {
-  name: string,
-  postsCount: number,
-}
-
-export interface ForumInfo {
-  name: string,
-  themes: ForumThemeInfo[],
-}
+import { TopicInfo } from '../../api/types';
 
 export interface ForumInfoLoadingAction extends Action<typeof FORUM_INFO_IS_LOADING> {
   payload: {
@@ -19,7 +10,7 @@ export interface ForumInfoLoadingAction extends Action<typeof FORUM_INFO_IS_LOAD
 
 export interface ForumInfoLoadSuccessAction extends Action<typeof FORUM_INFO_LOAD_SUCCESS> {
   payload: {
-    forumInfo: ForumInfo[];
+    forumInfo: TopicInfo[];
   }
 }
 
@@ -34,7 +25,7 @@ export function forumInfoLoading(isLoading: boolean): ForumInfoLoadingAction {
   };
 }
 
-export function forumInfoLoadSuccess(forumInfo: ForumInfo[]): ForumInfoLoadSuccessAction {
+export function forumInfoLoadSuccess(forumInfo: TopicInfo[]): ForumInfoLoadSuccessAction {
   return {
     type: FORUM_INFO_LOAD_SUCCESS,
     payload: {

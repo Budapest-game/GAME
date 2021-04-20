@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import responseCodes from '../responceCodes';
 import Topic from '../../database/models/Topic';
 import Comment from '../../database/models/Comment';
-import Reaction from '../../database/models/Reaction';
 
 interface TopicUpdateData{
   name?: string,
@@ -46,10 +45,6 @@ class TopicAPI {
         model: Comment,
         include: [
           {
-            model: Reaction,
-            as: 'reactions',
-          },
-          {
             model: Comment,
             as: 'replies',
           },
@@ -67,10 +62,6 @@ class TopicAPI {
       include: [{
         model: Comment,
         include: [
-          {
-            model: Reaction,
-            as: 'reactions',
-          },
           {
             model: Comment,
             as: 'replies',

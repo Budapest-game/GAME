@@ -1,9 +1,10 @@
 import { FORUM_INFO_IS_LOADING, FORUM_INFO_LOAD_SUCCESS } from '../actions/forum';
-import { ForumInfo, ForumAction } from '../actionCreators/forum';
+import { TopicInfo } from '../../api/types';
+import { ForumAction } from '../actionCreators/forum';
 
 export interface ForumState {
   isLoading: boolean;
-  forumInfo: ForumInfo[];
+  forumInfo: TopicInfo[];
 }
 
 const defaultForumState: ForumState = {

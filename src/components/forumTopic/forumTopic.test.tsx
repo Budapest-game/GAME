@@ -1,17 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { ForumTheme } from './forum-theme';
+import { ForumTopic } from './forumTopic';
 
 const themeInfo = {
   name: 'Тема 1',
   postsCount: 40,
 };
 
-describe('Компонет <ForumTheme>', () => {
+describe('Компонет <ForumTopic>', () => {
   it('Успешный рендер компонента', () => {
-    const { container, getByText } = render(<ForumTheme {...themeInfo} />);
-    expect(container.firstChild).toHaveClass('theme');
+    const { container, getByText } = render(<ForumTopic {...themeInfo} />);
+    expect(container.firstChild).toHaveClass('forum');
     expect(getByText(themeInfo.name)).toBeInTheDocument();
   });
 });

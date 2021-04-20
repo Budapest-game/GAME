@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react';
-import { ForumSection } from '../../components/forum-section/forum-section';
-import { ForumInfo } from '../../store/actionCreators/forum';
+import { cn } from '@bem-react/classname';
+import { Link } from 'react-router-dom';
+import { ForumTopic } from '../../components/forumTopic/forumTopic';
+import { TopicInfo } from '../../api/types';
 import './forum.css';
 
 export interface ForumProps {
   isLoading: boolean;
-  forumInfo: ForumInfo[];
-  fetchData: (/* url: string */) => void;
+  forumInfo: TopicInfo[];
+  fetchData: () => void;
 }
 
+const Cls = cn('forumPage');
 export class Forum extends PureComponent<ForumProps> {
-  componentDidMount() {
+  componentDidMount():void {
     this.props.fetchData();
   }
 
@@ -20,13 +23,16 @@ export class Forum extends PureComponent<ForumProps> {
     }
 
     if (!this.props.forumInfo) {
-      return <div className="forumPage">
+      return <div className={Cls()}>
         Loading...
       </div>;
     }
-    const forum = this.props.forumInfo.map((f, i) => { return <ForumSection {...f} key={i}/>; });
-    return <div className="forumPage">
-      { forum }
+    const themes = this.props.forumInfo.map((t, i) => { return <ForumTopic {...t} key={i}/>; });
+    return <div className={Cls()}>
+       <div className={Cls('controls')}>
+         <Link className={`${Cls('controls-button')} button button-themed-link`} to="/create-topic">Создать тему</Link>
+       </div>
+      { themes }
     </div>;
   }
 }

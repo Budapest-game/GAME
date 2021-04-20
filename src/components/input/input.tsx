@@ -11,6 +11,7 @@ export interface InputProps
   onFocus?: (event: any) => void;
   error?: string;
   disabled?: boolean;
+  maxlength?: string;
 }
 
 const Cls = cn('input');

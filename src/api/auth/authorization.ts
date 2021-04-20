@@ -1,9 +1,9 @@
-import ApiBase from '../base';
+import { PraktikumAPI } from '../base';
 import { AuthorizationData } from '../types';
 
 class Authorization {
   public async logIn(data: AuthorizationData) {
-    const resp = await ApiBase.post('/auth/signin', data);
+    const resp = await PraktikumAPI.post('/auth/signin', data);
     if (resp.status !== 200) {
       let body;
       try {
@@ -19,7 +19,7 @@ class Authorization {
   }
 
   public async logOut() {
-    const resp = await ApiBase.post('/auth/logout');
+    const resp = await PraktikumAPI.post('/auth/logout');
     if (resp.status !== 200) {
       throw new Error(resp.statusText);
     }
