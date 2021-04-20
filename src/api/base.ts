@@ -1,9 +1,5 @@
 import { BASE_API_URL } from './constants';
-import {
-  RegistrationData, AuthorizationData,
-  UserPassUpdateData, UserInfoUpdateData, LeaderboardData,
-  GetLeaders, OAuthInterface,
-} from './types';
+import { postData, putData } from './types';
 
 enum METHODS {
   GET = 'GET',
@@ -26,10 +22,13 @@ const JSON_HEADERS = {
     'Content-Type': 'application/json',
   },
 };
-type postData = RegistrationData | AuthorizationData
-  | LeaderboardData | GetLeaders | OAuthInterface;
-type putData = UserPassUpdateData | UserInfoUpdateData
 class ApiBase {
+  apiBase: string;
+
+  constructor(basePath = '') {
+    this.apiBase = basePath;
+  }
+
   public post(url:string, data?:postData) {
     const settings: RequestInit = {
       method: METHODS.POST,
@@ -37,7 +36,7 @@ class ApiBase {
       ...DEFAULTS,
     };
     if (data) settings.body = JSON.stringify(data);
-    return fetch(`${BASE_API_URL}${url}`, settings);
+    return fetch(`${this.apiBase}${url}`, settings);
   }
 
   public get(url:string) {
@@ -45,7 +44,7 @@ class ApiBase {
       method: METHODS.GET,
       ...DEFAULTS,
     };
-    return fetch(`${BASE_API_URL}${url}`, settings);
+    return fetch(`${this.apiBase}${url}`, settings);
   }
 
   public put(url: string, data: putData) {
@@ -55,7 +54,7 @@ class ApiBase {
       ...DEFAULTS,
       body: JSON.stringify(data),
     };
-    return fetch(`${BASE_API_URL}${url}`, settings);
+    return fetch(`${this.apiBase}${url}`, settings);
   }
 
   public putFile(url: string, data: FormData) {
@@ -64,7 +63,16 @@ class ApiBase {
       ...DEFAULTS,
       body: data,
     };
-    return fetch(`${BASE_API_URL}${url}`, settings);
+    return fetch(`${this.apiBase}${url}`, settings);
+  }
+
+  public delete(url: string) {
+    const settings: RequestInit = {
+      method: METHODS.DELETE,
+      ...DEFAULTS,
+    };
+    return fetch(`${this.apiBase}${url}`, settings);
   }
 }
-export default new ApiBase();
+export const PraktikumAPI = new ApiBase(BASE_API_URL);
+export const GameApi = new ApiBase('');

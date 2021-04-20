@@ -2,4 +2,14 @@
   width: 100%;
   background-color: var(--light);
   padding: 1%;
+
+  &-controls {
+    display: flex;
+    align-items:center;
+    justify-content: flex-end;
+    
+    &-button {
+      width: 20%;
+    }
+  }
 }
