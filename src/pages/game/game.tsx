@@ -13,7 +13,7 @@ import './game.css';
 export class Game extends PureComponent {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
 
-  protected numberMoves = 3;
+  protected numberMoves = 20;
 
   protected score = 0;
 
