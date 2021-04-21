@@ -27,14 +27,19 @@ class TopicAPI {
   }
 
   deleteTopic(req: Request, res:Response) {
-    const { topic } = req.params;
-    Topic.destroy({
-      where: { topicId: parseInt(topic, 10) },
-    }).then(() => {
-      res.sendStatus(responseCodes.OK);
-    }).catch(() => {
-      res.sendStatus(responseCodes.ERROR);
-    });
+    if (req.user && req.user.id) {
+      const { topic } = req.params;
+      Topic.destroy({
+        where: {
+          topicId: parseInt(topic, 10),
+          userId: req.user.id,
+        },
+      }).then(() => {
+        res.sendStatus(responseCodes.OK);
+      }).catch(() => {
+        res.sendStatus(responseCodes.ERROR);
+      });
+    }
   }
 
   getTopic(req: Request, res:Response) {
@@ -87,7 +92,10 @@ class TopicAPI {
       Topic.update(
         upd,
         {
-          where: { topicId: parseInt(topic, 10) },
+          where: {
+            topicId: parseInt(topic, 10),
+            userId: req.user.id,
+          },
         },
       ).then(() => {
         res.sendStatus(responseCodes.OK);
