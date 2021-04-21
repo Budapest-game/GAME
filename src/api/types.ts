@@ -65,5 +65,10 @@ export interface TopicInfo{
   name: string,
   content: string,
   comments: [],
-  userId: number
+  userId: number,
+}
+
+export interface ThemeResponse {
+  id: string;
+  theme: string;
 }

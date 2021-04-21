@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ForumAPIRoutes from '../api/forum/router';
+import ThemeAPIRoutes from '../api/theme/router';
 import {
   appRoutes, privateAppRoutes, authenticatedAppRoutes,
   notFoundRoute, errorHandlerRoute,
@@ -13,6 +14,7 @@ authenticatedAppRoutes(router);
 privateAppRoutes(router);
 staticRoutes(router);
 ForumAPIRoutes(router);
+ThemeAPIRoutes(router);
 notFoundRoute(router);
 errorHandlerRoute(router);
 

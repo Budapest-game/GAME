@@ -10,6 +10,8 @@ import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
 import router from './router';
 import sequelize from './database/db';
+import Theme from './database/models/Theme';
+import { anthraciteCSS } from './src/theme-anthracite';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -33,11 +35,21 @@ if (isDev) {
     cert: fs.readFileSync(path.join(__dirname, '../../certificates/server.cert')),
   }, app).listen(PORT, () => {
     console.log(`dev-сервер запущен, порт: ${PORT}`);
-    sequelize.sync();
+    sequelize.sync().then(() => {
+      Theme.upsert({
+        id: 'dark',
+        theme: anthraciteCSS,
+      });
+    });
   });
 } else {
   app.listen(PORT, () => {
     console.log(`Сервер запущен, порт: ${PORT}`);
-    sequelize.sync();
+    sequelize.sync().then(() => {
+      Theme.upsert({
+        id: 'dark',
+        theme: anthraciteCSS,
+      });
+    });
   });
 }
