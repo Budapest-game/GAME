@@ -67,7 +67,10 @@ export default class Animation {
   ):void {
     this.ctx.beginPath();
     const time = performance.now();
-    const shiftTime = time - startTime;
+    let shiftTime = time - startTime;
+    if (shiftTime > 110) {
+      shiftTime = 100;
+    }
     const multiply = shiftTime / this.animationTime;
     const { element, emptyCell } = queueElement;
     if (!element || !emptyCell) {
