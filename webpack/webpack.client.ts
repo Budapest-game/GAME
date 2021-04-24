@@ -1,5 +1,6 @@
 import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
 import { isDev } from './env';
 import ts from './loaders/typescript';
@@ -35,6 +36,9 @@ const config: webpack.Configuration = {
   plugins: [
     isDev && new ReactRefreshWebpackPlugin(),
     isDev && new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].bundle.css',
+    }),
   ].filter(Boolean) as webpack.WebpackPluginInstance[],
 };
 export default config;
