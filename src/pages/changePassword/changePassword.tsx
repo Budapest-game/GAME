@@ -11,7 +11,7 @@ interface ChangePasswordState extends RouteComponentProps {
 
 class ChangePassword extends PureComponent<ChangePasswordState> {
   state = {
-    error: null,
+    error: undefined,
   }
 
   formSettings = {

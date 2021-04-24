@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import textContent from './textContent';
-import { ApplicationState } from '../../index';
 import { ThemeToggler } from '../themeToggler/themeToggler';
 import { getCurrentTheme, toggleTheme } from '../../utils/currentTheme';
 import './navigation.css';
+import { useAuthorisation } from '../../hooks/useAuthorization';
 
 const Cls = cn('navigation');
 const LINKS = [
@@ -22,12 +21,10 @@ export interface NavigationProps {
 }
 
 export default function Navigation(props: NavigationProps): JSX.Element {
-  const isAuthenticated = useSelector((state: ApplicationState) => {
-    return state.authorisation.isAuthenticated;
-  });
+  const { isAuth } = useAuthorisation();
 
   const navigationLinks = LINKS.filter((x) => {
-    if (isAuthenticated) {
+    if (isAuth) {
       return !x.authenticated;
     }
     return !x.private;

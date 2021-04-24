@@ -1,4 +1,3 @@
-import { BASE_API_URL } from '../constants';
 import Theme from './theme';
 
 interface MockFetchData {

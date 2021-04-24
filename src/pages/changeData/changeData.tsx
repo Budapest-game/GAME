@@ -6,12 +6,12 @@ import { UserInfoUpdateData } from '../../api/types';
 import textContent from './textContent';
 
 interface ChangeDataState extends RouteComponentProps {
-  error?: null | string,
+  error?: undefined | string,
 }
 
 class ChangeData extends PureComponent<ChangeDataState> {
   state = {
-    error: null,
+    error: undefined,
     loading: true,
     user: {
       first_name: '',

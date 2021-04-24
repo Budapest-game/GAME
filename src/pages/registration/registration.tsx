@@ -6,7 +6,7 @@ import textContent from './textContent';
 import './registration.css';
 
 interface RegistrationState {
-  error: null | string;
+  error: undefined | string;
 }
 
 interface RegistrationFormData extends RegistrationData {
@@ -24,7 +24,7 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
   constructor(props: RegistrationPageProps) {
     super(props);
     this.state = {
-      error: null,
+      error: undefined,
     };
   }
 
@@ -34,7 +34,7 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
   }
 
   regRequest = (_data: Record<string, string>): void => {
-    this.setState({ error: null });
+    this.setState({ error: undefined });
 
     const data = _data as unknown as RegistrationFormData;
 
@@ -81,7 +81,7 @@ class Registration extends PureComponent<RegistrationPageProps, RegistrationStat
   };
 
   render(): JSX.Element {
-    let registrationError = null;
+    let registrationError;
 
     if (this.props.requestSent) {
       if (this.props.requestSuccess) {

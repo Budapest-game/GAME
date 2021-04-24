@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import './app.css';
 import Navigation from '../navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
-import Authorization from '../../pages/authorization/authorization';
+import Authorization from '../../pages/authorization';
 import Registration from '../../pages/registration';
 import Game from '../../pages/game';
 import Leaderboard from '../../pages/leaderboard';
