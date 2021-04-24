@@ -7,6 +7,7 @@
     "lint": "eslint --ext=.ts,.tsx, ./src/  ./server/  ./webpack/",
     "lint-fix": "eslint --ext=.ts,.tsx  --fix ./src/  ./server/  ./webpack/ ",
     "test": "jest -u",
+    "test-watch": "jest -u --watch",
     "build-configs": "tsc --p webpack/tsconfig_webpack.json",
     "build-server": "tsc --p server/tsconfig_server.json ",
     "build-client-prod": "cross-env NODE_ENV=production webpack --config ./dist/webpack/webpack.client",

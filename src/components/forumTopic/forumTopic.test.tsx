@@ -5,13 +5,16 @@ import { ForumTopic } from './forumTopic';
 
 const themeInfo = {
   name: 'Тема 1',
-  postsCount: 40,
+  topicId: 42,
+  comments: [] as [],
+  content: '',
+  userId: 24,
 };
 
 describe('Компонет <ForumTopic>', () => {
   it('Успешный рендер компонента', () => {
     const { container, getByText } = render(<ForumTopic {...themeInfo} />);
-    expect(container.firstChild).toHaveClass('forum');
+    expect(container.firstChild).toHaveClass('topic');
     expect(getByText(themeInfo.name)).toBeInTheDocument();
   });
 });
