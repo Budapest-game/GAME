@@ -65,6 +65,10 @@ export class Game extends PureComponent<GameProps> {
     }
   }
 
+  componentWillUnmount() {
+    eventBus.completeOff(GlobalEvents.CHANGE_GAME_SCORE);
+  }
+
   changeGameScore = (data: Record<string, unknown>):void => {
     const { newScore } = data;
     let { score } = this.state;

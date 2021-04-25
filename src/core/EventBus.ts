@@ -19,6 +19,12 @@ class EventBus {
       });
     }
 
+    public completeOff(event: string) {
+      if (this.listeners[event]) {
+        this.listeners[event] = [];
+      }
+    }
+
     public emit(event:string, args:Record<string, unknown>):void {
       if (!Object.keys(this.listeners).includes(event)) {
         throw new Error(`Missing event: ${event}`);
