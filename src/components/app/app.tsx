@@ -5,7 +5,7 @@ import Navigation from '../navigation';
 import { GameDescription } from '../gameDescription/gameDescription';
 import Authorization from '../../pages/authorization/authorization';
 import Registration from '../../pages/registration';
-import { Game } from '../../pages/game/game';
+import Game from '../../pages/game';
 import Leaderboard from '../../pages/leaderboard';
 import Forum from '../../pages/forum';
 import Profile from '../../pages/profile/profile';
