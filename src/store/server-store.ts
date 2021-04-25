@@ -4,12 +4,12 @@ import thunk from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import createRootReducer from './reducers';
 
-export default (url = '/', isAuthenticated: boolean, user: Express.UserInfo | undefined) => {
+export default (url = '/', isAuthenticated: boolean, user: Express.UserInfo | undefined, theme: string) => {
   const history = createMemoryHistory({
     initialEntries: [url],
   });
 
-  const initialState = { authorisation: { isAuthenticated, user } };
+  const initialState = { authorisation: { isAuthenticated, user }, theme };
 
   const store = createStore(
     createRootReducer(history),
@@ -21,7 +21,6 @@ export default (url = '/', isAuthenticated: boolean, user: Express.UserInfo | un
       ),
     ),
   );
-
   return {
     store,
     history,

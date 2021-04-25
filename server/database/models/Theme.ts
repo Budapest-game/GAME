@@ -1,6 +1,7 @@
 import {
-  DataType, Model, Table, Column, PrimaryKey, AllowNull,
+  DataType, Model, Table, Column, PrimaryKey, AllowNull, HasMany,
 } from 'sequelize-typescript';
+import UserTheme from './UserTheme';
 
 interface ThemeAttributes {
   id: string,
@@ -19,5 +20,8 @@ class Theme extends Model<ThemeAttributes> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   theme: string;
+
+  @HasMany(() => { return UserTheme; }, 'themeId')
+  themeUsers: UserTheme[]
 }
 export default Theme;

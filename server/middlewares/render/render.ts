@@ -5,13 +5,15 @@ export default (req: Request, res: Response, next: NextFunction):void => {
   res.renderBundle = () => {
     const location = req.url;
     const { isAuthenticated, user } = req;
-    const { html, redirectUrl } = renderBundle({ location, isAuthenticated, user });
+    renderBundle({ location, isAuthenticated, user }).then((info) => {
+      const { html, redirectUrl } = info;
 
-    if (redirectUrl) {
-      res.redirect(redirectUrl);
-      return;
-    }
-    res.send(html);
+      if (redirectUrl) {
+        res.redirect(redirectUrl);
+        return;
+      }
+      res.send(html);
+    });
   };
   next();
 };

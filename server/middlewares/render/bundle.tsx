@@ -4,6 +4,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
 import serialize from 'serialize-javascript';
 import configureStore from '../../../src/store/server-store';
+import UserTheme from '../../database/models/UserTheme';
+import Theme from '../../database/models/Theme';
 
 interface RenderBundleHTML {
   html?: string,
@@ -46,9 +48,30 @@ function getAppComponent() {
   const { renderAppToString } = require('../../../ssr/ssr');
   return renderAppToString;
 }
+async function getUserTheme(user: Express.UserInfo | undefined) {
+  if (user) {
+    try {
+      const res = await UserTheme.findOne({
+        where: { userId: user.id },
+        include: [Theme],
+      });
+      if (res && res.theme.theme) return res.theme.theme;
+      return '';
+    } catch {
+      return '';
+    }
+  } else {
+    return '';
+  }
+}
 
-export default ({ location, isAuthenticated, user }: RenderBundleArguments): RenderBundleHTML => {
-  const { store } = configureStore(location, isAuthenticated, user);
+export default async ({
+  location,
+  isAuthenticated,
+  user,
+}: RenderBundleArguments): Promise<RenderBundleHTML> => {
+  const theme = await getUserTheme(user);
+  const { store } = configureStore(location, isAuthenticated, user, theme);
   const context: StaticRouterContext = {};
   const Index = getAppComponent();
   const bundleHtml = Index(location, context, store);
