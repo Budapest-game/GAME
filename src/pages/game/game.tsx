@@ -8,9 +8,14 @@ import { Styles } from '../../core/levels/1/Styles';
 import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
 import { Button } from '../../components/button/button';
-import './game.css';
+import Leaderboard from '../../api/leaderboard/leaderboard';
 
-export class Game extends PureComponent {
+interface GameProps{
+  user: Express.UserInfo | undefined,
+  isAuthenticated: boolean;
+}
+
+export class Game extends PureComponent<GameProps> {
   protected refCanvas: React.RefObject<HTMLCanvasElement>;
 
   protected numberMoves = 20;
@@ -29,7 +34,7 @@ export class Game extends PureComponent {
 
   protected eventResult:boolean|number = false;
 
-  constructor(props: Readonly<unknown>) {
+  constructor(props: GameProps) {
     super(props);
     this.refCanvas = React.createRef();
   }
@@ -90,6 +95,21 @@ export class Game extends PureComponent {
     if (numberMoves === 0) {
       gameFieldDisabled = !gameFieldDisabled;
       this.setState({ gameFieldDisabled });
+      this.pushStatsToLeaderboard();
+    }
+  }
+
+  pushStatsToLeaderboard = ():void => {
+    const { user, isAuthenticated } = this.props;
+    if (isAuthenticated && user) {
+      Leaderboard.addLeader({
+        id: user.id,
+        name: user.first_name,
+        budapestScore: this.state.score,
+        avatar: user.avatar,
+      }).catch((err) => {
+        console.log('Неполучилось добавить пользователя в лидерборд ', err);
+      });
     }
   }
 
