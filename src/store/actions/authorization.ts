@@ -33,21 +33,14 @@ export function authorisation(data: AuthorizationData):
     try {
       await Authorization.logIn(data);
       dispatch(authorisationSuccessful());
+      const userData = await User.get();
+      dispatch(authorisationGetUserData(userData));
     } catch ({ message }) {
       dispatch(authorisationFailed(message));
     }
     setTimeout(() => {
       dispatch(authorisationResetState());
     }, 3000);
-  };
-}
-
-export function getUser():
-  ThunkAction<void, ApplicationState, unknown, Action<string>> {
-  return (dispatch: Dispatch) => {
-    User.get().then((userData) => {
-      dispatch(authorisationGetUserData(userData));
-    });
   };
 }
 

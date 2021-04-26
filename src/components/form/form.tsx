@@ -15,7 +15,7 @@ interface Props {
   }
   className: string,
   submit: (data: Record<string, string>) => void,
-  error: string | undefined,
+  error?: string,
 }
 interface FormInput extends InputProps {
   validate: string[];

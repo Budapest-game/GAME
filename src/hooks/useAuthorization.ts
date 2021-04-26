@@ -18,7 +18,6 @@ export function useAuthorisation():UserAuthorisationType {
   });
   const authUser = useCallback(async (data:AuthorizationData) => {
     await dispatch(authorisation(data));
-    await dispatch(getUser());
   }, [authorisation]);
 
   const logoutUser = useCallback(() => {

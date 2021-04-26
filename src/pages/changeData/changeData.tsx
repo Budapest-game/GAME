@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useMemo } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Form } from '../../components/form/form';
 import UserApi from '../../api/user/user';
@@ -6,7 +6,7 @@ import { UserInfoUpdateData } from '../../api/types';
 import textContent from './textContent';
 
 interface ChangeDataState extends RouteComponentProps {
-  error?: undefined | string,
+  error?: string,
 }
 
 class ChangeData extends PureComponent<ChangeDataState> {

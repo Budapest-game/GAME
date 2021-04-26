@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@bem-react/classname';
 import { Avatar } from '../../components/avatar/avatar';
@@ -9,30 +9,26 @@ import './profile.css';
 import { useAuthorisation } from '../../hooks/useAuthorization';
 
 const Cls = cn('profile');
-export default function Profile():JSX.Element {
+export default function Profile():JSX.Element | null {
   const { userAuthData, logoutUser } = useAuthorisation();
   const [profile, setProfile] = useState(userAuthData);
 
-  const handleLogout = ():void => {
-    logoutUser();
-  };
+  if (!profile) return null;
 
-  const avatarChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const avatarChange = useCallback(({ target }: React.ChangeEvent<HTMLInputElement>) => {
     if (target.files && target.files[0]) {
       const data = new FormData();
       data.append('avatar', target.files[0]);
       UserApi.changeAvatar(data).then((res) => {
-        if (res.avatar !== null && profile !== undefined) {
+        if (res.avatar && profile) {
           setProfile({ ...profile, avatar: res.avatar });
         }
       });
     }
-  };
+  }, []);
 
-  const ProfileLayout = (): JSX.Element => {
-    if (profile) {
-      return (
-      <React.Fragment>
+  return (
+      <main className="profilePage">
         <Avatar avatarPath={profile.avatar} onChange={avatarChange}/>
         <legend className={Cls('legend')}>{profile.first_name} {profile.second_name}</legend>
 
@@ -50,19 +46,10 @@ export default function Profile():JSX.Element {
           </li>
           <Button
             type='submit'
-            onClick={handleLogout}
+            onClick={logoutUser}
             text='Выйти'
           />
         </ul>
-      </React.Fragment>
-      );
-    }
-    throw new Error('В хранилище нет данных пользователя');
-  };
-
-  return (
-      <main className="profilePage">
-        <ProfileLayout/>
       </main>
   );
 }
