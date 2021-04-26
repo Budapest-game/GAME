@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthorizationData } from '../api/types';
 import { ApplicationState } from '../store/reducers';
-import { authorisation, getUser, logout } from '../store/actions/authorization';
+import { authorisation, logout } from '../store/actions/authorization';
 
 type UserAuthorisationType = {
   authUser: (data:AuthorizationData) => void,
