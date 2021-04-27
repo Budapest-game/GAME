@@ -49,19 +49,20 @@ function getAppComponent() {
   return renderAppToString;
 }
 async function getUserTheme(user: Express.UserInfo | undefined) {
+  const DEFAULT_THEME = { id: 'light', theme: '' };
   if (user) {
     try {
       const res = await UserTheme.findOne({
         where: { userId: user.id },
         include: [Theme],
       });
-      if (res && res.theme.theme) return res.theme.theme;
-      return '';
+      if (res && res.theme.theme) return res.theme;
+      return DEFAULT_THEME;
     } catch {
-      return '';
+      return DEFAULT_THEME;
     }
   } else {
-    return '';
+    return DEFAULT_THEME;
   }
 }
 

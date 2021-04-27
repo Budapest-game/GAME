@@ -72,3 +72,9 @@ export interface ThemeResponse {
   id: string;
   theme: string;
 }
+
+export interface UserThemeResponse{
+  themeId: string,
+  userId: number,
+  theme: ThemeResponse
+}

@@ -7,6 +7,7 @@ import { leaderboardReducer, LeaderboardState } from './leaderboard';
 import { themeReducer } from './theme';
 import { authorizationReducer, AuthorizationState } from './authorization';
 import { topicReducer, TopicState } from './topic';
+import { ThemeResponse } from '../../api/types';
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -27,5 +28,5 @@ export interface ApplicationState{
   registration: RegistrationState,
   leaderboard: LeaderboardState,
   authorisation: AuthorizationState,
-  theme: string,
+  theme: ThemeResponse,
 }
