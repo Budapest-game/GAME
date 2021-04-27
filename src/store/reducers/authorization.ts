@@ -5,12 +5,19 @@ import {
   AUTHORIZATION_FAILED,
   AUTHORIZATION_RESET_STATE,
   AUTHORIZATION_GET_USER_DATA,
+  LOGOUT_STARTED,
+  LOGOUT_SUCCESSFUL,
+  LOGOUT_FAILED,
+  LOGOUT_RESET_STATE,
 } from '../actions/authorization';
 
 export interface AuthorizationState {
   requestSent?: boolean;
   requestSuccess?: boolean;
   errorMessage?: string;
+  logoutRequestSent?: boolean;
+  logoutRequestSuccess?: boolean;
+  logoutErrorMessage?: string;
   isAuthenticated: boolean;
   user: Express.UserInfo | undefined;
 }
@@ -20,6 +27,9 @@ const defaultAuthorizationState: AuthorizationState = {
   requestSuccess: undefined,
   errorMessage: '',
   isAuthenticated: false,
+  logoutRequestSent: false,
+  logoutRequestSuccess: undefined,
+  logoutErrorMessage: '',
   user: undefined,
 };
 
@@ -55,8 +65,6 @@ export function authorizationReducer(
         requestSent: false,
         requestSuccess: undefined,
         errorMessage: '',
-        isAuthenticated: false,
-        user: undefined,
       };
 
     case AUTHORIZATION_GET_USER_DATA:
@@ -64,6 +72,39 @@ export function authorizationReducer(
         ...state,
         isAuthenticated: true,
         user: action.payload.data,
+      };
+
+    case LOGOUT_STARTED:
+      return {
+        ...state,
+        logoutRequestSent: action.payload.requestSent,
+      };
+
+    case LOGOUT_SUCCESSFUL:
+      return {
+        ...state,
+        logoutRequestSuccess: action.payload.requestSuccess,
+        isAuthenticated: false,
+        user: undefined,
+      };
+
+    case LOGOUT_FAILED:
+      return {
+        ...state,
+        logoutRequestSuccess: action.payload.requestSuccess,
+        logoutErrorMessage: action.payload.errorMessage,
+        isAuthenticated: false,
+        user: undefined,
+      };
+
+    case LOGOUT_RESET_STATE:
+      return {
+        ...state,
+        logoutRequestSent: false,
+        logoutRequestSuccess: undefined,
+        logoutErrorMessage: '',
+        isAuthenticated: false,
+        user: undefined,
       };
 
     default:

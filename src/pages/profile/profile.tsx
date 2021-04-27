@@ -1,81 +1,43 @@
-import React, { PureComponent } from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { cn } from '@bem-react/classname';
 import { Avatar } from '../../components/avatar/avatar';
 import { Button } from '../../components/button/button';
 import { ProfileField } from '../../components/profileField/profileField';
 import UserApi from '../../api/user/user';
-import AuthorizationApi from '../../api/auth/authorization';
 import './profile.css';
-
-interface ProfileInfo {
-  avatar: string,
-  first_name: string,
-  second_name: string,
-  login: string,
-  email: string,
-  phone: string,
-}
-interface ProfileState {
-  loading: boolean,
-  user: ProfileInfo
-}
+import { useAuthorisation } from '../../hooks/useAuthorization';
 
 const Cls = cn('profile');
-class Profile extends PureComponent<RouteComponentProps> {
-  state:ProfileState = {
-    loading: true,
-    user: {
-      avatar: '',
-      first_name: '',
-      second_name: '',
-      login: '',
-      email: '',
-      phone: '',
-    },
-  }
+export default function Profile():JSX.Element | null {
+  const { userAuthData, logoutUser } = useAuthorisation();
+  const [profile, setProfile] = useState(userAuthData);
 
-  componentDidMount():void {
-    UserApi.get().then((res) => {
-      this.setState({ ...this.state, user: res, loading: false });
-    });
-  }
+  if (!profile) return null;
 
-  redirectToLogin = ():void => {
-    const { history } = this.props;
-    if (history) history.push('/authorization');
-  }
-
-  logOut = ():void => {
-    AuthorizationApi.logOut().then(() => {
-      this.redirectToLogin();
-    });
-  }
-
-  avatarChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const avatarChange = useCallback(({ target }: React.ChangeEvent<HTMLInputElement>) => {
     if (target.files && target.files[0]) {
       const data = new FormData();
       data.append('avatar', target.files[0]);
       UserApi.changeAvatar(data).then((res) => {
-        if (res.avatar !== null) {
-          this.setState({ user: { ...this.state.user, avatar: res.avatar } });
+        if (res.avatar && profile) {
+          setProfile({ ...profile, avatar: res.avatar });
         }
       });
     }
-  }
+  }, []);
 
-  profileLayout(): JSX.Element {
-    return (
-      <React.Fragment>
-        <Avatar avatarPath={this.state.user.avatar} onChange={this.avatarChange}/>
-        <legend className={Cls('legend')}>{this.state.user.first_name} {this.state.user.second_name}</legend>
+  return (
+      <main className="profilePage">
+        <Avatar avatarPath={profile.avatar} onChange={avatarChange}/>
+        <legend className={Cls('legend')}>{profile.first_name} {profile.second_name}</legend>
 
         <ul className={Cls()}>
-          <ProfileField description='Имя' name={this.state.user.first_name} />
-          <ProfileField description='Фамилия' name={this.state.user.second_name} />
-          <ProfileField description='Логин' name={this.state.user.login} />
-          <ProfileField description='Почта' name={this.state.user.email} />
-          <ProfileField description='Телефон' name={this.state.user.phone} />
+          <ProfileField description='Имя' name={profile.first_name} />
+          <ProfileField description='Фамилия' name={profile.second_name} />
+          <ProfileField description='Логин' name={profile.login} />
+          <ProfileField description='Почта' name={profile.email} />
+          <ProfileField description='Телефон' name={profile.phone} />
           <li className={Cls('item')}>
             <Link to="/change-data">Изменить данные</Link>
           </li>
@@ -84,23 +46,10 @@ class Profile extends PureComponent<RouteComponentProps> {
           </li>
           <Button
             type='submit'
-            onClick={this.logOut}
+            onClick={logoutUser}
             text='Выйти'
           />
         </ul>
-      </React.Fragment>
-    );
-  }
-
-  render():JSX.Element {
-    const profileComponent = this.profileLayout();
-    return (
-      <main className="profilePage">
-        {
-         this.state.loading ? <span>Загрузка</span> : profileComponent
-        }
       </main>
-    );
-  }
+  );
 }
-export default withRouter(Profile);

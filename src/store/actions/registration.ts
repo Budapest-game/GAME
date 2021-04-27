@@ -7,8 +7,12 @@ import {
   registrationFailed,
   registrationResetState,
 } from '../actionCreators/registration';
+import {
+  authorisationGetUserData,
+} from '../actionCreators/authorisation';
 import { RegistrationData } from '../../api/types';
 import RegistationApi from '../../api/reg/registration';
+import User from '../../api/user/user';
 
 export const REGISTRATION_REQUEST_SENT = 'REGISTRATION_REQUEST_SENT';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
@@ -22,6 +26,9 @@ ThunkAction<void, ApplicationState, unknown, Action<string>> {
 
     RegistationApi.create(data).then(() => {
       dispatch(registrationSuccessful());
+      User.get().then((userData) => {
+        dispatch(authorisationGetUserData(userData));
+      });
     }).catch(({ message }) => {
       dispatch(registrationFailed(message));
     }).finally(() => {
