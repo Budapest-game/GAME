@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Form } from './form';
 
-const emtpyFn = () => {
+const emptyFn = () => {
   // empty
 };
 const testFormNonValidData = {
@@ -16,11 +16,16 @@ const testFormNonValidData = {
     name: 'password', value: '', placeholder: 'Пароль', type: 'password', validate: ['required'],
   },
   ],
-  submitText: 'Авторизация',
   redirLinkInfo: {
     text: 'Нет аккаунта?',
     href: '/registration',
   },
+  buttonsInfo: [
+    {
+      type: 'submit' as ('submit'),
+      text: 'Авторизация',
+    },
+  ],
 };
 const testFormValidData = {
   className: 'authorizationForm',
@@ -32,20 +37,25 @@ const testFormValidData = {
     name: 'password', value: '123', placeholder: 'Пароль', type: 'password', validate: ['required'],
   },
   ],
-  submitText: 'Авторизация',
   redirLinkInfo: {
     text: 'Нет аккаунта?',
     href: '/registration',
   },
+  buttonsInfo: [
+    {
+      type: 'submit' as ('submit'),
+      text: 'Авторизация',
+    },
+  ],
 };
 describe('Компонет <Form>', () => {
   it('Успешный рендер компонента', () => {
-    const error = false;
+    const error = null;
     const {
       container,
       getByPlaceholderText,
       getByText,
-    } = render(<Form {...testFormNonValidData} submit={emtpyFn}
+    } = render(<Form {...testFormNonValidData} submit={emptyFn}
                                    error={error} />);
     expect(container.firstChild).toHaveClass('form');
     expect(getByPlaceholderText('Логин')).toBeInTheDocument();
@@ -55,15 +65,15 @@ describe('Компонет <Form>', () => {
 
   it('Отображение сообщения об ошибке', () => {
     const error = 'new Error message';
-    const { getByText } = render(<Form {...testFormNonValidData} submit={emtpyFn}
+    const { getByText } = render(<Form {...testFormNonValidData} submit={emptyFn}
                                    error={error} />);
     expect(getByText(error)).toBeInTheDocument();
   });
 
   it('Невалидная форма при submit не возвращает onChange', () => {
-    const error = false;
+    const error = null;
     let submitRes = null;
-    const submitHandler = (data) => {
+    const submitHandler = (data: Record<string, string>) => {
       submitRes = data;
     };
     const { getByText } = render(<Form {...testFormNonValidData} submit={submitHandler}
@@ -73,9 +83,9 @@ describe('Компонет <Form>', () => {
   });
 
   it('Валидная форма при submit возвращает в onChange данные из инпутов', () => {
-    const error = false;
+    const error = null;
     let submitRes = null;
-    const submitHandler = (data) => {
+    const submitHandler = (data: Record<string, string>) => {
       submitRes = data;
     };
     const { getByText } = render(<Form {...testFormValidData} submit={submitHandler}
