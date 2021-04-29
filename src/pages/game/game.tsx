@@ -9,6 +9,7 @@ import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
 import { Button } from '../../components/button/button';
 import Leaderboard from '../../api/leaderboard/leaderboard';
+import { WakeLockToggler } from '../../components/wakeLockToggler/WakeLockToggler';
 
 interface GameProps{
   user: Express.UserInfo | undefined,
@@ -152,6 +153,7 @@ export class Game extends PureComponent<GameProps> {
                   text={fullscreenButtonText}
                   onClick={this.toggleFullscreen}
                 />
+                <WakeLockToggler />
               </div>
             </div>
         </div>
