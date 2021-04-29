@@ -15,6 +15,8 @@ import {
 import { AuthorizationData } from '../../api/types';
 import Authorization from '../../api/auth/authorization';
 import User from '../../api/user/user';
+import Theme from '../../api/theme/theme';
+import { themeLoaded } from '../actionCreators/theme';
 
 export const AUTHORIZATION_STARTED = 'AUTHORIZATION_STARTED';
 export const AUTHORIZATION_SUCCESSFUL = 'AUTHORIZATION_SUCCESSFUL';
@@ -35,6 +37,8 @@ export function authorisation(data: AuthorizationData):
       dispatch(authorisationSuccessful());
       const userData = await User.get();
       dispatch(authorisationGetUserData(userData));
+      const userTheme = await Theme.getUserTheme();
+      if (userTheme && userTheme.theme) dispatch(themeLoaded(userTheme.theme));
     } catch ({ message }) {
       dispatch(authorisationFailed(message));
     }

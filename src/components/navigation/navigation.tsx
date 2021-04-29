@@ -3,7 +3,7 @@ import { cn } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import textContent from './textContent';
 import { ThemeToggler } from '../themeToggler/themeToggler';
-import { getCurrentTheme, toggleTheme } from '../../utils/currentTheme';
+import { getCurrentTheme } from '../../utils/currentTheme';
 import './navigation.css';
 import { useAuthorisation } from '../../hooks/useAuthorization';
 
@@ -32,7 +32,6 @@ export default function Navigation(props: NavigationProps): JSX.Element {
 
   const memoizedOnToggle = useCallback(
     () => {
-      toggleTheme();
       props.fetchCSS(getCurrentTheme());
     },
     [props.fetchCSS],
@@ -43,10 +42,7 @@ export default function Navigation(props: NavigationProps): JSX.Element {
       <ul>
         {navigationLinks}
       </ul>
-      <ThemeToggler
-        currentTheme={ getCurrentTheme() }
-        onToggle={ memoizedOnToggle }
-      />
+      <ThemeToggler fetchNewTheme={memoizedOnToggle} />
     </nav>
   );
 }

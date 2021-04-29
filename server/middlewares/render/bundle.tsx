@@ -4,6 +4,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouterContext } from 'react-router';
 import serialize from 'serialize-javascript';
 import configureStore from '../../../src/store/server-store';
+import UserTheme from '../../database/models/UserTheme';
+import Theme from '../../database/models/Theme';
 
 interface RenderBundleHTML {
   html?: string,
@@ -22,7 +24,9 @@ const renderObject = (data: unknown) => {
 function getPageHtml(bundleHtml: string, store: Store) {
   const html = renderToStaticMarkup(
         <html>
-            <head/>
+            <head>
+              <link rel="stylesheet" href="/static/main.bundle.css"/>
+            </head>
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
               <script
@@ -44,9 +48,31 @@ function getAppComponent() {
   const { renderAppToString } = require('../../../ssr/ssr');
   return renderAppToString;
 }
+async function getUserTheme(user: Express.UserInfo | undefined) {
+  const DEFAULT_THEME = { id: 'light', theme: '' };
+  if (user) {
+    try {
+      const res = await UserTheme.findOne({
+        where: { userId: user.id },
+        include: [Theme],
+      });
+      if (res && res.theme.theme) return res.theme;
+      return DEFAULT_THEME;
+    } catch {
+      return DEFAULT_THEME;
+    }
+  } else {
+    return DEFAULT_THEME;
+  }
+}
 
-export default ({ location, isAuthenticated, user }: RenderBundleArguments): RenderBundleHTML => {
-  const { store } = configureStore(location, isAuthenticated, user);
+export default async ({
+  location,
+  isAuthenticated,
+  user,
+}: RenderBundleArguments): Promise<RenderBundleHTML> => {
+  const theme = await getUserTheme(user);
+  const { store } = configureStore(location, isAuthenticated, user, theme);
   const context: StaticRouterContext = {};
   const Index = getAppComponent();
   const bundleHtml = Index(location, context, store);

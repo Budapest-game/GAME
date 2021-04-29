@@ -1,27 +1,38 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { useAuthorisation } from '../../hooks/useAuthorization';
+import { getCurrentTheme, setCurrentTheme } from '../../utils/currentTheme';
+import { useCurrentTheme } from '../../hooks/useCurrentTheme';
 import { Button } from '../button/button';
 
 interface ThemeTogglerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  currentTheme: string;
-  onToggle: () => void;
+  fetchNewTheme?: () => void;
 }
 
 export function ThemeToggler(props: ThemeTogglerProps): JSX.Element {
-  const [lightTheme, setLightTheme] = useState(props.currentTheme === 'light');
+  const theme = useCurrentTheme();
+  const { isAuth } = useAuthorisation();
+  let currentTheme = getCurrentTheme();
+  if (isAuth) currentTheme = theme;
 
   const memoizedOnClick = useCallback(
     () => {
-      setLightTheme(!lightTheme);
-      props.onToggle();
+      if (currentTheme === 'light') {
+        setCurrentTheme('dark');
+      } else {
+        setCurrentTheme('light');
+      }
+      if (props.fetchNewTheme) {
+        props.fetchNewTheme();
+      }
     },
-    [props.onToggle, lightTheme],
+    [currentTheme],
   );
 
   return (
     <Button
       onClick={ memoizedOnClick }
-      text={lightTheme ? 'Темная тема 🌚' : 'Светлая тема ☀️'}
+      text={currentTheme === 'light' ? 'Темная тема 🌚' : 'Светлая тема ☀️'}
     />
   );
 }

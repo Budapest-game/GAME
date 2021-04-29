@@ -1,5 +1,7 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
 export default {
   test: /\.css$/i,
   sideEffects: true,
-  use: ['style-loader', 'css-loader', 'postcss-loader'],
+  use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
 };

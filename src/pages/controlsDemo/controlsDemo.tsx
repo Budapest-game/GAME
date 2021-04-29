@@ -36,12 +36,7 @@ export class ControlsDemo extends PureComponent<unknown, ControlsDemoState> {
   render() {
     return (
       <div className="controlsDemoPage">
-        <ThemeToggler
-          currentTheme="dark"
-          onToggle={() => {
-            console.log('theme changed');
-          }}
-        />
+        <ThemeToggler/>
         <Input type="text" placeholder="name" />
         <Input type="password" placeholder="password" />
         <Input type="text" placeholder="name" error="error message" />

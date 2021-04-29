@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import './app.css';
 import Navigation from '../navigation';
@@ -21,31 +21,31 @@ import newTopic from '../../pages/newTopic/newTopic';
 import Topic from '../../pages/Topic';
 
 import { getCurrentTheme } from '../../utils/currentTheme';
+import { useAuthorisation } from '../../hooks/useAuthorization';
 
 export interface AppProps {
   themeCSS: string;
   fetchCSS: (themeName: string) => void;
 }
 
-export default class App extends PureComponent<AppProps> {
-  componentDidMount() {
-    this.props.fetchCSS(getCurrentTheme());
+export default function App(props: AppProps):JSX.Element {
+  const { isAuth } = useAuthorisation();
+  useEffect(() => {
+    if (!isAuth) props.fetchCSS(getCurrentTheme());
+  });
+
+  if (typeof window !== 'undefined') {
+    const { search } = window.location;
+    const params = new URLSearchParams(search);
+    const code = params.get('code');
+    if (code) {
+      OAuth.logIn({ code });
+    }
   }
 
-  render() {
-    // Убрал мок window, тк не получилось заставить его нормально работать
-    if (typeof window !== 'undefined') {
-      const { search } = window.location;
-      const params = new URLSearchParams(search);
-      const code = params.get('code');
-      if (code) {
-        OAuth.logIn({ code });
-      }
-    }
-
-    return (
+  return (
       <>
-        <style>{ this.props.themeCSS }</style>
+        <style>{ props.themeCSS }</style>
 
         <div className="app">
           <div className="wrap">
@@ -69,6 +69,5 @@ export default class App extends PureComponent<AppProps> {
           </div>
         </div>
       </>
-    );
-  }
+  );
 }

@@ -5,7 +5,7 @@ import App from './app';
 
 const mapStateToProps = (state: ApplicationState) => {
   return {
-    themeCSS: state.theme,
+    themeCSS: state.theme.theme,
   };
 };
 

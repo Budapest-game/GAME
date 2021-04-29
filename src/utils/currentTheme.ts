@@ -1,3 +1,5 @@
+import Theme from '../api/theme/theme';
+
 export function getCurrentTheme() {
   if (typeof window === 'undefined' || !window.localStorage) {
     return 'light';
@@ -10,12 +12,7 @@ export function setCurrentTheme(currentTheme: string) {
     return;
   }
   localStorage.setItem('currentApplicationTheme', currentTheme);
-}
-
-export function toggleTheme() {
-  if (getCurrentTheme() === 'light') {
-    setCurrentTheme('dark');
-  } else {
-    setCurrentTheme('light');
-  }
+  Theme.set(currentTheme).catch((err) => {
+    console.log('Не удалось установить тему юзер в БД', err);
+  });
 }
