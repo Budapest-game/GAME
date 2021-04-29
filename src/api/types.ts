@@ -1,5 +1,6 @@
 export type postData = RegistrationData | AuthorizationData
-| LeaderboardData | GetLeaders | OAuthInterface | createTopicData | updateTopicData;
+| LeaderboardData | GetLeaders | OAuthInterface | createTopicData
+| updateTopicData | createCommentData;
 
 export type putData = UserPassUpdateData | UserInfoUpdateData;
 export interface RegistrationData{
@@ -68,6 +69,11 @@ export interface TopicInfo{
   userId: number,
 }
 
+export interface createCommentData{
+  topicId: string,
+  content: string,
+  replyTo: string | null
+}
 export interface ThemeResponse {
   id: string;
   theme: string;

@@ -12,10 +12,10 @@ class CommentApi {
     if (req.user && req.user.id) {
       const { topicId, content, replyTo } = req.body;
       Comment.create({
-        topicId,
+        topicId: parseInt(topicId, 10),
         content,
         userId: req.user.id,
-        replyTo,
+        replyTo: replyTo === null ? null : parseInt(replyTo, 10),
       }).then(() => {
         res.sendStatus(responseCodes.OK);
       }).catch(() => {
