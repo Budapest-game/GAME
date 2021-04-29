@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Avatar } from './avatar';
-import { BASE_URL } from '../../api/constants';
+import { BASE_RESOURCES_URL } from '../../api/constants';
 
 const emtpyFn = () => {
   // empty
@@ -16,7 +16,7 @@ describe('Компонет <Avatar>', () => {
     const path = '/test/1';
     const { container } = render(<Avatar avatarPath={path} onChange={emtpyFn} />);
     const img = container.querySelector('img');
-    expect(img.src).toBe(`${BASE_URL}${path}`);
+    expect(img.src).toBe(`${BASE_RESOURCES_URL}${path}`);
   });
   it('Выбор файла для аватара', () => {
     const file = new File(['file'], 'file.png', { type: 'image/png' });

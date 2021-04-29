@@ -58,6 +58,7 @@ export function notFoundRoute(router: Router): void {
 export function errorHandlerRoute(router: Router): void {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   router.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    res.redirect('/page500');
+    console.error(err);
+    res.send('Ошибка рендеринга приложения');
   });
 }
