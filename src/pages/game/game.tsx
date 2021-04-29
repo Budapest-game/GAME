@@ -9,7 +9,7 @@ import { DrawResultType } from '../../core/CoreTypes';
 import { getScore } from '../../utils/getScore';
 import { Button } from '../../components/button/button';
 import Leaderboard from '../../api/leaderboard/leaderboard';
-import { WakeLockToggler } from '../../components/wakeLockToggler/WakeLockToggler';
+import { WakeLockToggler } from '../../components/wakeLockToggler/wakeLockToggler';
 
 interface GameProps{
   user: Express.UserInfo | undefined,
