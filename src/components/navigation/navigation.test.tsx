@@ -6,8 +6,8 @@ import Navigation from './navigation';
 
 jest.mock('react-redux', () => {
   return {
-    useSelector: jest.fn((fn) => { return fn({ authorisation: { isAuthenticated: true }, theme: {id: 'light'} }); }),
-    useDispatch: jest.fn(() => {}),
+    useSelector: jest.fn((fn) => { return fn({ authorisation: { isAuthenticated: true }, theme: { id: 'light' } }); }),
+    useDispatch: jest.fn(() => { return true; }),
   };
 });
 
