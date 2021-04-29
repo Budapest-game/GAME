@@ -5,17 +5,23 @@ import { Provider } from 'react-redux';
 import configureStore, { history } from './store/store';
 import App from './components/app';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
+import { registerSW } from './registerSW';
 import './index.css';
-// TODO Добавить условие на включение sw в prod
-// import { registerSW } from './registerSW';
-// registerSW();
 
+interface ExtWindow extends Window{
+  isProd: string;
+}
+if (typeof window !== 'undefined'
+  && (window as unknown as ExtWindow).isProd
+  && (window as unknown as ExtWindow).isProd === 'true') {
+  registerSW();
+}
 const store = configureStore();
 ReactDOM.hydrate(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <ErrorBoundary>
-          <App/>
+          <App />
         </ErrorBoundary>
       </ConnectedRouter>
     </Provider>,
