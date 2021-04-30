@@ -28,6 +28,17 @@
     }
   }
   &-comments{
-    flex: 1 1 80%
+    margin-top: 2%;
+    flex: 1 1 80%;
+    width: 90%;
+  }
+  &-replyArea{
+    width: 90%;
+    &-buttons{
+      &-send{
+        width: 192px;
+        float:right;
+      }
+    }
   }
 }

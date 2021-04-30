@@ -1,0 +1,9 @@
+.reaction{
+  width: 98%;
+  margin-right: 2%;
+  display: flex;
+  justify-content: flex-end;
+  &-action{
+    display: flex;
+  }
+}

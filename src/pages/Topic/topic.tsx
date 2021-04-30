@@ -22,7 +22,6 @@ export default function Topic(props: TopicProps):JSX.Element {
   const { topicId } = useParams<{ topicId: string }>();
   const [replyText, setReplyText] = useState(() => { return EditorState.createEmpty(); });
   const [replyTo, setReplyTo] = useState<string | null>(null);
-  console.log(props.info);
   useEffect(() => {
     props.fetchData(parseInt(topicId, 10));
   }, [topicInfo]);
@@ -35,6 +34,7 @@ export default function Topic(props: TopicProps):JSX.Element {
     if (content.hasText()) {
       const convetedText = JSON.stringify(convertToRaw(content));
       CommentAPI.create({ topicId, replyTo, content: convetedText });
+      props.fetchData(parseInt(topicId, 10));
     }
   };
   const onReplyClick = (commentId: number) => {
@@ -60,7 +60,7 @@ export default function Topic(props: TopicProps):JSX.Element {
     <div className={Cls('replyArea')}>
       <TextEditor updateState={updateState}/>
       <div className={Cls('replyArea-buttons')}>
-        <Button text="Отправить комментарий" onClick={onSendReplyClick} />
+        <Button className={Cls('replyArea-buttons-send')}text="Отправить комментарий" onClick={onSendReplyClick} />
       </div>
     </div>
   </div>;

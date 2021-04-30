@@ -74,7 +74,12 @@ export interface CommentInfo{
   replies: ReplyInfo[],
   replyTo: null | number,
   topicId: number,
-  userId: number
+  userId: number,
+  reactions: reaction[],
+}
+export interface reaction{
+  reactionId: number,
+  reactionType: string
 }
 export interface ReplyInfo{
   commentId: number,

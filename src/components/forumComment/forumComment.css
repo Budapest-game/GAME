@@ -1,0 +1,16 @@
+.comment{
+  border-radius: var(--boxRadius);
+  padding: 5px;
+  margin: 1%;
+  border: 1px solid var(--light);
+  &-reply{
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    &-button{
+      width: 128px;
+      margin-right: 1%;
+    }
+  }
+}

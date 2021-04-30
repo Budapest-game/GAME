@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
 import {
-  Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
+  Editor, EditorState, RichUtils, getDefaultKeyBinding,
+} from 'draft-js';
 import BlockStyleControls from './blockStyleControls';
 import './textEditor.css';
 
 interface TextEditorProps{
   updateState: (newState: EditorState)=>void;
 }
-// console.log(convertToRaw(editorState.getCurrentContent()));
-// console.log(convertFromRaw(editorState.getCurrentContent()));
+
 export default function TextEditor(props: TextEditorProps):JSX.Element {
   const [editorState, setEditorState] = useState(() => { return EditorState.createEmpty(); });
   const editor = useRef(null);
@@ -50,6 +50,7 @@ export default function TextEditor(props: TextEditorProps):JSX.Element {
     }
     return 'not-handled';
   };
+  //eslint-disable-next-line @typescript-eslint/ban-types
   const mapKeyToEditorCommand = (e:React.KeyboardEvent<{}>):string | null => {
     if (e.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(
@@ -77,7 +78,7 @@ export default function TextEditor(props: TextEditorProps):JSX.Element {
       handleKeyCommand={handleKeyCommand}
       keyBindingFn={mapKeyToEditorCommand}
       onChange={onChange}
-      placeholder="Tell a story..."
+      placeholder="Ответить в теме..."
       ref={editor}
       spellCheck={true}
     />

@@ -12,7 +12,6 @@ import router from './router';
 import sequelize from './database/db';
 import Theme from './database/models/Theme';
 import { anthraciteCSS } from './src/theme-anthracite';
-import Reaction from './database/models/Reaction';
 
 const { PORT = 5000, NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
@@ -44,14 +43,6 @@ if (isDev) {
       Theme.upsert({
         id: 'light',
         theme: '',
-      });
-      Reaction.upsert({
-        reactionId: 1,
-        reactionType: 'plus',
-      });
-      Reaction.upsert({
-        reactionId: 1,
-        reactionType: 'minus',
       });
     });
   });
