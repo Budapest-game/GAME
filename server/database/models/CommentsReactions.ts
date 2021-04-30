@@ -1,6 +1,6 @@
 import {
   Model, Table, BelongsTo,
-  Column, ForeignKey, DataType,
+  Column, ForeignKey, DataType, HasMany,
 } from 'sequelize-typescript';
 import Reaction from './Reaction';
 import Comment from './Comment';
@@ -21,7 +21,7 @@ class CommentsReactions extends Model<CommentReactiontAttributes> {
   @Column
   commentId: number
 
-  @BelongsTo(() => { return Comment; }) comment: Comment
+  @HasMany(() => { return Comment; }) comment: Comment
 
   @ForeignKey(() => { return Reaction; })
   @Column

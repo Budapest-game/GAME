@@ -65,7 +65,21 @@ export interface TopicInfo{
   topicId: number
   name: string,
   content: string,
-  comments: [],
+  comments: CommentInfo[],
+  userId: number,
+}
+export interface CommentInfo{
+  commentId: number,
+  content: string,
+  replies: ReplyInfo[],
+  replyTo: null | number,
+  topicId: number,
+  userId: number
+}
+export interface ReplyInfo{
+  commentId: number,
+  content: string,
+  topicId: number,
   userId: number,
 }
 

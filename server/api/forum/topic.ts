@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import responseCodes from '../responceCodes';
 import Topic from '../../database/models/Topic';
 import Comment from '../../database/models/Comment';
+import CommentsReactions from '../../database/models/CommentsReactions';
 
 interface TopicUpdateData{
   name?: string,
@@ -53,11 +54,16 @@ class TopicAPI {
             model: Comment,
             as: 'replies',
           },
+          {
+            model: CommentsReactions,
+            as: 'reactions',
+          },
         ],
       }],
     }).then((data) => {
       res.json(data);
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err)
       res.sendStatus(responseCodes.ERROR);
     });
   }
