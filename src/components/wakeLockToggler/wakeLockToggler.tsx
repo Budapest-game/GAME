@@ -6,7 +6,7 @@ export function WakeLockToggler(): JSX.Element {
 
   let isSupported = false;
 
-  if ('wakeLock' in navigator) {
+  if (navigator && 'wakeLock' in navigator) {
     isSupported = true;
   } else {
     console.log('не поддерживается');
