@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Button } from '../button/button';
 
 export function WakeLockToggler(): JSX.Element {
+  if (typeof navigator === 'undefined') {
+    return <></>;
+  }
+
   const [wakeLock, setWakeLock] = useState<null | WakeLockSentinel>(null);
 
   let isSupported = false;
