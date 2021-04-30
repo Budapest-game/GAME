@@ -50,7 +50,7 @@ export default function TextEditor(props: TextEditorProps):JSX.Element {
     }
     return 'not-handled';
   };
-  //eslint-disable-next-line @typescript-eslint/ban-types
+  //  eslint-disable-next-line @typescript-eslint/ban-types
   const mapKeyToEditorCommand = (e:React.KeyboardEvent<{}>):string | null => {
     if (e.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(
