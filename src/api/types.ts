@@ -1,5 +1,6 @@
 export type postData = RegistrationData | AuthorizationData
-| LeaderboardData | GetLeaders | OAuthInterface | createTopicData | updateTopicData;
+| LeaderboardData | GetLeaders | OAuthInterface | createTopicData
+| updateTopicData | createCommentData;
 
 export type putData = UserPassUpdateData | UserInfoUpdateData;
 export interface RegistrationData{
@@ -64,10 +65,34 @@ export interface TopicInfo{
   topicId: number
   name: string,
   content: string,
-  comments: [],
+  comments: CommentInfo[],
+  userId: number,
+}
+export interface CommentInfo{
+  commentId: number,
+  content: string,
+  replies: ReplyInfo[],
+  replyTo: null | number,
+  topicId: number,
+  userId: number,
+  reactions: reaction[],
+}
+export interface reaction{
+  reactionId: number,
+  reactionType: string
+}
+export interface ReplyInfo{
+  commentId: number,
+  content: string,
+  topicId: number,
   userId: number,
 }
 
+export interface createCommentData{
+  topicId: string,
+  content: string,
+  replyTo: string | null
+}
 export interface ThemeResponse {
   id: string;
   theme: string;

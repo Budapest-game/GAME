@@ -6,9 +6,6 @@ import configureStore, { history } from './store/store';
 import App from './components/app';
 import { ErrorBoundary } from './components/errorBoundary/errorBoundary';
 import './index.css';
-// TODO Добавить условие на включение sw в prod
-// import { registerSW } from './registerSW';
-// registerSW();
 
 const store = configureStore();
 ReactDOM.hydrate(
