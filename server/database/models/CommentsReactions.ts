@@ -1,9 +1,6 @@
 import {
-  Model, Table, BelongsTo,
-  Column, ForeignKey, DataType,
+  Model, Table, Column, DataType, PrimaryKey,
 } from 'sequelize-typescript';
-import Reaction from './Reaction';
-import Comment from './Comment';
 
 interface CommentReactiontAttributes{
   commentId: number,
@@ -17,18 +14,13 @@ interface CommentReactiontAttributes{
 })
 
 class CommentsReactions extends Model<CommentReactiontAttributes> {
-  @ForeignKey(() => { return Comment; })
   @Column
   commentId: number
 
-  @BelongsTo(() => { return Comment; }) comment: Comment
-
-  @ForeignKey(() => { return Reaction; })
   @Column
   reactionId: number
 
-  @BelongsTo(() => { return Reaction; }) reaction: Reaction;
-
+  @PrimaryKey
   @Column(DataType.INTEGER)
   userId: number;
 }
