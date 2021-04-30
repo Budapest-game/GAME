@@ -6,6 +6,7 @@ import serialize from 'serialize-javascript';
 import configureStore from '../../../src/store/server-store';
 import UserTheme from '../../database/models/UserTheme';
 import Theme from '../../database/models/Theme';
+import { isDev } from '../../../webpack/env';
 
 interface RenderBundleHTML {
   html?: string,
@@ -29,6 +30,7 @@ function getPageHtml(bundleHtml: string, store: Store) {
             </head>
             <body>
               <div id="root" dangerouslySetInnerHTML={{ __html: bundleHtml }}/>
+              <script>window.isProd = `{JSON.stringify(!isDev)}`</script>
               <script
                 dangerouslySetInnerHTML={{
                   __html: `window.__PRELOADED_STATE__ = ${renderObject(store.getState())}`,

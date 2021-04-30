@@ -5,6 +5,7 @@ import Comment from './Comment';
 import CommentsReactions from './CommentsReactions';
 
 interface ReactiontAttributes{
+  reactionId?: number,
   reactionType: string,
 }
 
