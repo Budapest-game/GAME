@@ -50,6 +50,7 @@
     "connected-react-router": "^6.9.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-csp-header": "^4.1.0",
     "htmlescape": "^1.1.1",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",

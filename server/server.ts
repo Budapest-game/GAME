@@ -5,6 +5,9 @@ import fs from 'fs';
 import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
+import {
+  expressCspHeader, INLINE, NONE, SELF,
+} from 'express-csp-header';
 import webpackConfig from '../webpack/webpack.client';
 import render from './middlewares/render/render';
 import authChecker from './middlewares/authChecker';
@@ -24,6 +27,16 @@ if (isDev) {
   app.use(instance);
   app.use(hotMiddleware(compiler, { path: '/__webpack_hmr' }));
 }
+
+app.use(expressCspHeader({
+  directives: {
+    'default-src': [SELF],
+    'script-src': [SELF, INLINE],
+    'style-src': [SELF, INLINE],
+    'img-src': [SELF],
+    'worker-src': [SELF],
+  },
+}));
 
 app.use(authChecker);
 app.use(render);
