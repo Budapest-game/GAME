@@ -54,6 +54,10 @@ if (isDev) {
         id: 'dark',
         theme: anthraciteCSS,
       });
+      Theme.upsert({
+        id: 'light',
+        theme: '',
+      });
     });
   });
 }
