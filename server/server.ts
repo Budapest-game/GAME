@@ -31,11 +31,10 @@ if (isDev) {
 app.use(expressCspHeader({
   directives: {
     'default-src': [SELF],
-    'script-src': [SELF, INLINE, 'somehost.com'],
-    'style-src': [SELF, 'mystyles.net'],
-    'img-src': ['data:', 'images.com'],
-    'worker-src': [NONE],
-    'block-all-mixed-content': true,
+    'script-src': [SELF, INLINE],
+    'style-src': [SELF, INLINE],
+    'img-src': [SELF],
+    'worker-src': [SELF],
   },
 }));
 
