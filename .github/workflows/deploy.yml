@@ -20,4 +20,4 @@ jobs:
         username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
         key: ${{ secrets.DEPLOY_SERVER_KEY }}
         script_stop: true
-        script: /game/deploy.sh
+        script: sh /game/deploy.sh
